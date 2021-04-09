@@ -25,7 +25,8 @@ void loop()
 
 void handleInput()
 {
-  Serial.println(front.getDistance());
+  float distance = front.getDistance();
+  Serial.println(distance);
   if (Serial.available())                           //If the user enters input in the serial The car must move according to that input.
   {
    String input = Serial.readStringUntil('\n');
@@ -40,7 +41,7 @@ void handleInput()
      car.setAngle(cAngle);
      delay(600);                                                      //This delay is needed for the car to turn in a short while and then go back to its straight direction,  
    }                                                                  // because we dont want the car to to turn around itself for no reason!
-   if (front.getDistance() > 1 && front.getDistance() < 200)          //This is the obstacle treshhold. The car must detect obstacle closer than 200
+   if (distance > 1 && distance < 200)          //This is the obstacle treshhold. The car must detect obstacle closer than 200
    {                                                                  // and avoid them
      handleObstacle();
    }  
@@ -48,7 +49,7 @@ void handleInput()
    car.setAngle(0);                                                   //and this!
   } else if (!Serial.available())                                     //This happens if there is no input from user in the serial.
   {
-    if (front.getDistance() > 1 && front.getDistance() < 200)   
+    if (distance > 1 && distance < 200)   
     {
       handleObstacle();
     }

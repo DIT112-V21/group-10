@@ -9,10 +9,11 @@ const int ECHO_PIN              = 7; // D7
 const unsigned int MAX_DISTANCE = 300;
 SR04 front(arduinoRuntime, TRIGGER_PIN, ECHO_PIN, MAX_DISTANCE);
 SimpleCar car(control);
-int magnitude = 0;                              //This we will need later
+int magnitude;                              //This we will need later
 
 void setup()
 {
+    magnitude = 0;
     Serial.begin(9600);
     Serial.setTimeout(200);
 }
@@ -32,7 +33,7 @@ void handleInput()
         String input = Serial.readStringUntil('\n');
         serialReader(input);
         distanceHandler(0, 200, distance);
-    } else if (!Serial.available()) {
+    } else {
         distanceHandler(0, 200, distance);
     }
 }

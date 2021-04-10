@@ -1,5 +1,4 @@
 #include <Smartcar.h>
-#include <SerialReader.ino>
 
 ArduinoRuntime arduinoRuntime;
 BrushedMotor leftMotor(arduinoRuntime, smartcarlib::pins::v2::leftMotorPins);
@@ -27,52 +26,60 @@ void loop()
 void handleInput()
 {
     float distance = front.getDistance();
-    Serial.println(distance);
-    if (Serial.available())                           //If the user enters input in the serial The car must move according to that input.
+    serialMsg(distance);
+    if (Serial.available())            //If the user enters input in the serial The car must move according to that input.
     {
         String input = Serial.readStringUntil('\n');
         serialReader(input);
         distanceHandler(1, 200, distance);
-    }
-
-    void handleObstacle()
-    {
-        car.setSpeed(-magnitude);                //In here the car will go back in the opposite direction but with the same speed
-        car.setAngle(50);                        //In this line the car will turn while going backward to avoid obstacle
-        delay(1000);                             //Here we give some time to the poor car to do previous actions
-    }
-
-    void serialReader(String input)
-    {
-        if (input.startsWith("m"))
-        {
-            int cSpeed = input.substring(1).toInt();
-            magnitude = cSpeed;                                              //We save the user's input in here in order to have it outside of the if scope.
-            car.setSpeed(cSpeed);
-        } else if (input.startsWith("t"))
-        {
-            int cAngle = input.substring(1).toInt();
-            car.setAngle(cAngle);
-            delay(600);                                                      //This delay is needed for the car to turn in a short while and then go back to its straight direction,
-        }                                                                  // because we dont want the car to to turn around itself for no reason!
-    }
-
-
-    void distanceHandler(float lowerBound, float upperBound, float distance)
-    {
-        if (distance > lowerBound && distance < upperBound)                      //This is the obstacle treshhold. The car must detect obstacle closer than 200
-        {                                                                       // and avoid them
-            handleObstacle();
-        }
-        car.setSpeed(magnitude);                                                //this makes sure the car is back to its forward direction if a turning happened.
-        car.setAngle(0);                                                        //and this!
-    } else if (!Serial.available())                                          //This happens if there is no input from user in the serial.
-    {
-        if (distance > lowerBound && distance < upperBound)
-        {
-            handleObstacle();
-        }
-        car.setSpeed(magnitude);
-        car.setAngle(0);
+    } else if (!Serial.available()) {
+        distanceHandler(1, 200, distance);
     }
 }
+
+void handleObstacle()
+{
+    car.setSpeed(-magnitude);        //In here the car will go back in the opposite direction but with the same speed
+    car.setAngle(50);                //In this line the car will turn while going backward to avoid obstacle
+    delay(1000);                     //Here we give some time to the poor car to do previous actions
+}
+
+void serialReader(String input)
+{
+    if (input.startsWith("m"))
+    {
+        int cSpeed = input.substring(1).toInt();
+        magnitude = cSpeed;              //We save the user's input in here in order to have it outside of the if scope.
+        car.setSpeed(cSpeed);
+    } else if (input.startsWith("t"))
+    {
+        int cAngle = input.substring(1).toInt();
+        car.setAngle(cAngle);
+        delay(600);    //This delay is needed for the car to turn in a short while and then go back to its straight direction,
+    }                 // because we dont want the car to to turn around itself for no reason!
+}
+
+void distanceHandler(float lowerBound, float upperBound, float distance)
+{
+    if (distance > lowerBound && distance < upperBound)
+    {
+        handleObstacle();
+    }
+    car.setSpeed(magnitude);            //this makes sure the car is back to its forward direction if a turning happened.
+    car.setAngle(0);                    //and this!
+}
+
+void serialMsg(float distance)
+{
+    if (distance = 0.0) {
+        String msg = "No obstacle detected.";
+        Serial.println(msg);
+    } else {
+        String msg1 = "There is an obstacle in ";
+        String msg2 = " cm.";
+        Serial.print(msg1);
+        Serial.print(distance);
+        Serial.println(msg2);
+    }
+}
+

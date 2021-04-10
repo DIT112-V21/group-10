@@ -31,9 +31,9 @@ void handleInput()
     {
         String input = Serial.readStringUntil('\n');
         serialReader(input);
-        distanceHandler(1, 200, distance);
+        distanceHandler(0, 200, distance);
     } else if (!Serial.available()) {
-        distanceHandler(1, 200, distance);
+        distanceHandler(0, 200, distance);
     }
 }
 
@@ -71,14 +71,15 @@ void distanceHandler(float lowerBound, float upperBound, float distance)
 
 void serialMsg(float distance)
 {
-    if (distance < 1) {
-        String msg = "No obstacle detected.";
-        Serial.println(msg);
-    } else {
+    if (distance > 0) {
         String msg1 = "There is an obstacle in ";
         String msg2 = " cm.";
         Serial.print(msg1);
         Serial.print(distance);
         Serial.println(msg2);
+
+    } else {
+        String msg = "No obstacle detected.";
+        Serial.println(msg);
     }
 }

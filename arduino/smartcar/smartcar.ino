@@ -71,7 +71,7 @@ void distanceHandler(float lowerBound, float upperBound, float distance)
 
 void serialMsg(float distance)
 {
-    if (distance = 0.0) {
+    if (distance < 1) {
         String msg = "No obstacle detected.";
         Serial.println(msg);
     } else {
@@ -82,4 +82,3 @@ void serialMsg(float distance)
         Serial.println(msg2);
     }
 }
-

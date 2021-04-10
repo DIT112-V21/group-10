@@ -3,7 +3,7 @@
 ArduinoRuntime arduinoRuntime;
 unsigned long startMillis;  
 unsigned long currentMillis;
-const unsigned long period = 7000; 
+const unsigned long period = 7000; //7 seconds
 BrushedMotor leftMotor(arduinoRuntime, smartcarlib::pins::v2::leftMotorPins);
 BrushedMotor rightMotor(arduinoRuntime, smartcarlib::pins::v2::rightMotorPins);
 DifferentialControl control(leftMotor, rightMotor);
@@ -24,7 +24,7 @@ void setup()
 
 void loop()
 {
-    currentMillis = millis();
+    currentMillis = millis(); //get the current "time" (actually the number of milliseconds since the program started)
     handleInput();
     delay(35);
 }
@@ -81,7 +81,7 @@ void distanceHandler(float lowerBound, float upperBound, float distance)
 void serialMsg(float distance)
 {
     
-    if (distance > 0 && (currentMillis - startMillis) >= period) {
+    if (distance > 0 && (currentMillis - startMillis) >= period) { //The user is updated on the distance to an obstacle every 7 seconds
         String msg1 = "There is an obstacle in ";
         String msg2 = " cm.";
         Serial.print(msg1);
@@ -95,7 +95,7 @@ void serialMsg(float distance)
         startMillis = currentMillis;
     }
 }
-void angleMsg(int angle)
+void angleMsg(int angle) //This function prints the direction in which the car will be going
 {
     if(angle > 0){
         Serial.print("Turning ");

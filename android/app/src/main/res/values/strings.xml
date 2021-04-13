@@ -1,0 +1,9 @@
+<resources>
+    <string name="app_name">GeoBot</string>
+    <string name="my_maps">My maps</string>
+    <string name="geobot">GeoBot</string>
+    <string name="manual">Manual</string>
+    <string name="autopilot">Autopilot</string>
+    <string name="help">help</string>
+    <string name="todo">TODO</string>
+</resources>

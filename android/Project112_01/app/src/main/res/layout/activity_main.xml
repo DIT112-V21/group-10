@@ -36,20 +36,20 @@
         android:id="@+id/imageView"
         android:layout_width="400dp"
         android:layout_height="350dp"
-        android:layout_marginTop="44dp"
+        android:layout_marginTop="13dp"
         android:src="@drawable/mountain"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintHorizontal_bias="1.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
     <ImageView
         android:layout_width="250dp"
         android:layout_height="120dp"
-        android:layout_marginTop="244dp"
+        android:layout_marginTop="216dp"
         android:src="@drawable/robo"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.763"
+        app:layout_constraintHorizontal_bias="0.9"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 

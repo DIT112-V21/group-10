@@ -8,7 +8,7 @@ import android.widget.Button;
 
 import androidx.appcompat.app.AppCompatActivity;
 
-public class SecondActivity extends AppCompatActivity {
+public class MapsActivity extends AppCompatActivity {
     private Button buttonGoBack;
 
     @Override
@@ -21,7 +21,7 @@ public class SecondActivity extends AppCompatActivity {
         this.getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,
                 WindowManager.LayoutParams.FLAG_FULLSCREEN);
 
-        setContentView(R.layout.activity_driving);
+        setContentView(R.layout.activity_maps);
 
         buttonGoBack = (Button) findViewById(R.id.button_back);
         buttonGoBack.setOnClickListener(new View.OnClickListener() {

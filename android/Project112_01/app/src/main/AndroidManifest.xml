@@ -16,7 +16,11 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".SecondActivity"></activity>
+        <activity android:name=".ManualActivity" />
+        <activity android:name=".HelpActivity"></activity>
+        <activity android:name=".AutoActivity" />
+        <activity android:name=".MapsActivity"></activity>
+
         <meta-data
             android:name="preloaded_fonts"
             android:resource="@array/preloaded_fonts" />

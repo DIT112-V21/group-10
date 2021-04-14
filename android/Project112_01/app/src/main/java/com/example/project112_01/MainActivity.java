@@ -10,16 +10,16 @@ import android.view.WindowManager;
 import android.widget.Button;
 
 public class MainActivity extends AppCompatActivity {
-    private Button buttonLaunchManualAc;
-    private Button buttonLaunchAutoAc;
-    private Button buttonLaunchMapsAc;
-    private Button buttonLaunchHelpAc;
+    private Button buttonLaunchManualAc,
+            buttonLaunchAutoAc,
+            buttonLaunchMapsAc,
+            buttonLaunchHelpAc;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        // Stops the title and the top action bar from displaying and sets windows to fullscreen.
+        // Stops the title and the top action bar from displaying and sets window to fullscreen.
         requestWindowFeature(Window.FEATURE_NO_TITLE);
         getSupportActionBar().hide();
         this.getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,
@@ -27,12 +27,12 @@ public class MainActivity extends AppCompatActivity {
 
         setContentView(R.layout.activity_main);
 
-        //TODO: Dance around a fire with Pluto and Jupiter as the sun sets over the red horizon
         buttonLaunchManualAc = (Button) findViewById(R.id.button_manual);
         buttonLaunchAutoAc = (Button) findViewById(R.id.button_autopilot);
         buttonLaunchMapsAc = (Button) findViewById(R.id.button_maps);
         buttonLaunchHelpAc = (Button) findViewById(R.id.button_help);
 
+        // Creates onClickListener for the buttons.
         // Does the same thing as the lambdas below. Lines with "->".
         buttonLaunchManualAc.setOnClickListener(new View.OnClickListener() {
             @Override

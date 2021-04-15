@@ -12,12 +12,13 @@
         android:id="@+id/imageView3"
         android:layout_width="263dp"
         android:layout_height="160dp"
-        android:layout_marginTop="40dp"
+        android:contentDescription="TODO"
         android:src="@drawable/robo"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.452"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.028" />
 
     <androidx.appcompat.widget.AppCompatButton
         android:id="@+id/button_back"
@@ -65,7 +66,7 @@
         app:layout_constraintHorizontal_bias="0.498"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="@id/steering_wheel"
-        app:layout_constraintVertical_bias="0.656" />
+        app:layout_constraintVertical_bias="0.623" />
 
     <androidx.appcompat.widget.AppCompatButton
         android:id="@+id/left_button"
@@ -74,10 +75,10 @@
         android:background="@drawable/left_button"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.196"
+        app:layout_constraintHorizontal_bias="0.217"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="@id/steering_wheel"
-        app:layout_constraintVertical_bias="0.363" />
+        app:layout_constraintVertical_bias="0.342" />
 
     <androidx.appcompat.widget.AppCompatButton
         android:id="@+id/right_button"
@@ -86,10 +87,10 @@
         android:background="@drawable/right_button"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.809"
+        app:layout_constraintHorizontal_bias="0.803"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="@id/steering_wheel"
-        app:layout_constraintVertical_bias="0.363" />
+        app:layout_constraintVertical_bias="0.342" />
 
     <androidx.appcompat.widget.AppCompatButton
         android:id="@+id/accelerate_up"

@@ -11,7 +11,7 @@ jobs:
         with:
           java-version: 1.8
       - name: Change wrapper permissions
-        run: chmod +x ./gradlew
+        run: chmod +x androidGeoBot/gradlew
       - name: Clone Repo
         uses: actions/checkout@v2
       - name: Build androidGeoBot

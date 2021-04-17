@@ -42,7 +42,8 @@ public class ManualActivity extends AppCompatActivity {
     }
 
 
-    //Setups for some generic jooystick buttons to test out manual control commmands
+    //Setups for some generic joystick buttons to test out manual control commmands
+    // Feel free to replace this for future implementation
     public void setJoystickBtns(){
         leftBtn = findViewById(R.id.leftBtn);
         leftBtn.setOnClickListener(new View.OnClickListener() {
@@ -56,7 +57,7 @@ public class ManualActivity extends AppCompatActivity {
         rightBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                client.publish(rightBtn.toString());
+                client.publish(rightBtn);
             }
         }); */
         angleReset = findViewById(R.id.angleReset);
@@ -78,7 +79,7 @@ public class ManualActivity extends AppCompatActivity {
         reverseBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                client.publish(reverseBtn.toString());
+                client.publish(reverseBtn);
             }
         }); */
         buttonGoBack = (Button) findViewById(R.id.button_back);

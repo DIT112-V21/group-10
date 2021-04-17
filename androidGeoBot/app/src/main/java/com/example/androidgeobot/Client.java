@@ -107,7 +107,7 @@ public class Client {
     }
 
 
-
+// Depending on ID of button the method sends appropriate messages to relevant topic.
     protected void button_publish(Button button){
 
         if(!(button == null) && isConnected){

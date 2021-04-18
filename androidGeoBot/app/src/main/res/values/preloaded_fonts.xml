@@ -2,5 +2,6 @@
 <resources>
     <array name="preloaded_fonts" translatable="false">
         <item>@font/bree_serif</item>
+        <item>@font/oxygen_bold</item>
     </array>
 </resources>

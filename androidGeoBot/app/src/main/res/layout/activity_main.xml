@@ -13,6 +13,7 @@
         android:background="@drawable/bg_blue_gradient"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="1.0" />
@@ -80,10 +81,10 @@
         android:textSize="28sp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.496"
+        app:layout_constraintHorizontal_bias="0.515"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/button_manual"
-        app:layout_constraintVertical_bias="0.051" />
+        app:layout_constraintVertical_bias="0.124" />
 
     <androidx.appcompat.widget.AppCompatButton
         android:id="@+id/button_maps"
@@ -96,10 +97,10 @@
         android:textSize="28sp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.496"
+        app:layout_constraintHorizontal_bias="0.515"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/button_autopilot"
-        app:layout_constraintVertical_bias="0.071" />
+        app:layout_constraintVertical_bias="0.203" />
 
     <androidx.appcompat.widget.AppCompatButton
         android:id="@+id/button_help"

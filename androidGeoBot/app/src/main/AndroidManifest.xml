@@ -17,7 +17,8 @@
             </intent-filter>
         </activity>
         <activity android:name=".ManualActivity" />
-        <activity android:name=".HelpActivity"></activity>
+        <activity android:name=".HelpActivity"
+            android:parentActivityName=".MainActivity"/>
         <activity android:name=".AutoActivity" />
         <activity android:name=".MapsActivity"></activity>
 

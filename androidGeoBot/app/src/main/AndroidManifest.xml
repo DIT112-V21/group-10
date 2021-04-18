@@ -21,8 +21,21 @@
         <activity android:name=".AutoActivity" />
         <activity android:name=".MapsActivity"></activity>
 
+
+        <service android:name="org.eclipse.paho.android.service.MqttService">
+        </service>
+
+
         <meta-data
             android:name="preloaded_fonts"
             android:resource="@array/preloaded_fonts" />
     </application>
+
+
+    <uses-permission android:name="android.permission.WAKE_LOCK" />
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.READ_PHONE_STATE" />
+
+
 </manifest>

@@ -48,3 +48,5 @@
 .externalNativeBuild
 .cxx
 local.properties
+/androidGeoBot/.idea/
+/androidGeoBot/.gradle/

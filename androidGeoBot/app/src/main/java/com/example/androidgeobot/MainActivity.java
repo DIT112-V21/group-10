@@ -37,7 +37,6 @@ public class MainActivity extends AppCompatActivity {
         buttonLaunchManualAc.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-
                 switchActivities(ManualActivity.class);
             }
         });

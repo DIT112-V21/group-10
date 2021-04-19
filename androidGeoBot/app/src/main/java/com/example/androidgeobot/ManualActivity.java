@@ -10,7 +10,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 public class ManualActivity extends AppCompatActivity {
     //joystick buttons
-    private Button buttonGoBack, leftBtn, rightBtn, angleReset, reverseBtn, acceleration , deceleration;
+    private Button forwardBtn, leftBtn, rightBtn, backBtn, breakBtn, acceleration , deceleration;
     private Client client;
     private static final String FAIL = "CONNECTION TO GEOBOT COULD NOT BE ESTABLISHED";
     private static final String SUCCESS = "CONNECTION TO GEOBOT ESTABLISHED";
@@ -40,49 +40,67 @@ public class ManualActivity extends AppCompatActivity {
     //Setups for some generic joystick buttons to test out manual control commmands
     // Feel free to replace this for future implementation
     public void setJoystickBtns() {
-        leftBtn = findViewById(R.id.leftBtn);
+        forwardBtn = findViewById(R.id.forward_button);
+        forwardBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                client.button_publish(forwardBtn);
+
+            }
+        });
+
+        rightBtn = findViewById(R.id.right_button);
+        rightBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                client.button_publish(rightBtn);
+            }
+        });
+
+        leftBtn = findViewById(R.id.left_button);
         leftBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 client.button_publish(leftBtn);
-
-            }
-        });
-/*
-        rightBtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                client.publish(rightBtn);
-            }
-        }); */
-        angleReset = findViewById(R.id.angleReset);
-        angleReset.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                client.button_publish(angleReset);
             }
         });
 
-        acceleration = findViewById(R.id.plus);
+        backBtn = findViewById(R.id.backward_button);
+        backBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                client.button_publish(backBtn);
+            }
+        });
+
+        breakBtn = findViewById(R.id.break_button);
+        breakBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                client.button_publish(backBtn);
+            }
+        });
+
+        acceleration = findViewById(R.id.accelerate_up);
         acceleration.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 client.button_publish(acceleration);
             }
         });
-/*
-        reverseBtn.setOnClickListener(new View.OnClickListener() {
+
+        deceleration = findViewById(R.id.accelerate_down);
+        deceleration.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View view) {
-                client.publish(reverseBtn);
+            public void onClick(View v) {
+                client.button_publish(deceleration);
             }
-        }); */
+        });
 
-        buttonGoBack = (Button) findViewById(R.id.button_back);
-        buttonGoBack.setOnClickListener(new View.OnClickListener() {
+        breakBtn = findViewById(R.id.break_button);
+        breakBtn.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View view) {
-
+            public void onClick(View v) {
                 finish();
             }
         });

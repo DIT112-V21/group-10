@@ -113,13 +113,13 @@ public class Client {
         if(!(button == null) && isConnected){
             switch (button.getId()){
 
-                case R.id.leftBtn:
+                case R.id.forward_button:
                     mqttClient.publish(STEERING_CONTROL, Integer.toString(LEFT_TURN),QOS, null);
                     break;
-                case R.id.angleReset:
+                case R.id.left_button:
                     mqttClient.publish(STEERING_CONTROL, Integer.toString(RESET_ANGLE),QOS,null);
                     break;
-                case R.id.plus:
+                case R.id.accelerate_up:
                     mqttClient.publish(THROTTLE_CONTROL, Integer.toString(ACCELERATE),QOS,null);
                     break;
                 default:

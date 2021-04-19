@@ -1,35 +1,19 @@
 package com.example.androidgeobot;
 
 import android.os.Bundle;
-
-import android.util.Log;
-
-
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
 import android.widget.Button;
-
 import android.widget.Toast;
 import androidx.appcompat.app.AppCompatActivity;
 
-import java.util.ArrayList;
-import java.util.List;
-
 public class ManualActivity extends AppCompatActivity {
-
     //joystick buttons
     private Button buttonGoBack, leftBtn, rightBtn, angleReset, reverseBtn, acceleration , deceleration;
     private Client client;
     private static final String FAIL = "CONNECTION TO GEOBOT COULD NOT BE ESTABLISHED";
     private static final String SUCCESS = "CONNECTION TO GEOBOT ESTABLISHED";
-
-
-import androidx.appcompat.app.AppCompatActivity;
-
-public class ManualActivity extends AppCompatActivity {
-    private Button buttonGoBack;
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -53,10 +37,9 @@ public class ManualActivity extends AppCompatActivity {
         setJoystickBtns();
     }
 
-
     //Setups for some generic joystick buttons to test out manual control commmands
     // Feel free to replace this for future implementation
-    public void setJoystickBtns(){
+    public void setJoystickBtns() {
         leftBtn = findViewById(R.id.leftBtn);
         leftBtn.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -94,8 +77,6 @@ public class ManualActivity extends AppCompatActivity {
                 client.publish(reverseBtn);
             }
         }); */
-=======
-
 
         buttonGoBack = (Button) findViewById(R.id.button_back);
         buttonGoBack.setOnClickListener(new View.OnClickListener() {
@@ -105,7 +86,5 @@ public class ManualActivity extends AppCompatActivity {
                 finish();
             }
         });
-   }
+    }
 }
-
-

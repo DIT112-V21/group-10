@@ -38,7 +38,7 @@ public class Client {
 
     private static final String ULTRASOUND_FRONT = "/Group10/sensor/ultrasound/front";
     private static final int SPEED = 10;
-    private static final int ANGLE = 10;
+    private static final int ANGLE = 40;
 //    private static final int LEFT_TURN = -75;
 //    private static final int RESET_ANGLE = 0;
     private static final String TAG = "localhost";

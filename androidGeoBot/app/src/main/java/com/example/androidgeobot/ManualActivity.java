@@ -10,7 +10,8 @@ import androidx.appcompat.app.AppCompatActivity;
 
 public class ManualActivity extends AppCompatActivity {
     //joystick buttons
-    private Button forwardBtn, leftBtn, rightBtn, backBtn, breakBtn, acceleration , deceleration;
+    private Button forwardBtn, leftBtn, rightBtn, backwardBtn, breakBtn, acceleration , deceleration
+            , backBtn;
     private Client client;
     private static final String FAIL = "CONNECTION TO GEOBOT COULD NOT BE ESTABLISHED";
     private static final String SUCCESS = "CONNECTION TO GEOBOT ESTABLISHED";
@@ -31,7 +32,7 @@ public class ManualActivity extends AppCompatActivity {
 
         if (!client.connect()) {
             Toast.makeText(this, FAIL, Toast.LENGTH_SHORT).show();
-        }else{
+        } else{
             Toast.makeText(this, SUCCESS, Toast.LENGTH_SHORT).show();
         }
         setJoystickBtns();
@@ -40,7 +41,7 @@ public class ManualActivity extends AppCompatActivity {
     //Setups for some generic joystick buttons to test out manual control commmands
     // Feel free to replace this for future implementation
     public void setJoystickBtns() {
-        forwardBtn = findViewById(R.id.forward_button);
+        forwardBtn = (Button) findViewById(R.id.forward_button);
         forwardBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -49,7 +50,7 @@ public class ManualActivity extends AppCompatActivity {
             }
         });
 
-        rightBtn = findViewById(R.id.right_button);
+        rightBtn = (Button) findViewById(R.id.right_button);
         rightBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -57,7 +58,7 @@ public class ManualActivity extends AppCompatActivity {
             }
         });
 
-        leftBtn = findViewById(R.id.left_button);
+        leftBtn = (Button) findViewById(R.id.left_button);
         leftBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -65,15 +66,15 @@ public class ManualActivity extends AppCompatActivity {
             }
         });
 
-        backBtn = findViewById(R.id.backward_button);
-        backBtn.setOnClickListener(new View.OnClickListener() {
+        backwardBtn = (Button) findViewById(R.id.backward_button);
+        backwardBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                client.button_publish(backBtn);
+                client.button_publish(backwardBtn);
             }
         });
 
-        breakBtn = findViewById(R.id.break_button);
+        breakBtn = (Button) findViewById(R.id.break_button);
         breakBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -81,24 +82,24 @@ public class ManualActivity extends AppCompatActivity {
             }
         });
 
-        acceleration = findViewById(R.id.accelerate_up);
-        acceleration.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                client.button_publish(acceleration);
-            }
-        });
+//        acceleration = (Button) findViewById(R.id.accelerate_up);
+//        acceleration.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View view) {
+//                client.button_publish(acceleration);
+//            }
+//        });
+//
+//        deceleration = (Button) findViewById(R.id.accelerate_down);
+//        deceleration.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                client.button_publish(deceleration);
+//            }
+//        });
 
-        deceleration = findViewById(R.id.accelerate_down);
-        deceleration.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                client.button_publish(deceleration);
-            }
-        });
-
-        backBtn = findViewById(R.id.button_back);
-        breakBtn.setOnClickListener(new View.OnClickListener() {
+        backBtn = (Button) findViewById(R.id.button_back);
+        backBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 finish();

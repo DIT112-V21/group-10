@@ -139,7 +139,7 @@ public class Client {
 //                    break;
 
                 case R.id.break_button:
-                    mqttClient.publish(BREAK, Integer.toString(0),QOS,null);
+                    mqttClient.publish(BREAK, Integer.toString(1),QOS,null);
                     break;
 
 

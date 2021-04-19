@@ -23,7 +23,6 @@ SR04 front(arduinoRuntime, TRIGGER_PIN, ECHO_PIN, MAX_DISTANCE);
 SimpleCar car(control);
 int magnitude;                              //This we will need later
 int latestSpeed = 0;
-int latestAngle = 0;
 
 void setup()
 {
@@ -55,10 +54,14 @@ void setup()
 
       } else if (topic == "/Group10/manual/turnleft") {
           car.setAngle(message.toInt());
+          delay(500);
+          car.setAngle(0);
 
       } else if (topic == "/Group10/manual/turnright") {
           int carAngle = (-1) * message.toInt();
           car.setAngle(carAngle);
+          delay(500);
+          car.setAngle(0);
 
       } else if (topic == "/Group10/manual/break") {
           latestSpeed = 0;

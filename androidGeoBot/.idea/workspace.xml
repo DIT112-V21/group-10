@@ -27,24 +27,7 @@
     <select />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="f8bba8a3-dd1b-43e7-b788-5a357cfbf97e" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/app/.idea/gradle.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/app/.idea/markdown-navigator-enh.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/app/.idea/markdown-navigator.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/app/.idea/modules.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/app/.idea/vcs.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.gradle/6.5/fileHashes/fileHashes.lock" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/6.5/fileHashes/fileHashes.lock" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.gradle/buildOutputCleanup/buildOutputCleanup.lock" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/buildOutputCleanup/buildOutputCleanup.lock" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.gradle/checksums/checksums.lock" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/checksums/checksums.lock" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.gradle/checksums/md5-checksums.bin" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/checksums/md5-checksums.bin" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.gradle/checksums/sha1-checksums.bin" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/checksums/sha1-checksums.bin" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/androidGeoBot.iml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/gradle.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/gradle.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/modules.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/example/androidgeobot/Client.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/example/androidgeobot/Client.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/example/androidgeobot/ManualActivity.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/example/androidgeobot/ManualActivity.java" afterDir="false" />
-    </list>
+    <list default="true" id="f8bba8a3-dd1b-43e7-b788-5a357cfbf97e" name="Default Changelist" comment="Added all the buttons to manual activity. More adjustment needed" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -80,7 +63,7 @@
   <component name="PropertiesComponent">
     <property name="RunOnceActivity.OpenProjectViewOnStart" value="true" />
     <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
-    <property name="last_opened_file_path" value="$PROJECT_DIR$" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$/.." />
   </component>
   <component name="RunManager">
     <configuration default="true" type="AndroidJUnit" factoryName="Android JUnit">
@@ -159,6 +142,14 @@
       <option name="presentableId" value="Default" />
       <updated>1618585250290</updated>
     </task>
+    <task id="LOCAL-00001" summary="Added all the buttons to manual activity. More adjustment needed">
+      <created>1618825851414</created>
+      <option name="number" value="00001" />
+      <option name="presentableId" value="LOCAL-00001" />
+      <option name="project" value="LOCAL" />
+      <updated>1618825851414</updated>
+    </task>
+    <option name="localTasksCounter" value="2" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -173,6 +164,10 @@
     </option>
     <option name="oldMeFiltersMigrated" value="true" />
   </component>
+  <component name="VcsManagerConfiguration">
+    <MESSAGE value="Added all the buttons to manual activity. More adjustment needed" />
+    <option name="LAST_COMMIT_MESSAGE" value="Added all the buttons to manual activity. More adjustment needed" />
+  </component>
   <component name="WindowStateProjectService">
     <state x="484" y="0" key="#app" timestamp="1618771295415">
       <screen x="0" y="0" width="1536" height="824" />
@@ -182,10 +177,10 @@
       <screen x="0" y="0" width="2560" height="1400" />
     </state>
     <state x="771" y="813" key="#com.intellij.ide.util.MemberChooser/0.0.2560.1400@0.0.2560.1400" timestamp="1618591494888" />
-    <state x="549" y="167" key="FileChooserDialogImpl" timestamp="1618822773042">
+    <state x="549" y="167" key="FileChooserDialogImpl" timestamp="1618825885795">
       <screen x="0" y="0" width="1536" height="824" />
     </state>
-    <state x="549" y="167" key="FileChooserDialogImpl/0.0.1536.824@0.0.1536.824" timestamp="1618822773042" />
+    <state x="549" y="167" key="FileChooserDialogImpl/0.0.1536.824@0.0.1536.824" timestamp="1618825885795" />
     <state width="1905" height="180" key="GridCell.Tab.0.bottom" timestamp="1618640918488">
       <screen x="0" y="0" width="2560" height="1400" />
     </state>
@@ -202,10 +197,10 @@
       <screen x="0" y="0" width="2560" height="1400" />
     </state>
     <state width="1905" height="180" key="GridCell.Tab.0.right/0.0.2560.1400@0.0.2560.1400" timestamp="1618640918488" />
-    <state x="361" y="145" key="Vcs.Push.Dialog.v2" timestamp="1618771406052">
+    <state x="361" y="145" key="Vcs.Push.Dialog.v2" timestamp="1618825862283">
       <screen x="0" y="0" width="1536" height="824" />
     </state>
-    <state x="361" y="145" key="Vcs.Push.Dialog.v2/0.0.1536.824@0.0.1536.824" timestamp="1618771406052" />
+    <state x="361" y="145" key="Vcs.Push.Dialog.v2/0.0.1536.824@0.0.1536.824" timestamp="1618825862283" />
     <state x="578" y="326" key="com.intellij.openapi.vcs.update.UpdateOrStatusOptionsDialogupdate-v2" timestamp="1618822344734">
       <screen x="0" y="0" width="1536" height="824" />
     </state>

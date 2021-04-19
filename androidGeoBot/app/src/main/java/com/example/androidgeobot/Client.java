@@ -5,7 +5,6 @@ import android.util.Log;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
-import android.widget.Button;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -29,13 +28,18 @@ public class Client {
 
     protected MqttClient mqttClient;
     private static final String FAIL = "CONNECTION TO GEOBOT COULD NOT BE ESTABLISHED";
-    private static final String THROTTLE_CONTROL = "/Group10/manual/throttle";
-    private static final String STEERING_CONTROL = "/Group10/manual/steering";
+    private static final String FORWARD_CONTROL = "/Group10/manual/forward";
+    private static final String BACKWARD_CONTROL = "/Group10/manual/backward";
+    private static final String TURN_LEFT = "/Group10/manual/turnleft";
+    private static final String TURN_RIGHT = "/Group10/manual/turnright";
+    private static final String BREAK = "/Group10/manual/break";
     private static final String ULTRASOUND_FRONT = "/Group10/sensor/ultrasound/front";
-    private static final int ACCELERATE = 10;
-    private static final int DECELERATION = -10;
-    private static final int LEFT_TURN = -75;
-    private static final int RESET_ANGLE = 0;
+    private static final int SPEED = 70;
+    private static final int ANGLE = 45;
+//    private static final int ACCELERATE = 10;
+//    private static final int DECELERATION = -10;
+//    private static final int LEFT_TURN = -75;
+//    private static final int RESET_ANGLE = 0;
     private static final String TAG = "localhost";
     private static final String MQTT_BROKER = "aerostun.dev";
     private static final String LOCAL_MQTT = "10.0.2.2";
@@ -100,10 +104,7 @@ public class Client {
                 Log.d(TAG, "Message delivered");
             }
         });
-
-
         return isConnected;
-
     }
 
 
@@ -114,14 +115,34 @@ public class Client {
             switch (button.getId()){
 
                 case R.id.forward_button:
-                    mqttClient.publish(STEERING_CONTROL, Integer.toString(LEFT_TURN),QOS, null);
+                    mqttClient.publish(FORWARD_CONTROL, Integer.toString(SPEED),QOS, null);
                     break;
+
+                case R.id.backward_button:
+                    mqttClient.publish(BACKWARD_CONTROL, Integer.toString(SPEED),QOS, null);
+                    break;
+
+                case R.id.right_button:
+                    mqttClient.publish(TURN_RIGHT, Integer.toString(ANGLE),QOS, null);
+                    break;
+
                 case R.id.left_button:
-                    mqttClient.publish(STEERING_CONTROL, Integer.toString(RESET_ANGLE),QOS,null);
+                    mqttClient.publish(TURN_LEFT, Integer.toString(ANGLE),QOS,null);
                     break;
-                case R.id.accelerate_up:
-                    mqttClient.publish(THROTTLE_CONTROL, Integer.toString(ACCELERATE),QOS,null);
+
+//                case R.id.accelerate_up:
+//                    mqttClient.publish(fORWARD_CONTROL, Integer.toString(ACCELERATE),QOS,null);
+//                    break;
+//
+//                case R.id.accelerate_down:
+//                    mqttClient.publish(fORWARD_CONTROL, Integer.toString(ACCELERATE),QOS,null);
+//                    break;
+
+                case R.id.break_button:
+                    mqttClient.publish(BREAK, Integer.toString(0),QOS,null);
                     break;
+
+
                 default:
             }
         }else {

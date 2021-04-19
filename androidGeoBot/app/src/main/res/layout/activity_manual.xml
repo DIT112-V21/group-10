@@ -45,85 +45,86 @@
             app:layout_constraintVertical_bias="0.506" />
 
     <androidx.appcompat.widget.AppCompatButton
-            android:id="@+id/forward_button"
-            android:layout_width="70dp"
-            android:layout_height="70dp"
-            android:background="@drawable/vector"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.498"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="@id/steering_wheel"
-            app:layout_constraintVertical_bias="0.06" />
+        android:id="@+id/forward_button"
+        android:layout_width="70dp"
+        android:layout_height="70dp"
+        android:background="@drawable/vector"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.498"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.499" />
 
     <androidx.appcompat.widget.AppCompatButton
-            android:id="@+id/backward_button"
-            android:layout_width="70dp"
-            android:layout_height="70dp"
-            android:background="@drawable/down_button"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.498"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="@id/steering_wheel"
-            app:layout_constraintVertical_bias="0.623" />
+        android:id="@+id/backward_button"
+        android:layout_width="70dp"
+        android:layout_height="70dp"
+        android:background="@drawable/down_button"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.498"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.798" />
 
     <androidx.appcompat.widget.AppCompatButton
-            android:id="@+id/left_button"
-            android:layout_width="70dp"
-            android:layout_height="70dp"
-            android:background="@drawable/left_button"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.217"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="@id/steering_wheel"
-            app:layout_constraintVertical_bias="0.342" />
+        android:id="@+id/left_button"
+        android:layout_width="70dp"
+        android:layout_height="70dp"
+        android:background="@drawable/left_button"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.217"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.649" />
 
     <androidx.appcompat.widget.AppCompatButton
-            android:id="@+id/right_button"
-            android:layout_width="70dp"
-            android:layout_height="70dp"
-            android:background="@drawable/right_button"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.803"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="@id/steering_wheel"
-            app:layout_constraintVertical_bias="0.342" />
+        android:id="@+id/right_button"
+        android:layout_width="70dp"
+        android:layout_height="70dp"
+        android:layout_marginBottom="232dp"
+        android:background="@drawable/right_button"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.806"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="1.0" />
 
     <androidx.appcompat.widget.AppCompatButton
-            android:id="@+id/accelerate_up"
-            android:layout_width="63dp"
-            android:layout_height="60dp"
-            android:background="@drawable/accelerate_up"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="@id/steering_wheel"
-            app:layout_constraintVertical_bias="0.264" />
+        android:id="@+id/accelerate_up"
+        android:layout_width="63dp"
+        android:layout_height="60dp"
+        android:background="@drawable/accelerate_up"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.596" />
 
     <androidx.appcompat.widget.AppCompatButton
-            android:id="@+id/accelerate_down"
-            android:layout_width="63dp"
-            android:layout_height="60dp"
-            android:background="@drawable/accelerate_down"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="@id/steering_wheel"
-            app:layout_constraintVertical_bias="0.441" />
+        android:id="@+id/accelerate_down"
+        android:layout_width="63dp"
+        android:layout_height="60dp"
+        android:background="@drawable/accelerate_down"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.685" />
 
     <androidx.appcompat.widget.AppCompatButton
-            android:id="@+id/break_button"
-            android:layout_width="185dp"
-            android:layout_height="62dp"
-            android:background="@drawable/break_button"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="@id/steering_wheel"
-            app:layout_constraintVertical_bias="0.869" />
+        android:id="@+id/break_button"
+        android:layout_width="185dp"
+        android:layout_height="62dp"
+        android:background="@drawable/break_button"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.937" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -53,13 +53,13 @@ void setup()
           car.setSpeed(latestSpeed);
 
       } else if (topic == "/Group10/manual/turnleft") {
-          car.setAngle(message.toInt());
+          int carAngle = (-1) * message.toInt();
+          car.setAngle(carAngle);
           delay(500);
           car.setAngle(0);
 
       } else if (topic == "/Group10/manual/turnright") {
-          int carAngle = (-1) * message.toInt();
-          car.setAngle(carAngle);
+          car.setAngle(message.toInt());
           delay(500);
           car.setAngle(0);
 
@@ -106,40 +106,41 @@ void handleInput()
 {
     float distance = front.getDistance();
     serialMsg(distance);
-    if (Serial.available())            //If the user enters input in the serial The car must move according to that input.
-    {
-        String input = Serial.readStringUntil('\n');
-        serialReader(input);
-        distanceHandler(0, 200, distance);
-    } else {
-        distanceHandler(0, 200, distance);
-    }
+    distanceHandler(0, 200, distance);
+//    if (Serial.available())            //If the user enters input in the serial The car must move according to that input.
+//    {
+//        String input = Serial.readStringUntil('\n');
+//        serialReader(input);
+//        distanceHandler(0, 200, distance);
+//    } else {
+//        distanceHandler(0, 200, distance);
+//    }
 }
 
 void handleObstacle()
 {
-    car.setSpeed(-magnitude);        //In here the car will go back in the opposite direction but with the same speed
+    car.setSpeed(-latestSpeed);        //In here the car will go back in the opposite direction but with the same speed
     car.setAngle(50);                //In this line the car will turn while going backward to avoid obstacle
     delay(1000);                     //Here we give some time to the poor car to do previous actions
 }
 
-void serialReader(String input)
-{
-    if (input.startsWith("m"))
-    {
-        int cSpeed = input.substring(1).toInt();
-        magnitude = cSpeed;              //We save the user's input in here in order to have it outside of the if scope.
-        car.setSpeed(cSpeed);
-        Serial.print("Current speed is ");
-        Serial.println(cSpeed);
-    } else if (input.startsWith("t"))
-    {
-        int cAngle = input.substring(1).toInt();
-        car.setAngle(cAngle);
-        angleMsg(cAngle);
-        delay(600);    //This delay is needed for the car to turn in a short while and then go back to its straight direction,
-    }                 // because we dont want the car to to turn around itself for no reason!
-}
+//void serialReader(String input)
+//{
+//    if (input.startsWith("m"))
+//    {
+//        int cSpeed = input.substring(1).toInt();
+//
+//        car.setSpeed(latestSpeed);
+//        Serial.print("Current speed is ");
+//        Serial.println(latestSpeed);
+//    } else if (input.startsWith("t"))
+//    {
+//        int cAngle = input.substring(1).toInt();
+//        car.setAngle(cAngle);
+//        angleMsg(cAngle);
+//        delay(600);    //This delay is needed for the car to turn in a short while and then go back to its straight direction,
+//    }                 // because we dont want the car to to turn around itself for no reason!
+//}
 
 void distanceHandler(float lowerBound, float upperBound, float distance)
 {
@@ -148,7 +149,7 @@ void distanceHandler(float lowerBound, float upperBound, float distance)
         handleObstacle();
     }
     car.setSpeed(latestSpeed);            //this makes sure the car is back to its forward direction if a turning happened.
-   // car.setAngle(0);                    //and this!
+    car.setAngle(0);                     //and this!
 }
 
 void serialMsg(float distance)

@@ -35,19 +35,33 @@ void setup()
   if (mqtt.connect("arduino", "public", "public")) {
     mqtt.subscribe("/Group10/manual/#", 1);
     mqtt.onMessage([](String topic, String message) {
-      if (topic == "/Group10/manual/throttle") {
+      if (topic == "/Group10/manual/forward") {
+
+          car.setSpeed(message.toInt());
         
-        if(message.toInt() > 0 && !(latestSpeed == 0)){
-        latestSpeed += message.toInt();
-        car.setSpeed(latestSpeed);
-        }else if(message.toInt() > 0 && latestSpeed == 0){
-          latestSpeed = message.toInt();
-          car.setSpeed(latestSpeed);
-        }else {
-          car.setSpeed(latestSpeed - message.toInt());
-        }
-      } else if (topic == "/Group10/manual/steering") {
-        car.setAngle(message.toInt());
+//        if(message.toInt() > 0 && !(latestSpeed == 0)){
+//        latestSpeed += message.toInt();
+//        car.setSpeed(latestSpeed);
+//        }else if(message.toInt() > 0 && latestSpeed == 0){
+//          latestSpeed = message.toInt();
+//          car.setSpeed(latestSpeed);
+//        }else {
+//          car.setSpeed(latestSpeed - message.toInt());
+//        }
+      } else if (topic == "/Group10/manual/backward") {
+          int carSpeed = (-1) * message.toInt();
+          car.setSpeed(carSpeed);
+
+      } else if (topic == "/Group10/manual/turnleft") {
+          car.setAngle(message.toInt());
+
+      } else if (topic == "/Group10/manual/turnright") {
+          int carAngle = (-1) * message.toInt();
+          car.setAngle(carAngle);
+
+      } else if (topic == "/Group10/manual/break") {
+          car.setSpeed(0);
+
       } else {
         Serial.println(topic + " " + message);
       }

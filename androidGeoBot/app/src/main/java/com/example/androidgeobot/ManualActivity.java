@@ -77,7 +77,7 @@ public class ManualActivity extends AppCompatActivity {
         breakBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                client.button_publish(backBtn);
+                client.button_publish(breakBtn);
             }
         });
 
@@ -97,7 +97,7 @@ public class ManualActivity extends AppCompatActivity {
             }
         });
 
-        breakBtn = findViewById(R.id.break_button);
+        backBtn = findViewById(R.id.button_back);
         breakBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

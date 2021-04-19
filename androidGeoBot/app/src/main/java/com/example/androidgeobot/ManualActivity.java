@@ -82,21 +82,21 @@ public class ManualActivity extends AppCompatActivity {
             }
         });
 
-//        acceleration = (Button) findViewById(R.id.accelerate_up);
-//        acceleration.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View view) {
-//                client.button_publish(acceleration);
-//            }
-//        });
-//
-//        deceleration = (Button) findViewById(R.id.accelerate_down);
-//        deceleration.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                client.button_publish(deceleration);
-//            }
-//        });
+       acceleration = (Button) findViewById(R.id.accelerate_up);
+       acceleration.setOnClickListener(new View.OnClickListener() {
+           @Override
+           public void onClick(View view) {
+               client.button_publish(acceleration);
+           }
+       });
+
+       deceleration = (Button) findViewById(R.id.accelerate_down);
+       deceleration.setOnClickListener(new View.OnClickListener() {
+           @Override
+           public void onClick(View v) {
+               client.button_publish(deceleration);
+           }
+       });
 
         backBtn = (Button) findViewById(R.id.button_back);
         backBtn.setOnClickListener(new View.OnClickListener() {

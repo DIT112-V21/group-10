@@ -33,11 +33,12 @@ public class Client {
     private static final String TURN_LEFT = "/Group10/manual/turnleft";
     private static final String TURN_RIGHT = "/Group10/manual/turnright";
     private static final String BREAK = "/Group10/manual/break";
+    private static final String ACCELERATE = "/Group10/manual/accelerateup";
+    private static final String DECELERATE = "/Group10/manual/acceleratedown";
+
     private static final String ULTRASOUND_FRONT = "/Group10/sensor/ultrasound/front";
-    private static final int SPEED = 70;
-    private static final int ANGLE = 45;
-//    private static final int ACCELERATE = 10;
-//    private static final int DECELERATION = -10;
+    private static final int SPEED = 10;
+    private static final int ANGLE = 10;
 //    private static final int LEFT_TURN = -75;
 //    private static final int RESET_ANGLE = 0;
     private static final String TAG = "localhost";
@@ -130,16 +131,16 @@ public class Client {
                     mqttClient.publish(TURN_LEFT, Integer.toString(ANGLE),QOS,null);
                     break;
 
-//                case R.id.accelerate_up:
-//                    mqttClient.publish(fORWARD_CONTROL, Integer.toString(ACCELERATE),QOS,null);
-//                    break;
-//
-//                case R.id.accelerate_down:
-//                    mqttClient.publish(fORWARD_CONTROL, Integer.toString(ACCELERATE),QOS,null);
-//                    break;
+               case R.id.accelerate_up:
+                   mqttClient.publish(ACCELERATE, Integer.toString(SPEED),QOS,null);
+                   break;
+
+               case R.id.accelerate_down:
+                   mqttClient.publish(DECELERATE, Integer.toString(SPEED),QOS,null);
+                   break;
 
                 case R.id.break_button:
-                    mqttClient.publish(BREAK, Integer.toString(1),QOS,null);
+                    mqttClient.publish(BREAK, Integer.toString(0),QOS,null);
                     break;
 
 

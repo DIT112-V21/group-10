@@ -23,6 +23,7 @@ SR04 front(arduinoRuntime, TRIGGER_PIN, ECHO_PIN, MAX_DISTANCE);
 SimpleCar car(control);
 int magnitude;                              //This we will need later
 int latestSpeed = 0;
+int latestAngle = 0;
 
 void setup()
 {
@@ -36,21 +37,21 @@ void setup()
     mqtt.subscribe("/Group10/manual/#", 1);
     mqtt.onMessage([](String topic, String message) {
       if (topic == "/Group10/manual/forward") {
-
-          car.setSpeed(message.toInt());
+          latestSpeed = message.toInt();
+          car.setSpeed(latestSpeed);
         
-//        if(message.toInt() > 0 && !(latestSpeed == 0)){
-//        latestSpeed += message.toInt();
-//        car.setSpeed(latestSpeed);
-//        }else if(message.toInt() > 0 && latestSpeed == 0){
-//          latestSpeed = message.toInt();
-//          car.setSpeed(latestSpeed);
-//        }else {
-//          car.setSpeed(latestSpeed - message.toInt());
-//        }
+       /* if(message.toInt() > 0 && !(latestSpeed == 0)){
+        latestSpeed += message.toInt();
+        car.setSpeed(latestSpeed);
+        }else if(message.toInt() > 0 && latestSpeed == 0){
+          latestSpeed = message.toInt();
+          car.setSpeed(latestSpeed);
+        }else {
+          car.setSpeed(latestSpeed - message.toInt());
+        }*/
       } else if (topic == "/Group10/manual/backward") {
-          int carSpeed = (-1) * message.toInt();
-          car.setSpeed(carSpeed);
+          latestSpeed = (-1) * message.toInt();
+          car.setSpeed(latestSpeed);
 
       } else if (topic == "/Group10/manual/turnleft") {
           car.setAngle(message.toInt());
@@ -60,7 +61,16 @@ void setup()
           car.setAngle(carAngle);
 
       } else if (topic == "/Group10/manual/break") {
-          car.setSpeed(0);
+          latestSpeed = 0;
+          car.setSpeed(latestSpeed);
+
+      } else if (topic == "/Group10/manual/accelerateup") {
+          latestSpeed = latestSpeed * 1.3;
+          car.setSpeed(latestSpeed);
+
+      } else if (topic == "/Group10/manual/acceleratedown") {
+          latestSpeed = latestSpeed * 0.7;
+          car.setSpeed(latestSpeed);
 
       } else {
         Serial.println(topic + " " + message);

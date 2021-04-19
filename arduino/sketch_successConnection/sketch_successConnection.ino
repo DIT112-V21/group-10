@@ -32,55 +32,8 @@ void setup()
 #ifndef __SMCE__
   mqtt.begin(net);
 #endif
-  if (mqtt.connect("arduino", "public", "public")) {
-    mqtt.subscribe("/Group10/manual/#", 1);
-    mqtt.onMessage([](String topic, String message) {
-      if (topic == "/Group10/manual/forward") {
-          latestSpeed = message.toInt();
-          car.setSpeed(latestSpeed);
-        
-       /* if(message.toInt() > 0 && !(latestSpeed == 0)){
-        latestSpeed += message.toInt();
-        car.setSpeed(latestSpeed);
-        }else if(message.toInt() > 0 && latestSpeed == 0){
-          latestSpeed = message.toInt();
-          car.setSpeed(latestSpeed);
-        }else {
-          car.setSpeed(latestSpeed - message.toInt());
-        }*/
-      } else if (topic == "/Group10/manual/backward") {
-          latestSpeed = (-1) * message.toInt();
-          car.setSpeed(latestSpeed);
-
-      } else if (topic == "/Group10/manual/turnleft") {
-          int carAngle = (-1) * message.toInt();
-          car.setAngle(carAngle);
-          delay(500);
-          car.setAngle(0);
-
-      } else if (topic == "/Group10/manual/turnright") {
-          car.setAngle(message.toInt());
-          delay(500);
-          car.setAngle(0);
-
-      } else if (topic == "/Group10/manual/break") {
-          latestSpeed = 0;
-          car.setSpeed(latestSpeed);
-
-      } else if (topic == "/Group10/manual/accelerateup") {
-          latestSpeed = latestSpeed * 1.3;
-          car.setSpeed(latestSpeed);
-
-      } else if (topic == "/Group10/manual/acceleratedown") {
-          latestSpeed = latestSpeed * 0.7;
-          car.setSpeed(latestSpeed);
-
-      } else {
-        Serial.println(topic + " " + message);
-      }
-    });
-  }
-    startMillis = millis(); 
+  mqttHandler();
+  startMillis = millis();
 }
 
 void loop()
@@ -141,6 +94,49 @@ void handleObstacle()
 //        delay(600);    //This delay is needed for the car to turn in a short while and then go back to its straight direction,
 //    }                 // because we dont want the car to to turn around itself for no reason!
 //}
+
+void mqttHandler()
+{
+    if (mqtt.connect("arduino", "public", "public")) {
+        mqtt.subscribe("/Group10/manual/#", 1);
+        mqtt.onMessage([](String topic, String message) {
+            if (topic == "/Group10/manual/forward") {
+                latestSpeed = message.toInt();
+                car.setSpeed(latestSpeed);
+
+            } else if (topic == "/Group10/manual/backward") {
+                latestSpeed = (-1) * message.toInt();
+                car.setSpeed(latestSpeed);
+
+            } else if (topic == "/Group10/manual/turnleft") {
+                int carAngle = (-1) * message.toInt();
+                car.setAngle(carAngle);
+                delay(500);
+                car.setAngle(0);
+
+            } else if (topic == "/Group10/manual/turnright") {
+                car.setAngle(message.toInt());
+                delay(500);
+                car.setAngle(0);
+
+            } else if (topic == "/Group10/manual/break") {
+                latestSpeed = 0;
+                car.setSpeed(latestSpeed);
+
+            } else if (topic == "/Group10/manual/accelerateup") {
+                latestSpeed = latestSpeed * 1.3;
+                car.setSpeed(latestSpeed);
+
+            } else if (topic == "/Group10/manual/acceleratedown") {
+                latestSpeed = latestSpeed * 0.7;
+                car.setSpeed(latestSpeed);
+
+            } else {
+                Serial.println(topic + " " + message);
+            }
+        });
+    }
+}
 
 void distanceHandler(float lowerBound, float upperBound, float distance)
 {

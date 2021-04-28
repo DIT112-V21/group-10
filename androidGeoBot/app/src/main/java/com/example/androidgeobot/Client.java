@@ -37,7 +37,7 @@ public class Client {
     private static final String DECELERATE = "/Group10/manual/acceleratedown";
 
     private static final String ULTRASOUND_FRONT = "/Group10/sensor/ultrasound/front";
-    private static final int SPEED = 10;
+    private static final int SPEED = 30;
     private static final int ANGLE = 40;
 //    private static final int LEFT_TURN = -75;
 //    private static final int RESET_ANGLE = 0;

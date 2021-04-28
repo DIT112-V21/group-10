@@ -60,40 +60,14 @@ void handleInput()
     float distance = front.getDistance();
     serialMsg(distance);
     distanceHandler(0, 200, distance);
-//    if (Serial.available())            //If the user enters input in the serial The car must move according to that input.
-//    {
-//        String input = Serial.readStringUntil('\n');
-//        serialReader(input);
-//        distanceHandler(0, 200, distance);
-//    } else {
-//        distanceHandler(0, 200, distance);
-//    }
 }
 
 void handleObstacle()
 {
-    car.setSpeed(-latestSpeed);        //In here the car will go back in the opposite direction but with the same speed
-    car.setAngle(50);                //In this line the car will turn while going backward to avoid obstacle
-    delay(1000);                     //Here we give some time to the poor car to do previous actions
+    car.setSpeed(0);        //In here the car will go back in the opposite direction but with the same speed
+//    car.setAngle(50);                //In this line the car will turn while going backward to avoid obstacle
+//    delay(1000);                     //Here we give some time to the poor car to do previous actions
 }
-
-//void serialReader(String input)
-//{
-//    if (input.startsWith("m"))
-//    {
-//        int cSpeed = input.substring(1).toInt();
-//
-//        car.setSpeed(latestSpeed);
-//        Serial.print("Current speed is ");
-//        Serial.println(latestSpeed);
-//    } else if (input.startsWith("t"))
-//    {
-//        int cAngle = input.substring(1).toInt();
-//        car.setAngle(cAngle);
-//        angleMsg(cAngle);
-//        delay(600);    //This delay is needed for the car to turn in a short while and then go back to its straight direction,
-//    }                 // because we dont want the car to to turn around itself for no reason!
-//}
 
 void mqttHandler()
 {

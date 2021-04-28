@@ -8,7 +8,7 @@
 
 ## Why will you make it? What problem does it solve?
 - Tank will solve the issue of how to detect objects, and will assist App users in hunting down these objects and crash into them(mainly other bots/smartcars)
-- It can be used to cause mayham and destruction
+- It can be used to cause mayhem and destruction
 
 ## How are you going to make it? What kind of technology are you going to use?
 We will use OpenCV in combination with an Android app, in order to detect objects in the SMCE world. Technologies we will use:

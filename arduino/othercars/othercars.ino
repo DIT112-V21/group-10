@@ -1,18 +1,9 @@
-#include <vector>
-#include <MQTT.h>
-#include <WiFi.h>
 #include <Smartcar.h>
 
-#ifndef __SMCE__
-WiFiClient net;
-#endif
-MQTTClient mqtt;
-
 ArduinoRuntime arduinoRuntime;
-unsigned long startMillis;  
+unsigned long startMillis;
 unsigned long currentMillis;
 const unsigned long period = 7000; //7 seconds
-const auto oneSecond = 1000UL;
 BrushedMotor leftMotor(arduinoRuntime, smartcarlib::pins::v2::leftMotorPins);
 BrushedMotor rightMotor(arduinoRuntime, smartcarlib::pins::v2::rightMotorPins);
 DifferentialControl control(leftMotor, rightMotor);
@@ -25,33 +16,52 @@ int magnitude;                              //This we will need later
 
 void setup()
 {
-    magnitude = rand() % (100 + 1 - 30) + 30;
+    magnitude = rand();
     Serial.begin(9600);
     Serial.setTimeout(200);
+    startMillis = millis();
 }
 
 void loop()
 {
-    move();
+    currentMillis = millis(); //get the current "time" (actually the number of milliseconds since the program started)
+    handleInput();
     delay(35);
 }
 
-void move()
+void handleInput()
 {
     float distance = front.getDistance();
     serialMsg(distance);
+    car.setSpeed(magnitude);
     distanceHandler(0, 200, distance);
+
 }
 
 void handleObstacle()
 {
-//    magnitude = -1 * magnitude;
-//    car.setSpeed(magnitude);
+    car.setSpeed(-magnitude);        //In here the car will go back in the opposite direction but with the same speed
     car.setAngle(50);                //In this line the car will turn while going backward to avoid obstacle
     delay(1000);                     //Here we give some time to the poor car to do previous actions
 }
 
-
+void serialReader(String input)
+{
+    if (input.startsWith("m"))
+    {
+        int cSpeed = input.substring(1).toInt();
+        magnitude = cSpeed;              //We save the user's input in here in order to have it outside of the if scope.
+        car.setSpeed(cSpeed);
+        Serial.print("Current speed is ");
+        Serial.println(cSpeed);
+    } else if (input.startsWith("t"))
+    {
+        int cAngle = input.substring(1).toInt();
+        car.setAngle(cAngle);
+        angleMsg(cAngle);
+        delay(600);    //This delay is needed for the car to turn in a short while and then go back to its straight direction,
+    }                 // because we dont want the car to to turn around itself for no reason!
+}
 
 void distanceHandler(float lowerBound, float upperBound, float distance)
 {
@@ -60,12 +70,12 @@ void distanceHandler(float lowerBound, float upperBound, float distance)
         handleObstacle();
     }
     car.setSpeed(magnitude);            //this makes sure the car is back to its forward direction if a turning happened.
-    car.setAngle(0);                     //and this!
+    car.setAngle(0);                    //and this!
 }
 
 void serialMsg(float distance)
 {
-    
+
     if (distance > 0 && (currentMillis - startMillis) >= period) { //The user is updated on the distance to an obstacle every 7 seconds
         String msg1 = "There is an obstacle in ";
         String msg2 = " cm.";
@@ -95,5 +105,5 @@ void angleMsg(int angle) //This function prints the direction in which the car w
         Serial.print(angle);
         Serial.println(" degrees left.");
     }
-     
+
 }

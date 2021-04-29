@@ -59,12 +59,17 @@ void handleInput()
 {
     float distance = front.getDistance();
     serialMsg(distance);
-    distanceHandler(0, 200, distance);
+    distanceHandler(0, 100, distance);
 }
 
 void handleObstacle()
 {
-    car.setSpeed(0);        //In here the car will go back in the opposite direction but with the same speed
+
+   latestSpeed = 0.5 * latestSpeed;
+    car.setSpeed(latestSpeed);        //In here the car will go back in the opposite direction but with the same speed
+//    delay(10);
+//    latestSpeed = 0;
+//    car.setSpeed(latestSpeed);
 //    car.setAngle(50);                //In this line the car will turn while going backward to avoid obstacle
 //    delay(1000);                     //Here we give some time to the poor car to do previous actions
 }
@@ -108,6 +113,7 @@ void mqttHandler()
             } else {
                 Serial.println(topic + " " + message);
             }
+
         });
     }
 }
@@ -118,8 +124,8 @@ void distanceHandler(float lowerBound, float upperBound, float distance)
     {
         handleObstacle();
     }
-    car.setSpeed(latestSpeed);            //this makes sure the car is back to its forward direction if a turning happened.
-    car.setAngle(0);                     //and this!
+//    car.setSpeed(latestSpeed);            //this makes sure the car is back to its forward direction if a turning happened.
+//    car.setAngle(0);                     //and this!
 }
 
 void serialMsg(float distance)

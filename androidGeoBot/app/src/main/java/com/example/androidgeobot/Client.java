@@ -37,8 +37,8 @@ public class Client {
     private static final String DECELERATE = "/Group10/manual/acceleratedown";
 
     private static final String ULTRASOUND_FRONT = "/Group10/sensor/ultrasound/front";
-    private static final int SPEED = 30;
-    private static final int ANGLE = 40;
+    private static final int SPEED = 50;
+    private static final int ANGLE = 10;
 //    private static final int LEFT_TURN = -75;
 //    private static final int RESET_ANGLE = 0;
     private static final String TAG = "localhost";
@@ -143,10 +143,14 @@ public class Client {
                     mqttClient.publish(BREAK, Integer.toString(0),QOS,null);
                     break;
 
-
                 default:
             }
-        }else {
+        } else if((button == null) && isConnected) {
+
+            mqttClient.publish("/Group10/manual/nocontrol", Integer.toString(0),QOS,null);
+
+        } else {
+
             Toast.makeText(context, "Connection not established", Toast.LENGTH_SHORT).show();
 
         }

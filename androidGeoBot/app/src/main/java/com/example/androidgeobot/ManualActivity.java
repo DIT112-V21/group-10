@@ -43,6 +43,7 @@ public class ManualActivity extends AppCompatActivity {
     //Setups for some generic joystick buttons to test out manual control commmands
     // Feel free to replace this for future implementation
     public void setJoystickBtns() {
+
         forwardBtn = (Button) findViewById(R.id.forward_button);
         forwardBtn.setOnTouchListener(new View.OnTouchListener() {
             private Handler mHandler;
@@ -52,11 +53,12 @@ public class ManualActivity extends AppCompatActivity {
                     case MotionEvent.ACTION_DOWN:
                         if (mHandler != null) return true;
                         mHandler = new Handler();
-                        mHandler.postDelayed(mAction, 0);
+                        mHandler.postDelayed(mAction, 100);
                         break;
                     case MotionEvent.ACTION_UP:
                         if (mHandler == null) return true;
-                        mHandler.removeCallbacks(mAction);
+                        client.button_publish(null);
+                        mHandler.removeCallbacksAndMessages(null);
                         mHandler = null;
                         break;
                 }
@@ -65,17 +67,10 @@ public class ManualActivity extends AppCompatActivity {
             Runnable mAction = new Runnable() {
                 @Override public void run() {
                     client.button_publish(forwardBtn);
-                    mHandler.postDelayed(this, 0);
+                    mHandler.postDelayed(this, 100);
                 }
             };
         });
-//        forwardBtn.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View view) {
-//                client.button_publish(forwardBtn);
-//
-//            }
-//        });
 
         rightBtn = (Button) findViewById(R.id.right_button);
         rightBtn.setOnTouchListener(new View.OnTouchListener() {
@@ -86,10 +81,11 @@ public class ManualActivity extends AppCompatActivity {
                     case MotionEvent.ACTION_DOWN:
                         if (mHandler != null) return true;
                         mHandler = new Handler();
-                        mHandler.postDelayed(mAction, 0);
+                        mHandler.postDelayed(mAction, 100);
                         break;
                     case MotionEvent.ACTION_UP:
                         if (mHandler == null) return true;
+                        client.button_publish(null);
                         mHandler.removeCallbacks(mAction);
                         mHandler = null;
                         break;
@@ -99,7 +95,7 @@ public class ManualActivity extends AppCompatActivity {
             Runnable mAction = new Runnable() {
                 @Override public void run() {
                     client.button_publish(rightBtn);
-                    mHandler.postDelayed(this, 0);
+                    mHandler.postDelayed(this, 100);
                 }
             };
         });
@@ -113,10 +109,11 @@ public class ManualActivity extends AppCompatActivity {
                     case MotionEvent.ACTION_DOWN:
                         if (mHandler != null) return true;
                         mHandler = new Handler();
-                        mHandler.postDelayed(mAction, 0);
+                        mHandler.postDelayed(mAction, 100);
                         break;
                     case MotionEvent.ACTION_UP:
                         if (mHandler == null) return true;
+                        client.button_publish(null);
                         mHandler.removeCallbacks(mAction);
                         mHandler = null;
                         break;
@@ -126,7 +123,7 @@ public class ManualActivity extends AppCompatActivity {
             Runnable mAction = new Runnable() {
                 @Override public void run() {
                     client.button_publish(leftBtn);
-                    mHandler.postDelayed(this, 0);
+                    mHandler.postDelayed(this, 100);
                 }
             };
         });
@@ -140,10 +137,11 @@ public class ManualActivity extends AppCompatActivity {
                     case MotionEvent.ACTION_DOWN:
                         if (mHandler != null) return true;
                         mHandler = new Handler();
-                        mHandler.postDelayed(mAction, 0);
+                        mHandler.postDelayed(mAction, 100);
                         break;
                     case MotionEvent.ACTION_UP:
                         if (mHandler == null) return true;
+                        client.button_publish(null);
                         mHandler.removeCallbacks(mAction);
                         mHandler = null;
                         break;
@@ -153,7 +151,7 @@ public class ManualActivity extends AppCompatActivity {
             Runnable mAction = new Runnable() {
                 @Override public void run() {
                     client.button_publish(backwardBtn);
-                    mHandler.postDelayed(this, 0);
+                    mHandler.postDelayed(this, 100);
                 }
             };
         });
@@ -166,16 +164,16 @@ public class ManualActivity extends AppCompatActivity {
             }
         });
 
-       acceleration = (Button) findViewById(R.id.accelerate_up);
-       acceleration.setOnClickListener(new View.OnClickListener() {
+        acceleration = (Button) findViewById(R.id.accelerate_up);
+        acceleration.setOnClickListener(new View.OnClickListener() {
            @Override
            public void onClick(View view) {
                client.button_publish(acceleration);
            }
        });
 
-       deceleration = (Button) findViewById(R.id.accelerate_down);
-       deceleration.setOnClickListener(new View.OnClickListener() {
+        deceleration = (Button) findViewById(R.id.accelerate_down);
+        deceleration.setOnClickListener(new View.OnClickListener() {
            @Override
            public void onClick(View v) {
                client.button_publish(deceleration);
@@ -189,5 +187,6 @@ public class ManualActivity extends AppCompatActivity {
                 finish();
             }
         });
+
     }
 }

@@ -76,13 +76,11 @@ void mqttHandler()
         mqtt.onMessage([](String topic, String message) {
             if (topic == "/Group10/manual/forward") {
                 latestSpeed = message.toInt();
-                latestAngle = 0;
                 car.setAngle(latestAngle);
                 car.setSpeed(latestSpeed);
 
             } else if (topic == "/Group10/manual/backward") {
                 latestSpeed = (-1) * message.toInt();
-                latestAngle = 0;
                 car.setAngle(latestAngle);
                 car.setSpeed(latestSpeed);
 
@@ -98,7 +96,7 @@ void mqttHandler()
                 latestSpeed = 0;
                 car.setSpeed(latestSpeed);
 
-            } else if (topic == "/Group10/manual/accelerateup") {
+            } /*else if (topic == "/Group10/manual/accelerateup") {
                 latestSpeed = latestSpeed * 1.1;
                 car.setSpeed(latestSpeed);
 
@@ -106,9 +104,9 @@ void mqttHandler()
                 latestSpeed = latestSpeed * 0.9;
                 car.setSpeed(latestSpeed);
 
-            } else if (topic == "/Group10/manual/nocontrol"){
+            }*/ else if (topic == "/Group10/manual/nocontrol"){
                 latestSpeed = latestSpeed * 0.8;
-                latestAngle = latestAngle * 0.8;
+                latestAngle = 0;
                 car.setSpeed(latestSpeed);
                 car.setAngle(latestAngle);
 
@@ -139,11 +137,11 @@ void serialMsg(float distance)
         String msg = "No obstacle detected.";
         Serial.println(msg);
         startMillis = currentMillis;
-        Serial.print("Current Speed: ");
-        Serial.println(latestSpeed);
-        Serial.print("Current Angle: ");
-        Serial.println(latestAngle);
     }
+    Serial.print("Current Speed: ");
+    Serial.println(latestSpeed);
+    Serial.print("Current Angle: ");
+    Serial.println(latestAngle);
 }
 //void angleMsg()
 //{
@@ -160,5 +158,4 @@ void serialMsg(float distance)
 //        Serial.print(latestAngle);
 //        Serial.println(" degrees left.");
 //    }
-     
-}
+//}

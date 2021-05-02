@@ -37,8 +37,8 @@ public class Client {
     private static final String DECELERATE = "/Group10/manual/acceleratedown";
 
     private static final String ULTRASOUND_FRONT = "/Group10/sensor/ultrasound/front";
-    private static final int SPEED = 10;
-    private static final int ANGLE = 40;
+    private static final int SPEED = 100;
+    private static final int ANGLE = 30;
 //    private static final int LEFT_TURN = -75;
 //    private static final int RESET_ANGLE = 0;
     private static final String TAG = "localhost";
@@ -131,22 +131,26 @@ public class Client {
                     mqttClient.publish(TURN_LEFT, Integer.toString(ANGLE),QOS,null);
                     break;
 
-               case R.id.accelerate_up:
-                   mqttClient.publish(ACCELERATE, Integer.toString(SPEED),QOS,null);
-                   break;
-
-               case R.id.accelerate_down:
-                   mqttClient.publish(DECELERATE, Integer.toString(SPEED),QOS,null);
-                   break;
+//               case R.id.accelerate_up:
+//                   mqttClient.publish(ACCELERATE, Integer.toString(SPEED),QOS,null);
+//                   break;
+//
+//               case R.id.accelerate_down:
+//                   mqttClient.publish(DECELERATE, Integer.toString(SPEED),QOS,null);
+//                   break;
 
                 case R.id.break_button:
                     mqttClient.publish(BREAK, Integer.toString(0),QOS,null);
                     break;
 
-
                 default:
             }
-        }else {
+        } else if((button == null) && isConnected) {
+
+            mqttClient.publish("/Group10/manual/nocontrol", Integer.toString(0),QOS,null);
+
+        } else {
+
             Toast.makeText(context, "Connection not established", Toast.LENGTH_SHORT).show();
 
         }

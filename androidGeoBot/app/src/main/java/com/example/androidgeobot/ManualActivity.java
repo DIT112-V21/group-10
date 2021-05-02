@@ -1,6 +1,8 @@
 package com.example.androidgeobot;
 
 import android.os.Bundle;
+import android.os.Handler;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
@@ -42,36 +44,118 @@ public class ManualActivity extends AppCompatActivity {
     // Feel free to replace this for future implementation
     public void setJoystickBtns() {
         forwardBtn = (Button) findViewById(R.id.forward_button);
-        forwardBtn.setOnClickListener(new View.OnClickListener() {
+        forwardBtn.setOnTouchListener(new View.OnTouchListener() {
+            private Handler mHandler;
             @Override
-            public void onClick(View view) {
-                client.button_publish(forwardBtn);
-
+            public boolean onTouch(View v, MotionEvent event) {
+                switch(event.getAction()) {
+                    case MotionEvent.ACTION_DOWN:
+                        if (mHandler != null) return true;
+                        mHandler = new Handler();
+                        mHandler.postDelayed(mAction, 0);
+                        break;
+                    case MotionEvent.ACTION_UP:
+                        if (mHandler == null) return true;
+                        mHandler.removeCallbacks(mAction);
+                        mHandler = null;
+                        break;
+                }
+                return false;
             }
+            Runnable mAction = new Runnable() {
+                @Override public void run() {
+                    client.button_publish(forwardBtn);
+                    mHandler.postDelayed(this, 0);
+                }
+            };
         });
+//        forwardBtn.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View view) {
+//                client.button_publish(forwardBtn);
+//
+//            }
+//        });
 
         rightBtn = (Button) findViewById(R.id.right_button);
-        rightBtn.setOnClickListener(new View.OnClickListener() {
+        rightBtn.setOnTouchListener(new View.OnTouchListener() {
+            private Handler mHandler;
             @Override
-            public void onClick(View view) {
-                client.button_publish(rightBtn);
+            public boolean onTouch(View v, MotionEvent event) {
+                switch(event.getAction()) {
+                    case MotionEvent.ACTION_DOWN:
+                        if (mHandler != null) return true;
+                        mHandler = new Handler();
+                        mHandler.postDelayed(mAction, 0);
+                        break;
+                    case MotionEvent.ACTION_UP:
+                        if (mHandler == null) return true;
+                        mHandler.removeCallbacks(mAction);
+                        mHandler = null;
+                        break;
+                }
+                return false;
             }
+            Runnable mAction = new Runnable() {
+                @Override public void run() {
+                    client.button_publish(rightBtn);
+                    mHandler.postDelayed(this, 0);
+                }
+            };
         });
 
         leftBtn = (Button) findViewById(R.id.left_button);
-        leftBtn.setOnClickListener(new View.OnClickListener() {
+        leftBtn.setOnTouchListener(new View.OnTouchListener() {
+            private Handler mHandler;
             @Override
-            public void onClick(View view) {
-                client.button_publish(leftBtn);
+            public boolean onTouch(View v, MotionEvent event) {
+                switch(event.getAction()) {
+                    case MotionEvent.ACTION_DOWN:
+                        if (mHandler != null) return true;
+                        mHandler = new Handler();
+                        mHandler.postDelayed(mAction, 0);
+                        break;
+                    case MotionEvent.ACTION_UP:
+                        if (mHandler == null) return true;
+                        mHandler.removeCallbacks(mAction);
+                        mHandler = null;
+                        break;
+                }
+                return false;
             }
+            Runnable mAction = new Runnable() {
+                @Override public void run() {
+                    client.button_publish(leftBtn);
+                    mHandler.postDelayed(this, 0);
+                }
+            };
         });
 
         backwardBtn = (Button) findViewById(R.id.backward_button);
-        backwardBtn.setOnClickListener(new View.OnClickListener() {
+        backwardBtn.setOnTouchListener(new View.OnTouchListener() {
+            private Handler mHandler;
             @Override
-            public void onClick(View view) {
-                client.button_publish(backwardBtn);
+            public boolean onTouch(View v, MotionEvent event) {
+                switch(event.getAction()) {
+                    case MotionEvent.ACTION_DOWN:
+                        if (mHandler != null) return true;
+                        mHandler = new Handler();
+                        mHandler.postDelayed(mAction, 0);
+                        break;
+                    case MotionEvent.ACTION_UP:
+                        if (mHandler == null) return true;
+                        mHandler.removeCallbacks(mAction);
+                        mHandler = null;
+                        break;
+                }
+                return false;
             }
+            Runnable mAction = new Runnable() {
+                @Override public void run() {
+                    client.button_publish(backwardBtn);
+                    mHandler.postDelayed(this, 0);
+                }
+            };
         });
 
         breakBtn = (Button) findViewById(R.id.break_button);

@@ -21,12 +21,12 @@ const int ECHO_PIN              = 7; // D7
 const unsigned int MAX_DISTANCE = 300;
 SR04 front(arduinoRuntime, TRIGGER_PIN, ECHO_PIN, MAX_DISTANCE);
 SimpleCar car(control);
-int magnitude;                              //This we will need later
 int latestSpeed = 0;
+int magnitude = 0;
 
 void setup()
 {
-    magnitude = 0;
+
     Serial.begin(9600);
     Serial.setTimeout(200);
 #ifndef __SMCE__
@@ -59,19 +59,13 @@ void handleInput()
 {
     float distance = front.getDistance();
     serialMsg(distance);
-    distanceHandler(0, 100, distance);
+    distanceHandler(0, 200, distance);
 }
 
 void handleObstacle()
 {
-
-   latestSpeed = 0.5 * latestSpeed;
-    car.setSpeed(latestSpeed);        //In here the car will go back in the opposite direction but with the same speed
-//    delay(10);
-//    latestSpeed = 0;
-//    car.setSpeed(latestSpeed);
-//    car.setAngle(50);                //In this line the car will turn while going backward to avoid obstacle
-//    delay(1000);                     //Here we give some time to the poor car to do previous actions
+    magnitude = latestSpeed * 0.4;
+    car.setSpeed(magnitude);
 }
 
 void mqttHandler()
@@ -90,12 +84,12 @@ void mqttHandler()
             } else if (topic == "/Group10/manual/turnleft") {
                 int carAngle = (-1) * message.toInt();
                 car.setAngle(carAngle);
-                delay(500);
+                delay(100);
                 car.setAngle(0);
 
             } else if (topic == "/Group10/manual/turnright") {
                 car.setAngle(message.toInt());
-                delay(500);
+                delay(100);
                 car.setAngle(0);
 
             } else if (topic == "/Group10/manual/break") {

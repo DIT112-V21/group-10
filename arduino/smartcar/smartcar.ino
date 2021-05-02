@@ -22,6 +22,7 @@ const unsigned int MAX_DISTANCE = 300;
 SR04 front(arduinoRuntime, TRIGGER_PIN, ECHO_PIN, MAX_DISTANCE);
 SimpleCar car(control);
 int latestSpeed = 0;
+int latestAngle = 0;
 int magnitude = 0;
 
 void setup()
@@ -75,37 +76,40 @@ void mqttHandler()
         mqtt.onMessage([](String topic, String message) {
             if (topic == "/Group10/manual/forward") {
                 latestSpeed = message.toInt();
+                car.setAngle(latestAngle);
                 car.setSpeed(latestSpeed);
 
             } else if (topic == "/Group10/manual/backward") {
                 latestSpeed = (-1) * message.toInt();
+                car.setAngle(latestAngle);
                 car.setSpeed(latestSpeed);
 
             } else if (topic == "/Group10/manual/turnleft") {
-                int carAngle = (-1) * message.toInt();
-                car.setAngle(carAngle);
-                delay(100);
-                car.setAngle(0);
+                latestAngle = (-1) * message.toInt();
+                car.setAngle(latestAngle);
 
             } else if (topic == "/Group10/manual/turnright") {
-                car.setAngle(message.toInt());
-                delay(100);
-                car.setAngle(0);
+                latestAngle = message.toInt();
+                car.setAngle(latestAngle);
 
             } else if (topic == "/Group10/manual/break") {
                 latestSpeed = 0;
                 car.setSpeed(latestSpeed);
 
-            } else if (topic == "/Group10/manual/accelerateup") {
-                latestSpeed = latestSpeed * 1.3;
+            } /*else if (topic == "/Group10/manual/accelerateup") {
+                latestSpeed = latestSpeed * 1.1;
                 car.setSpeed(latestSpeed);
 
             } else if (topic == "/Group10/manual/acceleratedown") {
-                latestSpeed = latestSpeed * 0.7;
+                latestSpeed = latestSpeed * 0.9;
                 car.setSpeed(latestSpeed);
 
-            } else {
-                Serial.println(topic + " " + message);
+            }*/ else if (topic == "/Group10/manual/nocontrol"){
+                latestSpeed = latestSpeed * 0.8;
+                latestAngle = 0;
+                car.setSpeed(latestSpeed);
+                car.setAngle(latestAngle);
+
             }
 
         });
@@ -118,13 +122,10 @@ void distanceHandler(float lowerBound, float upperBound, float distance)
     {
         handleObstacle();
     }
-//    car.setSpeed(latestSpeed);            //this makes sure the car is back to its forward direction if a turning happened.
-//    car.setAngle(0);                     //and this!
 }
 
 void serialMsg(float distance)
 {
-    
     if (distance > 0 && (currentMillis - startMillis) >= period) { //The user is updated on the distance to an obstacle every 7 seconds
         String msg1 = "There is an obstacle in ";
         String msg2 = " cm.";
@@ -132,27 +133,29 @@ void serialMsg(float distance)
         Serial.print(distance);
         Serial.println(msg2);
         startMillis = currentMillis;
-
     } else if ((currentMillis - startMillis) >= period) {
         String msg = "No obstacle detected.";
         Serial.println(msg);
         startMillis = currentMillis;
     }
+    Serial.print("Current Speed: ");
+    Serial.println(latestSpeed);
+    Serial.print("Current Angle: ");
+    Serial.println(latestAngle);
 }
-void angleMsg(int angle) //This function prints the direction in which the car will be going
-{
-    if(angle > 0){
-        Serial.print("Turning ");
-        Serial.print(angle);
-        Serial.println(" degrees right.");
-    }
-    else if(angle == 0){
-        Serial.println("Going straight ahead.");
-    }
-    else{
-        Serial.print("Turning ");
-        Serial.print(angle);
-        Serial.println(" degrees left.");
-    }
-     
-}
+//void angleMsg()
+//{
+//    if(latestAngle > 0){
+//        Serial.print("Turning ");
+//        Serial.print(latestAngle);
+//        Serial.println(" degrees right.");
+//    }
+//    else if(latestAngle == 0){
+//        Serial.println("Going straight ahead.");
+//    }
+//    else{
+//        Serial.print("Turning ");
+//        Serial.print(latestAngle);
+//        Serial.println(" degrees left.");
+//    }
+//}

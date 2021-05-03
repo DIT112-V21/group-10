@@ -5,7 +5,9 @@
 /.idea/libraries
 /.idea/modules.xml
 /.idea/workspace.xml
+src/.idea/workspace.xml
 /.idea/navEditor.xml
+/sdk/
 /.idea/assetWizardSettings.xml
 .DS_Store
 /build

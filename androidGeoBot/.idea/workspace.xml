@@ -2,7 +2,9 @@
 <project version="4">
   <component name="AndroidLayouts">
     <shared>
-      <config />
+      <config>
+        <device id="pixel_3a" />
+      </config>
     </shared>
   </component>
   <component name="AndroidLogFilters">
@@ -27,28 +29,16 @@
     <select />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="f8bba8a3-dd1b-43e7-b788-5a357cfbf97e" name="Default Changelist" comment="Cleaned up the code in ManualActivity.&#10;Changed title name of the app to Tank.&#10;Added some comments here and there to explain the code a bit.&#10;Moved Client and MqttClient to a utility package.&#10;Fixed some minor issues in the .xml files">
-      <change beforePath="$PROJECT_DIR$/.gradle/6.5/fileHashes/fileHashes.lock" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/6.5/fileHashes/fileHashes.lock" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.gradle/buildOutputCleanup/buildOutputCleanup.lock" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/buildOutputCleanup/buildOutputCleanup.lock" afterDir="false" />
+    <list default="true" id="f8bba8a3-dd1b-43e7-b788-5a357cfbf97e" name="Default Changelist" comment="Cleaned up the code in ManualActivity.&#10;Cleaned up the UI by changing the name of the app title and removing old pages.&#10;Added some comments here and there to explain the code a bit.&#10;Moved Client and MqttClient to a utility package.&#10;Fixed some minor issues in the .xml files">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/AndroidManifest.xml" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/AndroidManifest.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/example/androidgeobot/Client.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/example/androidgeobot/utilities/Client.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/example/androidgeobot/MainActivity.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/example/androidgeobot/MainActivity.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/example/androidgeobot/ManualActivity.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/example/androidgeobot/ManualActivity.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/example/androidgeobot/MapsActivity.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/example/androidgeobot/MqttClient.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/example/androidgeobot/utilities/MqttClient.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/res/layout/activity_auto.xml" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/res/layout/activity_auto.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/res/layout/activity_main.xml" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/res/layout/activity_main.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/app/src/main/res/layout/activity_manual.xml" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/res/layout/activity_manual.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/res/layout/activity_maps.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/res/values/strings.xml" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/res/values/strings.xml" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
     <option name="LAST_RESOLUTION" value="IGNORE" />
   </component>
-  <component name="ExecutionTargetManager" SELECTED_TARGET="device_and_snapshot_combo_box_target[Pixel_3_API_29]" />
+  <component name="ExecutionTargetManager" SELECTED_TARGET="device_and_snapshot_combo_box_target[]" />
   <component name="ExternalProjectsData">
     <projectState path="$PROJECT_DIR$">
       <ProjectState />
@@ -217,7 +207,8 @@
     <MESSAGE value="primary changes in holding joystick buttons" />
     <MESSAGE value="changes in holding buttons are completely done" />
     <MESSAGE value="Cleaned up the code in ManualActivity.&#10;Changed title name of the app to Tank.&#10;Added some comments here and there to explain the code a bit.&#10;Moved Client and MqttClient to a utility package.&#10;Fixed some minor issues in the .xml files" />
-    <option name="LAST_COMMIT_MESSAGE" value="Cleaned up the code in ManualActivity.&#10;Changed title name of the app to Tank.&#10;Added some comments here and there to explain the code a bit.&#10;Moved Client and MqttClient to a utility package.&#10;Fixed some minor issues in the .xml files" />
+    <MESSAGE value="Cleaned up the code in ManualActivity.&#10;Cleaned up the UI by changing the name of the app title and removing old pages.&#10;Added some comments here and there to explain the code a bit.&#10;Moved Client and MqttClient to a utility package.&#10;Fixed some minor issues in the .xml files" />
+    <option name="LAST_COMMIT_MESSAGE" value="Cleaned up the code in ManualActivity.&#10;Cleaned up the UI by changing the name of the app title and removing old pages.&#10;Added some comments here and there to explain the code a bit.&#10;Moved Client and MqttClient to a utility package.&#10;Fixed some minor issues in the .xml files" />
   </component>
   <component name="WindowStateProjectService">
     <state x="484" y="0" key="#app" timestamp="1619620562525">
@@ -237,10 +228,10 @@
       <screen x="0" y="0" width="1857" height="1080" />
     </state>
     <state x="776" y="348" key="AndroidCreateXmlResourceDialog/0.0.1857.1080@0.0.1857.1080" timestamp="1620031447858" />
-    <state x="516" y="105" width="1001" height="869" key="CommitChangelistDialog2" timestamp="1620030900515">
+    <state x="516" y="105" width="1108" height="869" key="CommitChangelistDialog2" timestamp="1620032117236">
       <screen x="0" y="0" width="1857" height="1080" />
     </state>
-    <state x="516" y="105" width="1001" height="869" key="CommitChangelistDialog2/0.0.1857.1080@0.0.1857.1080" timestamp="1620030900515" />
+    <state x="516" y="105" width="1108" height="869" key="CommitChangelistDialog2/0.0.1857.1080@0.0.1857.1080" timestamp="1620032117236" />
     <state x="549" y="167" key="FileChooserDialogImpl" timestamp="1619620570023">
       <screen x="0" y="0" width="1536" height="824" />
     </state>

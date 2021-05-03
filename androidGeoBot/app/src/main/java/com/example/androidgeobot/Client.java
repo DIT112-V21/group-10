@@ -1,10 +1,13 @@
 package com.example.androidgeobot;
 import android.content.Context;
+import android.graphics.Bitmap;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
+import android.widget.ImageView;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -36,6 +39,7 @@ public class Client {
     private static final String ACCELERATE = "/Group10/manual/accelerateup";
     private static final String DECELERATE = "/Group10/manual/acceleratedown";
 
+    private static final String CAMERA = "/Group10/camera";
     private static final String ULTRASOUND_FRONT = "/Group10/sensor/ultrasound/front";
     private static final int SPEED = 10;
     private static final int ANGLE = 40;
@@ -47,6 +51,8 @@ public class Client {
     private static final String MQTT_SERVER = "tcp://" + LOCAL_MQTT + ":1883";
     private static final int QOS = 1;
     private boolean isConnected = false;
+    private static final int IMAGE_WIDTH = 320;
+    private static final int IMAGE_HEIGHT = 240;
     private Context context;
 
     public Client(Context context){
@@ -66,6 +72,7 @@ public class Client {
 
                 mqttClient.subscribe(ULTRASOUND_FRONT, QOS, null);
                 //mqttClient.subscribe("/Group10/manual/#", QOS, null);
+                mqttClient.subscribe(CAMERA,QOS,null);
                 isConnected = true;
 
             }
@@ -95,7 +102,24 @@ public class Client {
                      Log.i(TAG, "[MQTT] Topic: " + topic + " | Message: " + message.toString());
 
 
-                } else {
+                } else if(topic.equals(CAMERA)) {
+                    final Bitmap bm = Bitmap.createBitmap(IMAGE_WIDTH, IMAGE_HEIGHT, Bitmap.Config.ARGB_8888);
+
+                    final byte[] payload = message.getPayload();
+                    final int[] colors = new int[IMAGE_WIDTH * IMAGE_HEIGHT];
+                    for (int ci = 0; ci < colors.length; ++ci) {
+                        final byte r = payload[3 * ci];
+                        final byte g = payload[3 * ci + 1];
+                        final byte b = payload[3 * ci + 2];
+                        colors[ci] = Color.rgb(r, g, b);
+                    }
+                    bm.setPixels(colors, 0, IMAGE_WIDTH, 0, 0, IMAGE_WIDTH, IMAGE_HEIGHT);
+
+                    ManualActivity manualActivity = new ManualActivity();
+                    manualActivity.setBitMap(bm);
+                }
+
+                else {
                     Log.i(TAG, "[MQTT] Topic: " + topic + " | Message: " + message.toString());
                 }
             }

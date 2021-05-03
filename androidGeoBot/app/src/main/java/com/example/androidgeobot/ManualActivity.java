@@ -1,10 +1,13 @@
 package com.example.androidgeobot;
 
+import android.graphics.Bitmap;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.Toast;
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -12,6 +15,7 @@ public class ManualActivity extends AppCompatActivity {
     //joystick buttons
     private Button forwardBtn, leftBtn, rightBtn, backwardBtn, breakBtn, acceleration , deceleration
             , backBtn;
+    private ImageView mCameraView;
     private Client client;
     private static final String FAIL = "CONNECTION TO GEOBOT COULD NOT BE ESTABLISHED";
     private static final String SUCCESS = "CONNECTION TO GEOBOT ESTABLISHED";
@@ -25,6 +29,8 @@ public class ManualActivity extends AppCompatActivity {
         getSupportActionBar().hide();
         this.getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,
                 WindowManager.LayoutParams.FLAG_FULLSCREEN);
+
+        mCameraView = findViewById(R.id.cameraView);
 
         setContentView(R.layout.activity_manual);
 
@@ -105,5 +111,8 @@ public class ManualActivity extends AppCompatActivity {
                 finish();
             }
         });
+    }
+    public void setBitMap(Bitmap bm){
+        mCameraView.setImageBitmap(bm);
     }
 }

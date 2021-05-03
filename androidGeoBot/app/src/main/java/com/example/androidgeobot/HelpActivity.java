@@ -24,7 +24,7 @@ public class HelpActivity extends AppCompatActivity {
 
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
-        pdfview.fromAsset("geobot_docs18.pdf").load();
+        pdfview.fromAsset("manual.pdf").load();
 
     }
 }

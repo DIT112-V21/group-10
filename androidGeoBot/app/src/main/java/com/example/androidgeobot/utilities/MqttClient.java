@@ -1,4 +1,4 @@
-package com.example.androidgeobot;
+package com.example.androidgeobot.utilities;
 
 
 import org.eclipse.paho.client.mqttv3.*;

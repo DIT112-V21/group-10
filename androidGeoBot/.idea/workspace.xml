@@ -9,12 +9,16 @@
     <option name="TOOL_WINDOW_CONFIGURED_FILTER" value="Show only selected application" />
   </component>
   <component name="ChangeListManager">
+<<<<<<< Updated upstream
     <list default="true" id="f8bba8a3-dd1b-43e7-b788-5a357cfbf97e" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/.gradle/6.5/fileHashes/fileHashes.lock" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/6.5/fileHashes/fileHashes.lock" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.gradle/buildOutputCleanup/buildOutputCleanup.lock" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/buildOutputCleanup/buildOutputCleanup.lock" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/app/src/main/java/com/example/androidgeobot/Client.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/example/androidgeobot/Client.java" afterDir="false" />
     </list>
+=======
+    <list default="true" id="f8bba8a3-dd1b-43e7-b788-5a357cfbf97e" name="Default Changelist" comment="" />
+>>>>>>> Stashed changes
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -45,7 +49,14 @@
   <component name="PropertiesComponent">
     <property name="RunOnceActivity.OpenProjectViewOnStart" value="true" />
     <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
+<<<<<<< Updated upstream
     <property name="last_opened_file_path" value="$PROJECT_DIR$" />
+=======
+    <property name="android-custom-viewC:/Users/marye/AppData/Local/Android/Sdk/sources/android-30/android/view/View.java_SELECTED" value="View" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$/../../../../Skrivbord/androidGeoBot" />
+    <property name="multi-representation-previewC:/Users/marye/AppData/Local/Android/Sdk/sources/android-30/android/view/View.java_selected" value="Custom views" />
+    <property name="settings.editor.selected.configurable" value="preferences.lookFeel" />
+>>>>>>> Stashed changes
   </component>
   <component name="RunManager">
     <configuration default="true" type="AndroidJUnit" factoryName="Android JUnit">
@@ -131,8 +142,18 @@
       <screen x="0" y="0" width="2560" height="1400" />
     </state>
     <state x="771" y="813" key="#com.intellij.ide.util.MemberChooser/0.0.2560.1400@0.0.2560.1400" timestamp="1618591494888" />
+<<<<<<< Updated upstream
     <state width="1905" height="180" key="GridCell.Tab.0.bottom" timestamp="1618640918488">
       <screen x="0" y="0" width="2560" height="1400" />
+=======
+    <state x="915" y="284" key="FileChooserDialogImpl" timestamp="1619106829954">
+      <screen x="0" y="0" width="2560" height="1400" />
+    </state>
+    <state x="549" y="167" key="FileChooserDialogImpl/0.0.1536.824@0.0.1536.824" timestamp="1618833488478" />
+    <state x="915" y="284" key="FileChooserDialogImpl/0.0.2560.1400@0.0.2560.1400" timestamp="1619106829954" />
+    <state width="1491" height="258" key="GridCell.Tab.0.bottom" timestamp="1618844725981">
+      <screen x="0" y="0" width="1536" height="824" />
+>>>>>>> Stashed changes
     </state>
     <state width="1905" height="180" key="GridCell.Tab.0.bottom/0.0.2560.1400@0.0.2560.1400" timestamp="1618640918488" />
     <state width="1905" height="180" key="GridCell.Tab.0.center" timestamp="1618640918488">

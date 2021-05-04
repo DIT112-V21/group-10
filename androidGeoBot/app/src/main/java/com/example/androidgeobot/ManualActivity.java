@@ -15,6 +15,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import java.util.ArrayList;
 import java.util.List;
+import androidx.appcompat.app.AppCompatActivity;
 
 public class ManualActivity extends AppCompatActivity {
 
@@ -23,12 +24,6 @@ public class ManualActivity extends AppCompatActivity {
     private Client client;
     private static final String FAIL = "CONNECTION TO GEOBOT COULD NOT BE ESTABLISHED";
     private static final String SUCCESS = "CONNECTION TO GEOBOT ESTABLISHED";
-
-
-import androidx.appcompat.app.AppCompatActivity;
-
-public class ManualActivity extends AppCompatActivity {
-    private Button buttonGoBack;
 
 
     @Override
@@ -94,8 +89,6 @@ public class ManualActivity extends AppCompatActivity {
                 client.publish(reverseBtn);
             }
         }); */
-=======
-
 
         buttonGoBack = (Button) findViewById(R.id.button_back);
         buttonGoBack.setOnClickListener(new View.OnClickListener() {

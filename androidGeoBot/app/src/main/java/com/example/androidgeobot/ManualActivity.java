@@ -1,7 +1,6 @@
 package com.example.androidgeobot;
 
 import android.graphics.Bitmap;
-import android.graphics.Color;
 import android.os.Bundle;
 import android.view.View;
 import android.view.Window;
@@ -11,12 +10,13 @@ import android.widget.ImageView;
 import android.widget.Toast;
 import androidx.appcompat.app.AppCompatActivity;
 
-public class ManualActivity extends AppCompatActivity {
+
+public class ManualActivity extends AppCompatActivity{
     //joystick buttons
     private Button forwardBtn, leftBtn, rightBtn, backwardBtn, breakBtn, acceleration , deceleration
             , backBtn;
-    private ImageView mCameraView;
     private Client client;
+    public ImageView mCameraView;
     private static final String FAIL = "CONNECTION TO GEOBOT COULD NOT BE ESTABLISHED";
     private static final String SUCCESS = "CONNECTION TO GEOBOT ESTABLISHED";
 
@@ -30,13 +30,13 @@ public class ManualActivity extends AppCompatActivity {
         this.getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,
                 WindowManager.LayoutParams.FLAG_FULLSCREEN);
 
-        mCameraView = findViewById(R.id.cameraView);
-
         setContentView(R.layout.activity_manual);
+        this.mCameraView = (ImageView)findViewById(R.id.cameraView);
 
         this.client = new Client(this);
 
-        if (!client.connect()) {
+
+        if (!client.connect(null,null,null,null)) {
             Toast.makeText(this, FAIL, Toast.LENGTH_SHORT).show();
         } else{
             Toast.makeText(this, SUCCESS, Toast.LENGTH_SHORT).show();
@@ -88,21 +88,21 @@ public class ManualActivity extends AppCompatActivity {
             }
         });
 
-       acceleration = (Button) findViewById(R.id.accelerate_up);
-       acceleration.setOnClickListener(new View.OnClickListener() {
-           @Override
-           public void onClick(View view) {
-               client.button_publish(acceleration);
-           }
-       });
+        acceleration = (Button) findViewById(R.id.accelerate_up);
+        acceleration.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                client.button_publish(acceleration);
+            }
+        });
 
-       deceleration = (Button) findViewById(R.id.accelerate_down);
-       deceleration.setOnClickListener(new View.OnClickListener() {
-           @Override
-           public void onClick(View v) {
-               client.button_publish(deceleration);
-           }
-       });
+        deceleration = (Button) findViewById(R.id.accelerate_down);
+        deceleration.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                client.button_publish(deceleration);
+            }
+        });
 
         backBtn = (Button) findViewById(R.id.button_back);
         backBtn.setOnClickListener(new View.OnClickListener() {
@@ -112,7 +112,8 @@ public class ManualActivity extends AppCompatActivity {
             }
         });
     }
-    public void setBitMap(Bitmap bm){
-        mCameraView.setImageBitmap(bm);
+
+    public void setBitmap(Bitmap bm){
+        this.mCameraView.setImageBitmap(bm);
     }
 }

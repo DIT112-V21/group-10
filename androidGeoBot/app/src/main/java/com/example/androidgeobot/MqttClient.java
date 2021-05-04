@@ -4,10 +4,8 @@ package com.example.androidgeobot;
 import org.eclipse.paho.client.mqttv3.*;
 import android.content.Context;
 import android.util.Log;
-import android.widget.Toast;
 
 import org.eclipse.paho.android.service.MqttAndroidClient;
-import org.eclipse.paho.client.mqttv3.*;
 
 // Adapted from: https://medium.com/swlh/android-and-mqtt-a-simple-guide-cb0cbba1931c
 
@@ -21,7 +19,7 @@ public class MqttClient {
         mMqttAndroidClient = new MqttAndroidClient(context, serverUrl, clientId);
     }
 
-    public void connect(String username, String password, IMqttActionListener connectionCallback, MqttCallback clientCallback) {
+    public boolean connect(String username, String password, IMqttActionListener connectionCallback, MqttCallback clientCallback) {
         mMqttAndroidClient.setCallback(clientCallback);
         MqttConnectOptions options = new MqttConnectOptions();
         options.setUserName(username);
@@ -34,7 +32,9 @@ public class MqttClient {
         } catch (MqttException e) {
             Log.i("mqtt", "no connection");
             e.printStackTrace();
+            return false;
         }
+        return true;
     }
 
     public void disconnect(IMqttActionListener disconnectionCallback) {

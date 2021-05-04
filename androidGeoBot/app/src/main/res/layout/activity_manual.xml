@@ -6,13 +6,13 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:background="@drawable/bg_top_gradient"
-        tools:context=".MapsActivity">
+        tools:context=".ManualActivity">
 
     <ImageView
             android:id="@+id/imageView3"
             android:layout_width="263dp"
             android:layout_height="160dp"
-            android:contentDescription="TODO"
+            android:contentDescription="@string/app_title"
             android:src="@drawable/robo"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
@@ -42,7 +42,8 @@
             app:layout_constraintHorizontal_bias="0.492"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/imageView3"
-            app:layout_constraintVertical_bias="0.506" />
+            app:layout_constraintVertical_bias="0.506"
+            android:contentDescription="@string/joystick" />
 
     <androidx.appcompat.widget.AppCompatButton
         android:id="@+id/forward_button"

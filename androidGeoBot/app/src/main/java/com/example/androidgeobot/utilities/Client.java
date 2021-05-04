@@ -1,18 +1,11 @@
-package com.example.androidgeobot;
+package com.example.androidgeobot.utilities;
 import android.content.Context;
-import android.os.Bundle;
 import android.util.Log;
-import android.view.View;
-import android.view.Window;
-import android.view.WindowManager;
 import android.widget.Toast;
-
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.constraintlayout.widget.ConstraintLayout;
 
 import android.widget.Button;
 
-import com.google.android.material.snackbar.Snackbar;
+import com.example.androidgeobot.R;
 
 import org.eclipse.paho.client.mqttv3.IMqttActionListener;
 import org.eclipse.paho.client.mqttv3.IMqttDeliveryToken;
@@ -20,13 +13,14 @@ import org.eclipse.paho.client.mqttv3.IMqttToken;
 import org.eclipse.paho.client.mqttv3.MqttCallback;
 import org.eclipse.paho.client.mqttv3.MqttMessage;
 
-import java.util.ArrayList;
-
 // Helper class between actual MqttClient and activities
 //
 public class Client {
 
     protected MqttClient mqttClient;
+    private Context context;
+
+    // Topics to update to
     private static final String FAIL = "CONNECTION TO GEOBOT COULD NOT BE ESTABLISHED";
     private static final String FORWARD_CONTROL = "/Group10/manual/forward";
     private static final String BACKWARD_CONTROL = "/Group10/manual/backward";
@@ -36,18 +30,22 @@ public class Client {
     private static final String ACCELERATE = "/Group10/manual/accelerateup";
     private static final String DECELERATE = "/Group10/manual/acceleratedown";
 
+    // Topics to get data from
     private static final String ULTRASOUND_FRONT = "/Group10/sensor/ultrasound/front";
+
+    // Message attributes
     private static final int SPEED = 100;
     private static final int ANGLE = 30;
 //    private static final int LEFT_TURN = -75;
 //    private static final int RESET_ANGLE = 0;
+
+    // Connection attributes
     private static final String TAG = "localhost";
     private static final String MQTT_BROKER = "aerostun.dev";
     private static final String LOCAL_MQTT = "10.0.2.2";
     private static final String MQTT_SERVER = "tcp://" + LOCAL_MQTT + ":1883";
     private static final int QOS = 1;
     private boolean isConnected = false;
-    private Context context;
 
     public Client(Context context){
         this.context = context;
@@ -110,8 +108,7 @@ public class Client {
 
 
 // Depending on ID of button the method sends appropriate messages to relevant topic.
-    protected void button_publish(Button button){
-
+    public void button_publish(Button button){
         if(!(button == null) && isConnected){
             switch (button.getId()){
 
@@ -154,12 +151,5 @@ public class Client {
             Toast.makeText(context, "Connection not established", Toast.LENGTH_SHORT).show();
 
         }
-
-
-
     }
-
-
-
-
 }

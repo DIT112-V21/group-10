@@ -21,12 +21,13 @@ const int ECHO_PIN              = 7; // D7
 const unsigned int MAX_DISTANCE = 300;
 SR04 front(arduinoRuntime, TRIGGER_PIN, ECHO_PIN, MAX_DISTANCE);
 SimpleCar car(control);
-int magnitude;                              //This we will need later
 int latestSpeed = 0;
+int latestAngle = 0;
+int magnitude = 0;
 
 void setup()
 {
-    magnitude = 0;
+
     Serial.begin(9600);
     Serial.setTimeout(200);
 #ifndef __SMCE__
@@ -60,40 +61,13 @@ void handleInput()
     float distance = front.getDistance();
     serialMsg(distance);
     distanceHandler(0, 200, distance);
-//    if (Serial.available())            //If the user enters input in the serial The car must move according to that input.
-//    {
-//        String input = Serial.readStringUntil('\n');
-//        serialReader(input);
-//        distanceHandler(0, 200, distance);
-//    } else {
-//        distanceHandler(0, 200, distance);
-//    }
 }
 
 void handleObstacle()
 {
-    car.setSpeed(-latestSpeed);        //In here the car will go back in the opposite direction but with the same speed
-    car.setAngle(50);                //In this line the car will turn while going backward to avoid obstacle
-    delay(1000);                     //Here we give some time to the poor car to do previous actions
+    magnitude = latestSpeed * 0.4;
+    car.setSpeed(magnitude);
 }
-
-//void serialReader(String input)
-//{
-//    if (input.startsWith("m"))
-//    {
-//        int cSpeed = input.substring(1).toInt();
-//
-//        car.setSpeed(latestSpeed);
-//        Serial.print("Current speed is ");
-//        Serial.println(latestSpeed);
-//    } else if (input.startsWith("t"))
-//    {
-//        int cAngle = input.substring(1).toInt();
-//        car.setAngle(cAngle);
-//        angleMsg(cAngle);
-//        delay(600);    //This delay is needed for the car to turn in a short while and then go back to its straight direction,
-//    }                 // because we dont want the car to to turn around itself for no reason!
-//}
 
 void mqttHandler()
 {
@@ -102,38 +76,42 @@ void mqttHandler()
         mqtt.onMessage([](String topic, String message) {
             if (topic == "/Group10/manual/forward") {
                 latestSpeed = message.toInt();
+                car.setAngle(latestAngle);
                 car.setSpeed(latestSpeed);
 
             } else if (topic == "/Group10/manual/backward") {
                 latestSpeed = (-1) * message.toInt();
+                car.setAngle(latestAngle);
                 car.setSpeed(latestSpeed);
 
             } else if (topic == "/Group10/manual/turnleft") {
-                int carAngle = (-1) * message.toInt();
-                car.setAngle(carAngle);
-                delay(500);
-                car.setAngle(0);
+                latestAngle = (-1) * message.toInt();
+                car.setAngle(latestAngle);
 
             } else if (topic == "/Group10/manual/turnright") {
-                car.setAngle(message.toInt());
-                delay(500);
-                car.setAngle(0);
+                latestAngle = message.toInt();
+                car.setAngle(latestAngle);
 
             } else if (topic == "/Group10/manual/break") {
                 latestSpeed = 0;
                 car.setSpeed(latestSpeed);
 
-            } else if (topic == "/Group10/manual/accelerateup") {
-                latestSpeed = latestSpeed * 1.3;
+            } /*else if (topic == "/Group10/manual/accelerateup") {
+                latestSpeed = latestSpeed * 1.1;
                 car.setSpeed(latestSpeed);
 
             } else if (topic == "/Group10/manual/acceleratedown") {
-                latestSpeed = latestSpeed * 0.7;
+                latestSpeed = latestSpeed * 0.9;
                 car.setSpeed(latestSpeed);
 
-            } else {
-                Serial.println(topic + " " + message);
+            }*/ else if (topic == "/Group10/manual/nocontrol"){
+                latestSpeed = latestSpeed * 0.8;
+                latestAngle = 0;
+                car.setSpeed(latestSpeed);
+                car.setAngle(latestAngle);
+
             }
+
         });
     }
 }
@@ -144,13 +122,10 @@ void distanceHandler(float lowerBound, float upperBound, float distance)
     {
         handleObstacle();
     }
-    car.setSpeed(latestSpeed);            //this makes sure the car is back to its forward direction if a turning happened.
-    car.setAngle(0);                     //and this!
 }
 
 void serialMsg(float distance)
 {
-    
     if (distance > 0 && (currentMillis - startMillis) >= period) { //The user is updated on the distance to an obstacle every 7 seconds
         String msg1 = "There is an obstacle in ";
         String msg2 = " cm.";
@@ -158,27 +133,29 @@ void serialMsg(float distance)
         Serial.print(distance);
         Serial.println(msg2);
         startMillis = currentMillis;
-
     } else if ((currentMillis - startMillis) >= period) {
         String msg = "No obstacle detected.";
         Serial.println(msg);
         startMillis = currentMillis;
     }
+    Serial.print("Current Speed: ");
+    Serial.println(latestSpeed);
+    Serial.print("Current Angle: ");
+    Serial.println(latestAngle);
 }
-void angleMsg(int angle) //This function prints the direction in which the car will be going
-{
-    if(angle > 0){
-        Serial.print("Turning ");
-        Serial.print(angle);
-        Serial.println(" degrees right.");
-    }
-    else if(angle == 0){
-        Serial.println("Going straight ahead.");
-    }
-    else{
-        Serial.print("Turning ");
-        Serial.print(angle);
-        Serial.println(" degrees left.");
-    }
-     
-}
+//void angleMsg()
+//{
+//    if(latestAngle > 0){
+//        Serial.print("Turning ");
+//        Serial.print(latestAngle);
+//        Serial.println(" degrees right.");
+//    }
+//    else if(latestAngle == 0){
+//        Serial.println("Going straight ahead.");
+//    }
+//    else{
+//        Serial.print("Turning ");
+//        Serial.print(latestAngle);
+//        Serial.println(" degrees left.");
+//    }
+//}

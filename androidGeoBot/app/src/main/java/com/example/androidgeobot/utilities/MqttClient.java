@@ -1,11 +1,13 @@
-package com.example.androidgeobot;
+package com.example.androidgeobot.utilities;
 
 
 import org.eclipse.paho.client.mqttv3.*;
 import android.content.Context;
 import android.util.Log;
+import android.widget.Toast;
 
 import org.eclipse.paho.android.service.MqttAndroidClient;
+
 
 // Adapted from: https://medium.com/swlh/android-and-mqtt-a-simple-guide-cb0cbba1931c
 

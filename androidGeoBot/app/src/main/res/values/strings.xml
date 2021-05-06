@@ -1,3 +1,11 @@
 <resources>
-    <string name="app_name">AndroidGeoBot</string>
+    <string name="app_name">AndroidTank</string>
+    <string name="app_title">Tank</string>
+    <string name="joystick">Joystick</string>
+    <string name="mountain_image">mountain_image</string>
+    <string name="back">back</string>
+    <string name="manual">Manual</string>
+    <string name="autopilot">Autopilot</string>
+    <string name="help">help</string>
+    <string name="cameraview">cameraView</string>
 </resources>

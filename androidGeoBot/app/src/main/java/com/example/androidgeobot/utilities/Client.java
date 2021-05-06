@@ -1,13 +1,16 @@
-package com.example.androidgeobot;
+package com.example.androidgeobot.utilities;
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.Color;
 import android.util.Log;
 import android.widget.ImageView;
+import android.util.Log;
 import android.widget.Toast;
 
 import android.widget.Button;
 
+import com.example.androidgeobot.ManualActivity;
+import com.example.androidgeobot.R;
 import org.eclipse.paho.client.mqttv3.IMqttActionListener;
 import org.eclipse.paho.client.mqttv3.IMqttDeliveryToken;
 import org.eclipse.paho.client.mqttv3.IMqttToken;
@@ -18,6 +21,9 @@ import org.eclipse.paho.client.mqttv3.MqttMessage;
 //
 public class Client extends MqttClient {
 
+    protected MqttClient mqttClient;
+
+    // Topics to update to
     private static final String FAIL = "CONNECTION TO GEOBOT COULD NOT BE ESTABLISHED";
     private static final String FORWARD_CONTROL = "/Group10/manual/forward";
     private static final String BACKWARD_CONTROL = "/Group10/manual/backward";
@@ -28,9 +34,17 @@ public class Client extends MqttClient {
     private static final String DECELERATE = "/Group10/manual/acceleratedown";
     private static final int IMAGE_WIDTH = 320;
     private static final int IMAGE_HEIGHT = 240;
+
+    // Topics to get data from
     private static final String ULTRASOUND_FRONT = "/Group10/sensor/ultrasound/front";
-    private static final int SPEED = 10;
-    private static final int ANGLE = 75;
+
+    // Message attributes
+    private static final int SPEED = 100;
+    private static final int ANGLE = 30;
+//    private static final int LEFT_TURN = -75;
+//    private static final int RESET_ANGLE = 0;
+
+    // Connection attributes
     private static final String TAG = "localhost";
     private static final String MQTT_BROKER = "aerostun.dev";
     private static final String LOCAL_MQTT = "10.0.2.2";
@@ -130,53 +144,52 @@ public class Client extends MqttClient {
 
 
 
-    // Depending on ID of button the method sends appropriate messages to relevant topic.
-    protected void button_publish(Button button){
 
-        if(!(button == null) && isConnected){
-            switch (button.getId()){
+// Depending on ID of button the method sends appropriate messages to relevant topic.
+        public void button_publish(Button button){
+            if(!(button == null) && isConnected){
+                switch (button.getId()){
 
-                case R.id.forward_button:
-                    publish(FORWARD_CONTROL, Integer.toString(0),QOS, null);
-                    break;
+                    case R.id.forward_button:
+                        publish(FORWARD_CONTROL, Integer.toString(SPEED),QOS, null);
+                        break;
 
-                case R.id.backward_button:
-                    publish(BACKWARD_CONTROL, Integer.toString(-10),QOS, null);
-                    break;
+                    case R.id.backward_button:
+                        publish(BACKWARD_CONTROL, Integer.toString(SPEED),QOS, null);
+                        break;
 
-                case R.id.right_button:
-                    publish(TURN_RIGHT, Integer.toString(ANGLE),QOS, null);
-                    break;
+                    case R.id.right_button:
+                        publish(TURN_RIGHT, Integer.toString(ANGLE),QOS, null);
+                        break;
 
-                case R.id.left_button:
-                    publish(TURN_LEFT, Integer.toString(-ANGLE),QOS,null);
-                    break;
+                    case R.id.left_button:
+                        publish(TURN_LEFT, Integer.toString(ANGLE),QOS,null);
+                        break;
 
-                case R.id.accelerate_up:
-                    publish(ACCELERATE, Integer.toString(20),QOS,null);
-                    break;
+//               case R.id.accelerate_up:
+//                   mqttClient.publish(ACCELERATE, Integer.toString(SPEED),QOS,null);
+//                   break;
+//
+//               case R.id.accelerate_down:
+//                   mqttClient.publish(DECELERATE, Integer.toString(SPEED),QOS,null);
+//                   break;
 
-                case R.id.accelerate_down:
-                    publish(DECELERATE, Integer.toString(SPEED),QOS,null);
-                    break;
+                    case R.id.break_button:
+                        publish(BREAK, Integer.toString(0),QOS,null);
+                        break;
 
-                case R.id.break_button:
-                    publish(BREAK, Integer.toString(0),QOS,null);
-                    break;
+                    default:
+                }
+            } else if((button == null) && isConnected) {
 
+                publish("/Group10/manual/nocontrol", Integer.toString(0),QOS,null);
 
-                default:
+            } else {
+
+                Toast.makeText(context, "Connection not established", Toast.LENGTH_SHORT).show();
+
             }
-        }else {
-            Toast.makeText(context, "Connection not established", Toast.LENGTH_SHORT).show();
-
         }
-
-
-
-    }
-
-
-
-
 }
+
+

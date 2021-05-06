@@ -1,5 +1,6 @@
 package com.example.androidgeobot;
 
+import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
@@ -8,6 +9,8 @@ import android.view.WindowManager;
 import android.widget.Button;
 
 import androidx.appcompat.app.AppCompatActivity;
+
+import java.util.Objects;
 
 public class MainActivity extends AppCompatActivity {
     private Button buttonLaunchManualAc,
@@ -21,16 +24,15 @@ public class MainActivity extends AppCompatActivity {
 
         // Stops the title and the top action bar from displaying and sets window to fullscreen.
         requestWindowFeature(Window.FEATURE_NO_TITLE);
-        getSupportActionBar().hide();
+        Objects.requireNonNull(getSupportActionBar()).hide();
         this.getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,
                 WindowManager.LayoutParams.FLAG_FULLSCREEN);
 
         setContentView(R.layout.activity_main);
 
-        buttonLaunchManualAc = (Button) findViewById(R.id.button_manual);
-        buttonLaunchAutoAc = (Button) findViewById(R.id.button_autopilot);
-        buttonLaunchMapsAc = (Button) findViewById(R.id.button_maps);
-        buttonLaunchHelpAc = (Button) findViewById(R.id.button_help);
+        buttonLaunchManualAc = findViewById(R.id.button_manual);
+        buttonLaunchAutoAc = findViewById(R.id.button_autopilot);
+        buttonLaunchHelpAc = findViewById(R.id.button_help);
 
         // Creates onClickListener for the buttons.
         // Does the same thing as the lambdas below. Lines with "->".
@@ -41,7 +43,6 @@ public class MainActivity extends AppCompatActivity {
             }
         });
         buttonLaunchAutoAc.setOnClickListener(view -> switchActivities(AutoActivity.class));
-        buttonLaunchMapsAc.setOnClickListener(view -> switchActivities(MapsActivity.class));
         buttonLaunchHelpAc.setOnClickListener(view -> switchActivities(HelpActivity.class));
 
     }

@@ -8,6 +8,7 @@
     android:background="@drawable/bg_top_gradient"
     tools:context=".ManualActivity">
 
+
     <androidx.appcompat.widget.AppCompatButton
         android:id="@+id/button_back"
         android:layout_width="50dp"
@@ -110,6 +111,7 @@
                 app:layout_constraintEnd_toEndOf="@+id/steering_wheel"
                 app:layout_constraintStart_toStartOf="@+id/steering_wheel"
                 app:layout_constraintTop_toTopOf="@+id/steering_wheel" />
+
 
 
             <androidx.appcompat.widget.AppCompatButton

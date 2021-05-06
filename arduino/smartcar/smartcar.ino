@@ -1,6 +1,11 @@
 #include <vector>
+
 #include <MQTT.h>
 #include <WiFi.h>
+#ifdef __SMCE__
+#include <OV767X.h>
+#endif
+
 #include <Smartcar.h>
 
 #ifndef __SMCE__
@@ -9,7 +14,7 @@ WiFiClient net;
 MQTTClient mqtt;
 
 ArduinoRuntime arduinoRuntime;
-unsigned long startMillis;  
+unsigned long startMillis;
 unsigned long currentMillis;
 const unsigned long period = 7000; //7 seconds
 const auto oneSecond = 1000UL;
@@ -25,12 +30,19 @@ int latestSpeed = 0;
 int latestAngle = 0;
 int magnitude = 0;
 
+std::vector<char> frameBuffer;
+
 void setup()
 {
 
     Serial.begin(9600);
     Serial.setTimeout(200);
-#ifndef __SMCE__
+#ifdef __SMCE__
+
+  Camera.begin(QVGA, RGB888, 15);
+  frameBuffer.resize(Camera.width() * Camera.height() * Camera.bytesPerPixel());
+  mqtt.begin(WiFi);
+#else
   mqtt.begin(net);
 #endif
   mqttHandler();
@@ -42,15 +54,25 @@ void loop()
   if (mqtt.connected()) {
     mqtt.loop();
     const auto currentTime = millis();
-    
+
+  #ifdef __SMCE__
+  static auto previousFrame = 0UL;
+  if (currentTime - previousFrame >= 65) {
+    previousFrame = currentTime;
+    Camera.readFrame(frameBuffer.data());
+    mqtt.publish("/Group10/camera", frameBuffer.data(), frameBuffer.size(),
+                   false, 0);
+    }
+  #endif
     static auto previousTransmission = 0UL;
     if (currentTime - previousTransmission >= oneSecond) {
       previousTransmission = currentTime;
+
       const auto distance = String(front.getDistance());
       mqtt.publish("/Group10/sensor/ultrasound/front", distance);
     }
   }
-  
+
     currentMillis = millis(); //get the current "time" (actually the number of milliseconds since the program started)
     handleInput();
     delay(35);

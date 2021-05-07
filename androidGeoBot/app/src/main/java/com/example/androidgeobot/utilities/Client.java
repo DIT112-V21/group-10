@@ -24,7 +24,7 @@ public class Client extends MqttClient {
     protected MqttClient mqttClient;
 
     // Topics to update to
-    private static final String FAIL = "CONNECTION TO GEOBOT COULD NOT BE ESTABLISHED";
+    private static final String FAIL = "CONNECTION TO TANK COULD NOT BE ESTABLISHED";
     private static final String FORWARD_CONTROL = "/Group10/manual/forward";
     private static final String BACKWARD_CONTROL = "/Group10/manual/backward";
     private static final String TURN_LEFT = "/Group10/manual/turnleft";
@@ -64,7 +64,7 @@ public class Client extends MqttClient {
         return super.connect(TAG, "", new IMqttActionListener() {
             @Override
             public void onSuccess(IMqttToken asyncActionToken) {
-                final String successfulConnection = "CONNECTION TO GEOBOT ESTABLISHED";
+                final String successfulConnection = "CONNECTION TO TANK ESTABLISHED";
                 Log.i(TAG, successfulConnection);
                 Toast.makeText(context, successfulConnection, Toast.LENGTH_SHORT).show();
 
@@ -95,7 +95,10 @@ public class Client extends MqttClient {
 
             @Override
             public void messageArrived(String topic, MqttMessage message)throws Exception {
-                if (topic.equals("/Group10/camera")) {
+                if (topic.equals(ULTRASOUND_FRONT)) {
+                    Log.i(TAG, "[MQTT] Topic: " + topic + " | Message: " + message.toString());
+                }
+                else if (topic.equals("/Group10/camera")) {
                     final Bitmap bm = Bitmap.createBitmap(IMAGE_WIDTH, IMAGE_HEIGHT, Bitmap.Config.ARGB_8888);
                     Log.d(TAG, "Message delivered");
 
@@ -112,6 +115,8 @@ public class Client extends MqttClient {
                     manualActivity.setBitmap(bm);
 
 
+                }else {
+                    Log.i(TAG, "[MQTT] Topic: " + topic + " | Message: " + message.toString());
                 }
             }
 

@@ -6,8 +6,8 @@
 6
 7    <uses-sdk
 8        android:minSdkVersion="21"
-8-->C:\Users\Hannah\Desktop\university-work\sys dev\project\group-10\androidGeoBot\sdk\java\AndroidManifest.xml
+8-->C:\dev\School\DIT112\Project\group-10\androidGeoBot\sdk\java\AndroidManifest.xml
 9        android:targetSdkVersion="30" />
-9-->C:\Users\Hannah\Desktop\university-work\sys dev\project\group-10\androidGeoBot\sdk\java\AndroidManifest.xml
+9-->C:\dev\School\DIT112\Project\group-10\androidGeoBot\sdk\java\AndroidManifest.xml
 10
 11</manifest>

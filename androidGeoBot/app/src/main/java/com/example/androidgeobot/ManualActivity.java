@@ -1,5 +1,7 @@
 package com.example.androidgeobot;
 
+
+import android.graphics.Bitmap;
 import android.annotation.SuppressLint;
 import android.os.Bundle;
 import android.os.Handler;
@@ -8,18 +10,21 @@ import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.Toast;
 import androidx.appcompat.app.AppCompatActivity;
-
 import com.example.androidgeobot.utilities.Client;
 
 import java.util.Objects;
+
+
 
 public class ManualActivity extends AppCompatActivity {
     //joystick buttons
     private Button forwardBtn, leftBtn, rightBtn, backwardBtn, breakBtn, acceleration , deceleration
             , backBtn;
     private Client client;
+    public ImageView mCameraView;
     private static final String FAIL = "CONNECTION TO GEOBOT COULD NOT BE ESTABLISHED";
     private static final String SUCCESS = "CONNECTION TO GEOBOT ESTABLISHED";
 
@@ -35,10 +40,13 @@ public class ManualActivity extends AppCompatActivity {
 
         // Setting the layout to be used
         setContentView(R.layout.activity_manual);
+        this.mCameraView = (ImageView)findViewById(R.id.cameraView);
 
         // Mqtt Client
         this.client = new Client(this);
-        if (!client.connect()) {
+
+
+        if (!client.connect(null,null,null,null)) {
             Toast.makeText(this, FAIL, Toast.LENGTH_SHORT).show();
         } else{
             Toast.makeText(this, SUCCESS, Toast.LENGTH_SHORT).show();
@@ -128,5 +136,8 @@ public class ManualActivity extends AppCompatActivity {
                 }
             };
         });
+    }
+    public void setBitmap(Bitmap bm){
+        this.mCameraView.setImageBitmap(bm);
     }
 }

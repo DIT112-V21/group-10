@@ -7,4 +7,5 @@
     <string name="manual">Manual</string>
     <string name="autopilot">Autopilot</string>
     <string name="help">help</string>
+    <string name="cameraview">cameraView</string>
 </resources>

@@ -1,3 +1,9 @@
+#include <vector>
+
+#include <MQTT.h>
+#include <WiFi.h>
+#ifdef __SMCE__
+#include <OV767X.h>
 #include <Smartcar.h>
 
 ArduinoRuntime arduinoRuntime;

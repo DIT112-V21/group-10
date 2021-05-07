@@ -112,6 +112,8 @@ public class Client extends MqttClient {
                     }
                     bm.setPixels(colors, 0, IMAGE_WIDTH, 0, 0, IMAGE_WIDTH, IMAGE_HEIGHT);
                     ManualActivity manualActivity = (ManualActivity)context;
+                    Detection detection = new Detection();
+                    detection.processImage(bm,context);
                     manualActivity.setBitmap(bm);
 
 

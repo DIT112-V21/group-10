@@ -25,8 +25,8 @@ public class ManualActivity extends AppCompatActivity {
             , backBtn;
     private Client client;
     public ImageView mCameraView;
-    private static final String FAIL = "CONNECTION TO GEOBOT COULD NOT BE ESTABLISHED";
-    private static final String SUCCESS = "CONNECTION TO GEOBOT ESTABLISHED";
+    private static final String FAIL = "CONNECTION TO TANK COULD NOT BE ESTABLISHED";
+    private static final String SUCCESS = "CONNECTION TO TANK ESTABLISHED";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

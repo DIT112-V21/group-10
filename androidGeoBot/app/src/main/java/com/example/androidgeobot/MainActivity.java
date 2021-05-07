@@ -3,6 +3,7 @@ package com.example.androidgeobot;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
@@ -10,17 +11,28 @@ import android.widget.Button;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import org.opencv.android.JavaCameraView;
+import org.opencv.android.OpenCVLoader;
+
 import java.util.Objects;
 
 public class MainActivity extends AppCompatActivity {
+    static {
+        System.loadLibrary("opencv_java4");
+        if (!OpenCVLoader.initDebug())
+            Log.d("ERROR", "Unable to load OpenCV");
+        else
+            Log.d("SUCCESS", "OpenCV loaded");
+    }
+
     private Button buttonLaunchManualAc,
             buttonLaunchAutoAc,
-            buttonLaunchMapsAc,
             buttonLaunchHelpAc;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        OpenCVLoader.initDebug();
 
         // Stops the title and the top action bar from displaying and sets window to fullscreen.
         requestWindowFeature(Window.FEATURE_NO_TITLE);

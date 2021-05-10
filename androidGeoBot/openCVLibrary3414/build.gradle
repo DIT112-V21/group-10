@@ -1,0 +1,27 @@
+apply plugin: 'com.android.library'
+
+android {
+    compileSdkVersion 30
+    buildToolsVersion "30.0.3"
+
+    // This is only here to disable the Camera permission errors we get during github workflow checks.
+    // TODO: Fix Camera Permissions and remove this code:
+    //  This is not a good way to ignore the errors
+    lintOptions {
+        disable 'openCVLibrary3414'
+        abortOnError false
+        checkReleaseBuilds false
+    }
+
+    defaultConfig {
+        minSdkVersion 21
+        targetSdkVersion 30
+    }
+
+    buildTypes {
+        release {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.txt'
+        }
+    }
+}

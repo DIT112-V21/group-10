@@ -15,6 +15,8 @@ import android.widget.Toast;
 import androidx.appcompat.app.AppCompatActivity;
 import com.example.androidgeobot.utilities.Client;
 
+import org.opencv.android.OpenCVLoader;
+
 import java.util.Objects;
 
 
@@ -25,13 +27,12 @@ public class ManualActivity extends AppCompatActivity {
             , backBtn;
     private Client client;
     public ImageView mCameraView;
-    private static final String FAIL = "CONNECTION TO GEOBOT COULD NOT BE ESTABLISHED";
-    private static final String SUCCESS = "CONNECTION TO GEOBOT ESTABLISHED";
+    private static final String FAIL = "CONNECTION TO TANK COULD NOT BE ESTABLISHED";
+    private static final String SUCCESS = "CONNECTION TO TANK ESTABLISHED";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
         // Stops the title and the top action bar from displaying and sets windows to fullscreen.
         requestWindowFeature(Window.FEATURE_NO_TITLE);
         Objects.requireNonNull(getSupportActionBar()).hide();

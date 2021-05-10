@@ -3,14 +3,14 @@ import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.Color;
 import android.util.Log;
-import android.widget.ImageView;
-import android.util.Log;
 import android.widget.Toast;
 
 import android.widget.Button;
 
 import com.example.androidgeobot.ManualActivity;
 import com.example.androidgeobot.R;
+import com.example.androidgeobot.opencv.Detection;
+
 import org.eclipse.paho.client.mqttv3.IMqttActionListener;
 import org.eclipse.paho.client.mqttv3.IMqttDeliveryToken;
 import org.eclipse.paho.client.mqttv3.IMqttToken;
@@ -21,6 +21,7 @@ import org.eclipse.paho.client.mqttv3.MqttMessage;
 //
 public class Client extends MqttClient {
 
+    private final String TAG2 = this.getClass().getName();
     protected MqttClient mqttClient;
 
     // Topics to update to
@@ -55,6 +56,7 @@ public class Client extends MqttClient {
 
     public Client(Context context){
         super(context, MQTT_SERVER, TAG);
+        Log.i(TAG2, "Instantiated new " + this.getClass());
         this.context = context;
     }
 
@@ -99,7 +101,7 @@ public class Client extends MqttClient {
                     Log.i(TAG, "[MQTT] Topic: " + topic + " | Message: " + message.toString());
                 }
                 else if (topic.equals("/Group10/camera")) {
-                    final Bitmap bm = Bitmap.createBitmap(IMAGE_WIDTH, IMAGE_HEIGHT, Bitmap.Config.ARGB_8888);
+                    Bitmap bm = Bitmap.createBitmap(IMAGE_WIDTH, IMAGE_HEIGHT, Bitmap.Config.ARGB_8888);
                     Log.d(TAG, "Message delivered");
 
                     final byte[] payload = (byte[]) message.getPayload();
@@ -111,9 +113,13 @@ public class Client extends MqttClient {
                         colors[ci] = Color.rgb(r, g, b);
                     }
                     bm.setPixels(colors, 0, IMAGE_WIDTH, 0, 0, IMAGE_WIDTH, IMAGE_HEIGHT);
-                    ManualActivity manualActivity = (ManualActivity)context;
-                    manualActivity.setBitmap(bm);
 
+                    // 1. Get the context of ManualActivity so that we can update the image
+                    // 2. detection.processImage does OpenCV magic. Detecting objects and drawing shapes
+                    ManualActivity manualActivity = (ManualActivity)context;
+                    Detection detection = new Detection();
+                    bm = detection.processImage(bm,context);
+                    manualActivity.setBitmap(bm);
 
                 }else {
                     Log.i(TAG, "[MQTT] Topic: " + topic + " | Message: " + message.toString());

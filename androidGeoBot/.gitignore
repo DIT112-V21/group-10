@@ -5,6 +5,7 @@
 /.idea/libraries
 /.idea/modules.xml
 /.idea/workspace.xml
+src/.idea/workspace.xml
 /.idea/navEditor.xml
 /.idea/assetWizardSettings.xml
 .DS_Store
@@ -13,3 +14,4 @@
 .externalNativeBuild
 .cxx
 local.properties
+/openCVLibrary3414/

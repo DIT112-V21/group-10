@@ -1,0 +1,29 @@
+com/example/androidgeobot/BuildConfig.java
+ com.example.androidgeobot.BuildConfig
+com/example/androidgeobot/AutoActivity.java
+ com.example.androidgeobot.AutoActivity
+ com.example.androidgeobot.AutoActivity$1
+com/example/androidgeobot/MapsActivity.java
+ com.example.androidgeobot.MapsActivity
+ com.example.androidgeobot.MapsActivity$1
+com/example/androidgeobot/MqttClient.java
+ com.example.androidgeobot.MqttClient
+com/example/androidgeobot/HelpActivity.java
+ com.example.androidgeobot.HelpActivity
+com/example/androidgeobot/MainActivity.java
+ com.example.androidgeobot.MainActivity
+ com.example.androidgeobot.MainActivity$1
+com/example/androidgeobot/ManualActivity.java
+ com.example.androidgeobot.ManualActivity
+ com.example.androidgeobot.ManualActivity$1
+ com.example.androidgeobot.ManualActivity$2
+ com.example.androidgeobot.ManualActivity$3
+ com.example.androidgeobot.ManualActivity$4
+ com.example.androidgeobot.ManualActivity$5
+ com.example.androidgeobot.ManualActivity$6
+ com.example.androidgeobot.ManualActivity$7
+ com.example.androidgeobot.ManualActivity$8
+com/example/androidgeobot/Client.java
+ com.example.androidgeobot.Client
+ com.example.androidgeobot.Client$1
+ com.example.androidgeobot.Client$2

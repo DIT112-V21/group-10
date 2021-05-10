@@ -15,6 +15,8 @@ import android.widget.Toast;
 import androidx.appcompat.app.AppCompatActivity;
 import com.example.androidgeobot.utilities.Client;
 
+import org.opencv.android.OpenCVLoader;
+
 import java.util.Objects;
 
 
@@ -31,7 +33,6 @@ public class ManualActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
         // Stops the title and the top action bar from displaying and sets windows to fullscreen.
         requestWindowFeature(Window.FEATURE_NO_TITLE);
         Objects.requireNonNull(getSupportActionBar()).hide();

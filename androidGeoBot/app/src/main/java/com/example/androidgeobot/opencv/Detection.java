@@ -46,7 +46,8 @@ public class Detection {
     public Bitmap processImage(Bitmap bitmap, Context context) throws IOException {
         // we convert to mat to work with opencv
         ImageProcessor imageProcessor = new ImageProcessor();
-        Mat mat = imageProcessor.bitmapToMat(bitmap);
+        Mat mat = new Mat();
+        mat = imageProcessor.bitmapToMat(bitmap);
 
         // get trained cascade file
         CascadeClassifier carClassifier = new CascadeClassifier();

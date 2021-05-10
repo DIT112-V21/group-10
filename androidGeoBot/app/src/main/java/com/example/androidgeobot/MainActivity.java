@@ -1,6 +1,5 @@
 package com.example.androidgeobot;
 
-import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
@@ -11,20 +10,11 @@ import android.widget.Button;
 
 import androidx.appcompat.app.AppCompatActivity;
 
-import org.opencv.android.JavaCameraView;
 import org.opencv.android.OpenCVLoader;
 
 import java.util.Objects;
 
 public class MainActivity extends AppCompatActivity {
-    static {
-        System.loadLibrary("opencv_java4");
-        if (!OpenCVLoader.initDebug())
-            Log.d("ERROR", "Unable to load OpenCV");
-        else
-            Log.d("SUCCESS", "OpenCV loaded");
-    }
-
     private Button buttonLaunchManualAc,
             buttonLaunchAutoAc,
             buttonLaunchHelpAc;
@@ -32,7 +22,6 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        OpenCVLoader.initDebug();
 
         // Stops the title and the top action bar from displaying and sets window to fullscreen.
         requestWindowFeature(Window.FEATURE_NO_TITLE);
@@ -42,6 +31,14 @@ public class MainActivity extends AppCompatActivity {
 
         setContentView(R.layout.activity_main);
 
+        // Check if OpenCV can be initialized and used.
+        // System.loadLibrary("opencv_java4");
+        if (!OpenCVLoader.initDebug())
+            Log.d("ERROR", "Unable to load OpenCV");
+        else
+            Log.d("SUCCESS", "OpenCV loaded");
+
+        // Sets the buttons in the activity layout to an actual Button objects that we can use
         buttonLaunchManualAc = findViewById(R.id.button_manual);
         buttonLaunchAutoAc = findViewById(R.id.button_autopilot);
         buttonLaunchHelpAc = findViewById(R.id.button_help);

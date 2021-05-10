@@ -48,3 +48,6 @@
 .externalNativeBuild
 .cxx
 local.properties
+/androidGeoBot/.idea/
+/androidGeoBot/.gradle/
+/androidGeoBot/openCVLibrary3414

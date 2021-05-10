@@ -1,19 +1,20 @@
 # Group 10
 
 ## What you are going to make?
-- GeoBot 	
-- This program will let users control a smart vehicle and possibly turn on automated exploring.  
-- It will be able to create and map an unidentified area.
+- Tank - Total Annihilation Not Komplete
+- It will give users of the Android app the possibility of detecting objects by looking at a camera feed. This camera feed is recieved from the bot they control in SMCE
+- This program will let users control a smart bot in SMCE with the objective of crashing into other SMCE bots.
+- It will possibly be able to do automated bot hunting.  
 
 ## Why will you make it? What problem does it solve?
-- GeoBot will automatically explore and create a map of an unknown area 
-- It can be used to explore places that are potentially dangerous for humans
+- Tank will solve the issue of how to detect objects, and will assist App users in hunting down these objects and crash into them(mainly other bots/smartcars)
+- It can be used to cause mayhem and destruction
 
-## How you are going to make it? What kind of technology you are going to use?
-
-We will use Unity engine and OpenCV in order to create a map of the SMCE world using tiles of different colours. The tiles will be added as the car moves along exploring the area. We will also use:
+## How are you going to make it? What kind of technology are you going to use?
+We will use OpenCV in combination with an Android app, in order to detect objects in the SMCE world. Technologies we will use:
 - C++
+- Python
+- OpenCV
 - Android/Java
 - SMCE
 - GitHub
-- Arduino/C

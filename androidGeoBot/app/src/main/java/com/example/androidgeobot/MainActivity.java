@@ -2,6 +2,7 @@ package com.example.androidgeobot;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
@@ -9,10 +10,13 @@ import android.widget.Button;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import org.opencv.android.OpenCVLoader;
+
+import java.util.Objects;
+
 public class MainActivity extends AppCompatActivity {
     private Button buttonLaunchManualAc,
             buttonLaunchAutoAc,
-            buttonLaunchMapsAc,
             buttonLaunchHelpAc;
 
     @Override
@@ -21,28 +25,33 @@ public class MainActivity extends AppCompatActivity {
 
         // Stops the title and the top action bar from displaying and sets window to fullscreen.
         requestWindowFeature(Window.FEATURE_NO_TITLE);
-        getSupportActionBar().hide();
+        Objects.requireNonNull(getSupportActionBar()).hide();
         this.getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,
                 WindowManager.LayoutParams.FLAG_FULLSCREEN);
 
         setContentView(R.layout.activity_main);
 
-        buttonLaunchManualAc = (Button) findViewById(R.id.button_manual);
-        buttonLaunchAutoAc = (Button) findViewById(R.id.button_autopilot);
-        buttonLaunchMapsAc = (Button) findViewById(R.id.button_maps);
-        buttonLaunchHelpAc = (Button) findViewById(R.id.button_help);
+        // Check if OpenCV can be initialized and used.
+        // System.loadLibrary("opencv_java4");
+        if (!OpenCVLoader.initDebug())
+            Log.d("ERROR", "Unable to load OpenCV");
+        else
+            Log.d("SUCCESS", "OpenCV loaded");
+
+        // Sets the buttons in the activity layout to an actual Button objects that we can use
+        buttonLaunchManualAc = findViewById(R.id.button_manual);
+        buttonLaunchAutoAc = findViewById(R.id.button_autopilot);
+        buttonLaunchHelpAc = findViewById(R.id.button_help);
 
         // Creates onClickListener for the buttons.
         // Does the same thing as the lambdas below. Lines with "->".
         buttonLaunchManualAc.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-
                 switchActivities(ManualActivity.class);
             }
         });
         buttonLaunchAutoAc.setOnClickListener(view -> switchActivities(AutoActivity.class));
-        buttonLaunchMapsAc.setOnClickListener(view -> switchActivities(MapsActivity.class));
         buttonLaunchHelpAc.setOnClickListener(view -> switchActivities(HelpActivity.class));
 
     }

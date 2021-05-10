@@ -1,12 +1,11 @@
-package com.example.androidgeobot.opencv;
+package com.example.androidtank.opencv;
 
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.util.Log;
 import android.widget.Toast;
 
-import com.example.androidgeobot.utilities.HandleFiles;
-import com.example.androidgeobot.opencv.ImageProcessor;
+import com.example.androidtank.utilities.HandleFiles;
 
 import org.opencv.android.Utils;
 import org.opencv.core.Mat;

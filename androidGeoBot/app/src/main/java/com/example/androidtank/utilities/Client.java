@@ -1,4 +1,4 @@
-package com.example.androidgeobot.utilities;
+package com.example.androidtank.utilities;
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.Color;
@@ -7,9 +7,10 @@ import android.widget.Toast;
 
 import android.widget.Button;
 
-import com.example.androidgeobot.ManualActivity;
-import com.example.androidgeobot.R;
-import com.example.androidgeobot.opencv.Detection;
+import com.example.androidtank.JoystickView;
+import com.example.androidtank.ManualActivity;
+import com.example.androidtank.R;
+import com.example.androidtank.opencv.Detection;
 
 import org.eclipse.paho.client.mqttv3.IMqttActionListener;
 import org.eclipse.paho.client.mqttv3.IMqttDeliveryToken;
@@ -161,7 +162,7 @@ public class Client extends MqttClient {
             if(!(button == null) && isConnected){
                 switch (button.getId()){
 
-                    case R.id.forward_button:
+               /*     case R.id.forward_button:
                         publish(FORWARD_CONTROL, Integer.toString(SPEED),QOS, null);
                         break;
 
@@ -175,7 +176,7 @@ public class Client extends MqttClient {
 
                     case R.id.left_button:
                         publish(TURN_LEFT, Integer.toString(ANGLE),QOS,null);
-                        break;
+                        break;*/
 
 //               case R.id.accelerate_up:
 //                   mqttClient.publish(ACCELERATE, Integer.toString(SPEED),QOS,null);
@@ -201,6 +202,30 @@ public class Client extends MqttClient {
 
             }
         }
+
+    public void joystick_publish(JoystickView joystickView, float x, float y){
+
+
+        if(!(joystickView == null) && isConnected){
+            if(x < 0){
+                publish(TURN_LEFT, Integer.toString(ANGLE),QOS,null);
+            }
+            if(x > 0){
+                publish(TURN_RIGHT, Integer.toString(ANGLE),QOS,null);
+            }
+            if(y > 0){
+
+                publish(BACKWARD_CONTROL, Integer.toString(SPEED),QOS,null);
+            }
+            if(y < 0){
+                publish(FORWARD_CONTROL, Integer.toString(SPEED),QOS,null);
+            }
+        } else if((joystickView == null) && isConnected) {
+            publish("/Group10/manual/nocontrol", Integer.toString(0),QOS,null);
+        } else {
+            Toast.makeText(context, "Connection not established", Toast.LENGTH_SHORT).show();
+        }
+    }
 }
 
 

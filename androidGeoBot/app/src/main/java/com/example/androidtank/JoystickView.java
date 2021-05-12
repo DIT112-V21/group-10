@@ -20,7 +20,6 @@ public class JoystickView extends SurfaceView implements SurfaceHolder.Callback,
     private float baseRadius;
     private float hatRadius;
     private JoystickListener joystickCallback;
-    private final int ratio = 5; //The smaller, the more shading will occur
 
     private void setupDimensions()
     {
@@ -78,15 +77,10 @@ public class JoystickView extends SurfaceView implements SurfaceHolder.Callback,
             Paint colors = new Paint();
             myCanvas.drawColor(Color.TRANSPARENT, PorterDuff.Mode.CLEAR); // Clear the BG
 
-            //First determine the sin and cos of the angle that the touched point is at relative to the center of the joystick
-            float hypotenuse = (float) Math.sqrt(Math.pow(newX - centerX, 2) + Math.pow(newY - centerY, 2));
-            float sin = (newY - centerY) / hypotenuse; //sin = o/h
-            float cos = (newX - centerX) / hypotenuse; //cos = a/h
-
             //Draw the base first before shading
-            colors.setARGB(255, 216, 213, 219);
+            colors.setARGB(255, 255, 255, 255);
             myCanvas.drawCircle(centerX, centerY, baseRadius, colors);
-            colors.setARGB(255,45, 49, 66);
+            colors.setARGB(255,224, 88, 58);
             myCanvas.drawCircle(newX, newY,hatRadius, colors);
             getHolder().unlockCanvasAndPost(myCanvas); //Write the new drawing to the SurfaceView
         }

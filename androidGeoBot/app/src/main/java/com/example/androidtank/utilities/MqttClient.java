@@ -1,10 +1,9 @@
-package com.example.androidgeobot.utilities;
+package com.example.androidtank.utilities;
 
 
 import org.eclipse.paho.client.mqttv3.*;
 import android.content.Context;
 import android.util.Log;
-import android.widget.Toast;
 
 import org.eclipse.paho.android.service.MqttAndroidClient;
 

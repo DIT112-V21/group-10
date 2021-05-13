@@ -8,7 +8,7 @@ android {
     ndkVersion '22.1.7171670'
 
     defaultConfig {
-        applicationId "com.example.androidgeobot"
+        applicationId "com.example.androidtank"
         minSdkVersion 21
         targetSdkVersion 30
         versionCode 1

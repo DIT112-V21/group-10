@@ -1,4 +1,4 @@
-package com.example.androidgeobot.utilities;
+package com.example.androidtank.utilities;
 
 import android.content.Context;
 import android.util.Log;

@@ -1,4 +1,4 @@
-package com.example.androidgeobot.opencv;
+package com.example.androidtank.opencv;
 
 import android.graphics.Bitmap;
 import android.util.Log;

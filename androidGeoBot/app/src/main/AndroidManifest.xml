@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.example.androidgeobot">
+    package="com.example.androidtank">
 
     <uses-permission android:name="android.permission.WAKE_LOCK" />
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
@@ -16,17 +16,17 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.AndroidGeoBot">
-        <activity android:name=".MainActivity">
+        <activity android:name="com.example.androidtank.MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".ManualActivity" />
-        <activity android:name=".HelpActivity"
-            android:parentActivityName=".MainActivity"/>
-        <activity android:name=".AutoActivity" />
+        <activity android:name="com.example.androidtank.ManualActivity" />
+        <activity android:name="com.example.androidtank.HelpActivity"
+            android:parentActivityName="com.example.androidtank.MainActivity"/>
+        <activity android:name="com.example.androidtank.AutoActivity" />
 
 
         <service android:name="org.eclipse.paho.android.service.MqttService">

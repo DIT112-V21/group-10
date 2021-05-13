@@ -1,10 +1,11 @@
-package com.example.androidgeobot;
+package com.example.androidtank;
 
 
 import android.graphics.Bitmap;
 import android.annotation.SuppressLint;
 import android.os.Bundle;
 import android.os.Handler;
+import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.Window;
@@ -13,20 +14,19 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.Toast;
 import androidx.appcompat.app.AppCompatActivity;
-import com.example.androidgeobot.utilities.Client;
-
-import org.opencv.android.OpenCVLoader;
+import com.example.androidtank.utilities.Client;
 
 import java.util.Objects;
 
 
 
-public class ManualActivity extends AppCompatActivity {
+public class ManualActivity extends AppCompatActivity implements JoystickView.JoystickListener {
     //joystick buttons
-    private Button forwardBtn, leftBtn, rightBtn, backwardBtn, breakBtn, acceleration , deceleration
-            , backBtn;
+    private Button breakBtn, acceleration , deceleration, backBtn;
     private Client client;
     public ImageView mCameraView;
+    JoystickView joystick;
+
     private static final String FAIL = "CONNECTION TO TANK COULD NOT BE ESTABLISHED";
     private static final String SUCCESS = "CONNECTION TO TANK ESTABLISHED";
 
@@ -42,6 +42,7 @@ public class ManualActivity extends AppCompatActivity {
         // Setting the layout to be used
         setContentView(R.layout.activity_manual);
         this.mCameraView = (ImageView)findViewById(R.id.cameraView);
+        joystick = new JoystickView(this);
 
         // Mqtt Client
         this.client = new Client(this);
@@ -59,17 +60,6 @@ public class ManualActivity extends AppCompatActivity {
 
     // Setup of the controls for the SMCE car.
     public void setTankControls() {
-
-        // Setup Joystick buttons
-        forwardBtn = findViewById(R.id.forward_button);
-        rightBtn = findViewById(R.id.right_button);
-        leftBtn = findViewById(R.id.left_button);
-        backwardBtn = findViewById(R.id.backward_button);
-        setupTouchController(forwardBtn);
-        setupTouchController(rightBtn);
-        setupTouchController(leftBtn);
-        setupTouchController(backwardBtn);
-
         // Setup ordinary buttons
         breakBtn = findViewById(R.id.break_button);
         backBtn = findViewById(R.id.button_back);
@@ -79,7 +69,6 @@ public class ManualActivity extends AppCompatActivity {
         setupOrdinaryButton2(backBtn);
         //setupOrdinaryButton(acceleration);
         //setupOrdinaryButton(deceleration);
-
     }
 
     /**
@@ -104,11 +93,23 @@ public class ManualActivity extends AppCompatActivity {
         });
     }
 
+
+    @Override
+    public void onJoystickMoved(float xPercent, float yPercent, int id) {
+        switch (id)
+        {
+            case R.id.joystick:
+                client.joystick_publish(joystick,  xPercent,  yPercent);
+                break;
+        }
+    }
+
+
     /**
      * This method takes in a Button object and makes it into a touch button
      */
     @SuppressLint("ClickableViewAccessibility")
-    private void setupTouchController(Button button){
+/*    private void setupTouchController(Button button){
         button.setOnTouchListener(new View.OnTouchListener() {
             private Handler mHandler;
 
@@ -137,7 +138,7 @@ public class ManualActivity extends AppCompatActivity {
                 }
             };
         });
-    }
+    }*/
     public void setBitmap(Bitmap bm){
         this.mCameraView.setImageBitmap(bm);
     }

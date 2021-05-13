@@ -1,4 +1,4 @@
-package com.example.androidgeobot;
+package com.example.androidtank;
 
 import android.os.Bundle;
 

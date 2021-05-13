@@ -22,8 +22,7 @@ import java.util.Objects;
 
 public class ManualActivity extends AppCompatActivity implements JoystickView.JoystickListener {
     //joystick buttons
-    private Button forwardBtn, leftBtn, rightBtn, backwardBtn, breakBtn, acceleration , deceleration
-            , backBtn;
+    private Button breakBtn, acceleration , deceleration, backBtn;
     private Client client;
     public ImageView mCameraView;
     JoystickView joystick;
@@ -61,17 +60,6 @@ public class ManualActivity extends AppCompatActivity implements JoystickView.Jo
 
     // Setup of the controls for the SMCE car.
     public void setTankControls() {
-
-        // Setup Joystick buttons
-       /* forwardBtn = findViewById(R.id.forward_button);
-        rightBtn = findViewById(R.id.right_button);
-        leftBtn = findViewById(R.id.left_button);
-        backwardBtn = findViewById(R.id.backward_button);*/
-      /*  setupTouchController(forwardBtn);
-        setupTouchController(rightBtn);
-        setupTouchController(leftBtn);
-        setupTouchController(backwardBtn);*/
-
         // Setup ordinary buttons
         breakBtn = findViewById(R.id.break_button);
         backBtn = findViewById(R.id.button_back);
@@ -81,7 +69,6 @@ public class ManualActivity extends AppCompatActivity implements JoystickView.Jo
         setupOrdinaryButton2(backBtn);
         //setupOrdinaryButton(acceleration);
         //setupOrdinaryButton(deceleration);
-
     }
 
     /**

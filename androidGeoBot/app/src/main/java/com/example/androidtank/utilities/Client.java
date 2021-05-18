@@ -7,7 +7,6 @@ import android.widget.Toast;
 
 import android.widget.Button;
 
-import com.example.androidtank.JoystickView;
 import com.example.androidtank.ManualActivity;
 import com.example.androidtank.R;
 import com.example.androidtank.opencv.Detection;
@@ -17,6 +16,8 @@ import org.eclipse.paho.client.mqttv3.IMqttDeliveryToken;
 import org.eclipse.paho.client.mqttv3.IMqttToken;
 import org.eclipse.paho.client.mqttv3.MqttCallback;
 import org.eclipse.paho.client.mqttv3.MqttMessage;
+
+import io.github.controlwear.virtual.joystick.android.JoystickView;
 
 // Helper class between actual MqttClient and activities
 //
@@ -161,23 +162,6 @@ public class Client extends MqttClient {
         public void button_publish(Button button){
             if(!(button == null) && isConnected){
                 switch (button.getId()){
-
-               /*     case R.id.forward_button:
-                        publish(FORWARD_CONTROL, Integer.toString(SPEED),QOS, null);
-                        break;
-
-                    case R.id.backward_button:
-                        publish(BACKWARD_CONTROL, Integer.toString(SPEED),QOS, null);
-                        break;
-
-                    case R.id.right_button:
-                        publish(TURN_RIGHT, Integer.toString(ANGLE),QOS, null);
-                        break;
-
-                    case R.id.left_button:
-                        publish(TURN_LEFT, Integer.toString(ANGLE),QOS,null);
-                        break;*/
-
 //               case R.id.accelerate_up:
 //                   mqttClient.publish(ACCELERATE, Integer.toString(SPEED),QOS,null);
 //                   break;
@@ -203,22 +187,20 @@ public class Client extends MqttClient {
             }
         }
 
-    public void joystick_publish(JoystickView joystickView, float x, float y){
-
+    public void joystick_publish(JoystickView joystickView, int angle, int strength){
 
         if(!(joystickView == null) && isConnected){
-            if(x < 0){
-                publish(TURN_LEFT, Integer.toString(ANGLE),QOS,null);
+            if(strength > 0 && angle <= 180){
+                publish(FORWARD_CONTROL, Integer.toString(SPEED),QOS,null);
             }
-            if(x > 0){
-                publish(TURN_RIGHT, Integer.toString(ANGLE),QOS,null);
-            }
-            if(y > 0){
-
+            if(strength > 0 && angle >= 180){
                 publish(BACKWARD_CONTROL, Integer.toString(SPEED),QOS,null);
             }
-            if(y < 0){
-                publish(FORWARD_CONTROL, Integer.toString(SPEED),QOS,null);
+
+            if(angle <= 90){
+                publish(TURN_RIGHT, Integer.toString(ANGLE),QOS,null);
+            }else if(angle <= 180){
+                publish(TURN_LEFT, Integer.toString(ANGLE),QOS,null);
             }
         } else if((joystickView == null) && isConnected) {
             publish("/Group10/manual/nocontrol", Integer.toString(0),QOS,null);

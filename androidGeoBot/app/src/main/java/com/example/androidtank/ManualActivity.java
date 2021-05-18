@@ -4,9 +4,9 @@ package com.example.androidtank;
 import android.graphics.Bitmap;
 import android.annotation.SuppressLint;
 import android.os.Bundle;
-import android.os.Handler;
-import android.util.Log;
-import android.view.MotionEvent;
+// we are using the joystick from https://github.com/controlwear/virtual-joystick-android
+import io.github.controlwear.virtual.joystick.android.JoystickView;
+
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
@@ -20,12 +20,12 @@ import java.util.Objects;
 
 
 
-public class ManualActivity extends AppCompatActivity implements JoystickView.JoystickListener {
+public class ManualActivity extends AppCompatActivity {
     //joystick buttons
     private Button breakBtn, acceleration , deceleration, backBtn;
     private Client client;
     public ImageView mCameraView;
-    JoystickView joystick;
+    private JoystickView joystick;
 
     private static final String FAIL = "CONNECTION TO TANK COULD NOT BE ESTABLISHED";
     private static final String SUCCESS = "CONNECTION TO TANK ESTABLISHED";
@@ -42,7 +42,6 @@ public class ManualActivity extends AppCompatActivity implements JoystickView.Jo
         // Setting the layout to be used
         setContentView(R.layout.activity_manual);
         this.mCameraView = (ImageView)findViewById(R.id.cameraView);
-        joystick = new JoystickView(this);
 
         // Mqtt Client
         this.client = new Client(this);
@@ -58,6 +57,16 @@ public class ManualActivity extends AppCompatActivity implements JoystickView.Jo
         setTankControls();
     }
 
+    public void setupJoystick(){
+        joystick = (JoystickView) findViewById(R.id.joystickView);
+        joystick.setOnMoveListener(new JoystickView.OnMoveListener() {
+            @Override
+            public void onMove(int angle, int strength) {
+                client.joystick_publish(joystick,angle, strength);
+            }
+        });
+    }
+
     // Setup of the controls for the SMCE car.
     public void setTankControls() {
         // Setup ordinary buttons
@@ -67,6 +76,7 @@ public class ManualActivity extends AppCompatActivity implements JoystickView.Jo
         //deceleration = (Button) findViewById(R.id.accelerate_down);
         setupOrdinaryButton(breakBtn);
         setupOrdinaryButton2(backBtn);
+        setupJoystick();
         //setupOrdinaryButton(acceleration);
         //setupOrdinaryButton(deceleration);
     }
@@ -93,16 +103,6 @@ public class ManualActivity extends AppCompatActivity implements JoystickView.Jo
         });
     }
 
-
-    @Override
-    public void onJoystickMoved(float xPercent, float yPercent, int id) {
-        switch (id)
-        {
-            case R.id.joystick:
-                client.joystick_publish(joystick,  xPercent,  yPercent);
-                break;
-        }
-    }
 
 
     /**

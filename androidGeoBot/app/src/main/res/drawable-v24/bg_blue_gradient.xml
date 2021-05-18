@@ -4,6 +4,7 @@
     <gradient
         android:startColor="#00ff87"
         android:endColor="#102830"
+        android:angle="280"
         />
 <!--
     <cornersxml

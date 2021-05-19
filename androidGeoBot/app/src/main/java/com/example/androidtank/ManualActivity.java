@@ -1,6 +1,8 @@
 package com.example.androidtank;
 
 
+import android.app.Dialog;
+import android.content.Intent;
 import android.graphics.Bitmap;
 import android.annotation.SuppressLint;
 import android.os.Bundle;
@@ -13,19 +15,24 @@ import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.Toast;
+
 import androidx.appcompat.app.AppCompatActivity;
+
 import com.example.androidtank.utilities.Client;
 
 import java.util.Objects;
 
 
-
 public class ManualActivity extends AppCompatActivity {
     //joystick buttons
-    private Button breakBtn, acceleration , deceleration, backBtn;
+    private Button breakBtn, acceleration, deceleration, backBtn;
     private Client client;
     public ImageView mCameraView;
     private JoystickView joystick;
+    // currently win/lose will display based on this variable
+    // but feel free to change this
+    private int points = 5;
+
 
     private static final String FAIL = "CONNECTION TO TANK COULD NOT BE ESTABLISHED";
     private static final String SUCCESS = "CONNECTION TO TANK ESTABLISHED";
@@ -41,15 +48,17 @@ public class ManualActivity extends AppCompatActivity {
 
         // Setting the layout to be used
         setContentView(R.layout.activity_manual);
-        this.mCameraView = (ImageView)findViewById(R.id.cameraView);
+        this.mCameraView = (ImageView) findViewById(R.id.cameraView);
 
         // Mqtt Client
         this.client = new Client(this);
 
+       // uncomment to view dialog box
+       // showDialog();
 
-        if (!client.connect(null,null,null,null)) {
+        if (!client.connect(null, null, null, null)) {
             Toast.makeText(this, FAIL, Toast.LENGTH_SHORT).show();
-        } else{
+        } else {
             Toast.makeText(this, SUCCESS, Toast.LENGTH_SHORT).show();
         }
 
@@ -57,12 +66,31 @@ public class ManualActivity extends AppCompatActivity {
         setTankControls();
     }
 
-    public void setupJoystick(){
+    public void showDialog() {
+        Dialog dialog = new Dialog(ManualActivity.this);
+        dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
+        Window window = dialog.getWindow();
+        window.setBackgroundDrawableResource(android.R.color.transparent);
+        // initial logic for winning/losing
+        if(points > 4){
+            dialog.setContentView(R.layout.dialog_win);
+        } else {
+            dialog.setContentView(R.layout.dialog_lose);
+        }
+        Button finish = (Button) dialog.findViewById(R.id.finish);
+        setupBackBtn(finish);
+        Button reload = (Button) dialog.findViewById(R.id.playAgain);
+        setupReloadBtn(reload);
+        dialog.show();
+    }
+
+
+    public void setupJoystick() {
         joystick = (JoystickView) findViewById(R.id.joystickView);
         joystick.setOnMoveListener(new JoystickView.OnMoveListener() {
             @Override
             public void onMove(int angle, int strength) {
-                client.joystick_publish(joystick,angle, strength);
+                client.joystick_publish(joystick, angle, strength);
             }
         });
     }
@@ -75,7 +103,7 @@ public class ManualActivity extends AppCompatActivity {
         //acceleration = (Button) findViewById(R.id.accelerate_up);
         //deceleration = (Button) findViewById(R.id.accelerate_down);
         setupOrdinaryButton(breakBtn);
-        setupOrdinaryButton2(backBtn);
+        setupBackBtn(backBtn);
         setupJoystick();
         //setupOrdinaryButton(acceleration);
         //setupOrdinaryButton(deceleration);
@@ -93,8 +121,9 @@ public class ManualActivity extends AppCompatActivity {
             }
         });
     }
+
     // For the back button
-    private void setupOrdinaryButton2(Button button) {
+    private void setupBackBtn(Button button) {
         button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -103,6 +132,18 @@ public class ManualActivity extends AppCompatActivity {
         });
     }
 
+    private void setupReloadBtn(Button button) {
+        button.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent i = new Intent(ManualActivity.this, ManualActivity.class);
+                finish();
+                overridePendingTransition(0, 0);
+                startActivity(i);
+                overridePendingTransition(0, 0);
+            }
+        });
+    }
 
 
     /**
@@ -139,7 +180,7 @@ public class ManualActivity extends AppCompatActivity {
             };
         });
     }*/
-    public void setBitmap(Bitmap bm){
+    public void setBitmap(Bitmap bm) {
         this.mCameraView.setImageBitmap(bm);
     }
 }

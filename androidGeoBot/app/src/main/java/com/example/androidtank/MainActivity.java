@@ -1,6 +1,7 @@
 package com.example.androidtank;
 
 import android.content.Intent;
+import android.media.MediaPlayer;
 import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
@@ -19,7 +20,7 @@ import java.util.Objects;
 public class MainActivity extends AppCompatActivity {
     private Button buttonLaunchManualAc;
     MainVideoView mainVideoView;
-    private int videoViewId = R.raw.mainscreen_video;
+    private int videoViewId = R.raw.mainscreen_video2;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -35,23 +36,7 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
 
         // Set video view and load video
-        // TODO; 1. Don't set videoPath as null. 2. Refactor this code
-        HandleFiles handleFiles = new HandleFiles();
-        String videoPath = null;
-        mainVideoView = new MainVideoView(this);
-        mainVideoView = findViewById(R.id.mainVideoView);
-        try {
-            videoPath = handleFiles.getFileFromRes(this, videoViewId);
-
-            mainVideoView.setVideoURI(Uri.parse(videoPath));
-            mainVideoView.setVideoPath(videoPath);
-            mainVideoView.setLayoutLook(mainVideoView); // sets the layout look for the videoview
-            mainVideoView.enableRestartVideo(); // sets a listener that enables restarting video
-            mainVideoView.start();
-        } catch (FileNotFoundException e) {
-            Log.i("TAG", "Could not load video", e);
-            // e.printStackTrace();
-        }
+        initializeVideoView();
 
         // Check if OpenCV can be initialized and used. the code in the parameters return false if
         // OpenCV can't be loaded
@@ -90,5 +75,26 @@ public class MainActivity extends AppCompatActivity {
         super.onPause();
         mainVideoView.suspend();
         mainVideoView.stopPlayback();
+    }
+
+    // Set video view and load video
+    private void initializeVideoView() {
+        // TODO; 1. Don't set videoPath as null. 2. Refactor this code
+        HandleFiles handleFiles = new HandleFiles();
+        String videoPath = null;
+        mainVideoView = new MainVideoView(this);
+        mainVideoView = findViewById(R.id.mainVideoView);
+        try {
+            videoPath = handleFiles.getFileFromRes(this, videoViewId);
+
+            mainVideoView.setVideoURI(Uri.parse(videoPath));
+            mainVideoView.setVideoPath(videoPath);
+            mainVideoView.setLayoutLook(mainVideoView); // sets the layout look for the videoview
+            mainVideoView.enableRestartVideo(); // sets a listener that enables restarting video
+            mainVideoView.start();
+        } catch (FileNotFoundException e) {
+            Log.i("TAG", "Could not load video", e);
+            // e.printStackTrace();
+        }
     }
 }

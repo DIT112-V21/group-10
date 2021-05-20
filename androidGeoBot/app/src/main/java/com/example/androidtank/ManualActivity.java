@@ -3,6 +3,7 @@ package com.example.androidtank;
 
 import android.graphics.Bitmap;
 import android.annotation.SuppressLint;
+import android.media.MediaPlayer;
 import android.os.Bundle;
 import android.os.Handler;
 import android.util.Log;
@@ -23,6 +24,7 @@ import java.util.Objects;
 public class ManualActivity extends AppCompatActivity implements JoystickView.JoystickListener {
     //joystick buttons
     private Button breakBtn, acceleration , deceleration, backBtn;
+    MediaPlayer breakSound;
     private Client client;
     public ImageView mCameraView;
     JoystickView joystick;
@@ -44,6 +46,8 @@ public class ManualActivity extends AppCompatActivity implements JoystickView.Jo
         this.mCameraView = (ImageView)findViewById(R.id.cameraView);
         joystick = new JoystickView(this);
 
+        breakSound = MediaPlayer.create(this, R.raw.break_sound);
+
         // Mqtt Client
         this.client = new Client(this);
 
@@ -63,12 +67,8 @@ public class ManualActivity extends AppCompatActivity implements JoystickView.Jo
         // Setup ordinary buttons
         breakBtn = findViewById(R.id.break_button);
         backBtn = findViewById(R.id.button_back);
-        //acceleration = (Button) findViewById(R.id.accelerate_up);
-        //deceleration = (Button) findViewById(R.id.accelerate_down);
         setupOrdinaryButton(breakBtn);
         setupOrdinaryButton2(backBtn);
-        //setupOrdinaryButton(acceleration);
-        //setupOrdinaryButton(deceleration);
     }
 
     /**
@@ -79,6 +79,7 @@ public class ManualActivity extends AppCompatActivity implements JoystickView.Jo
         button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                breakSound.start();
                 client.button_publish(button);
             }
         });

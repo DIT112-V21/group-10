@@ -21,6 +21,7 @@ public class MainActivity extends AppCompatActivity {
     private Button buttonLaunchManualAc;
     MainVideoView mainVideoView;
     private int videoViewId = R.raw.mainscreen_video2;
+    MediaPlayer mainMusic;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -68,6 +69,12 @@ public class MainActivity extends AppCompatActivity {
     protected void onResume() {
         super.onResume();
         mainVideoView.start();
+
+        //The background music: https://www.chosic.com/
+        mainMusic = MediaPlayer.create(MainActivity.this, R.raw.main_music);
+        mainMusic.setVolume(1,1);
+        mainMusic.setLooping(true);
+        mainMusic.start();
     }
 
     @Override
@@ -75,6 +82,7 @@ public class MainActivity extends AppCompatActivity {
         super.onPause();
         mainVideoView.suspend();
         mainVideoView.stopPlayback();
+        mainMusic.stop();
     }
 
     // Set video view and load video

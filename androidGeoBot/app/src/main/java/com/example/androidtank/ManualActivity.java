@@ -68,6 +68,10 @@ public class ManualActivity extends AppCompatActivity {
 
     public void showDialog() {
         Dialog dialog = new Dialog(ManualActivity.this);
+
+        // user can not click away from box without interacting with it
+        dialog.setCancelable(false);
+
         dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
         Window window = dialog.getWindow();
         window.setBackgroundDrawableResource(android.R.color.transparent);
@@ -122,7 +126,7 @@ public class ManualActivity extends AppCompatActivity {
         });
     }
 
-    // For the back button
+    // go back one screen
     private void setupBackBtn(Button button) {
         button.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -131,7 +135,7 @@ public class ManualActivity extends AppCompatActivity {
             }
         });
     }
-
+    // reload activity
     private void setupReloadBtn(Button button) {
         button.setOnClickListener(new View.OnClickListener() {
             @Override

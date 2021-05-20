@@ -7,5 +7,6 @@
     <string name="manual">Start</string>
     <string name="autopilot">Autopilot</string>
     <string name="help">help</string>
+    <string name="break_button">Break!</string>>
     <string name="cameraview">cameraView</string>
 </resources>

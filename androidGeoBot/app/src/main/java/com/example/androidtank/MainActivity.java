@@ -70,9 +70,9 @@ public class MainActivity extends AppCompatActivity {
         super.onResume();
         mainVideoView.start();
 
-        //The background music:
+        //The background music: https://www.chosic.com/
         mainMusic = MediaPlayer.create(MainActivity.this, R.raw.main_music);
-        mainMusic.setVolume(50,50);
+        mainMusic.setVolume(1,1);
         mainMusic.setLooping(true);
         mainMusic.start();
     }

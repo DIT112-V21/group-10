@@ -31,7 +31,7 @@ public class ManualActivity extends AppCompatActivity {
     private JoystickView joystick;
     // currently win/lose will display based on this variable
     // but feel free to change this
-    private int points = 5;
+    private int points = 3;
 
 
     private static final String FAIL = "CONNECTION TO TANK COULD NOT BE ESTABLISHED";
@@ -54,7 +54,7 @@ public class ManualActivity extends AppCompatActivity {
         this.client = new Client(this);
 
        // uncomment to view dialog box
-       // showDialog();
+      // showDialog();
 
         if (!client.connect(null, null, null, null)) {
             Toast.makeText(this, FAIL, Toast.LENGTH_SHORT).show();

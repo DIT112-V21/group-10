@@ -2,18 +2,33 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@drawable/round_corner"
+    android:background="@drawable/round_corners"
     android:padding="12dp"
     >
 
+
     <TextView
-        android:id="@+id/text"
+        android:id="@+id/img"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentTop="true"
         android:layout_marginStart="21dp"
         android:textColor="#E0583A"
-        android:layout_marginBottom="50dp"
+        android:fontFamily="@font/bree_serif"
+        android:layout_marginTop="24dp"
+        android:text="@string/confetti"
+        android:textSize="50sp"
+        android:layout_centerInParent="true" />
+
+    <TextView
+        android:id="@+id/text"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/img"
+
+        android:layout_marginStart="21dp"
+        android:textColor="#E0583A"
+        android:layout_marginBottom="30dp"
         android:fontFamily="@font/bree_serif"
         android:layout_marginTop="24dp"
         android:text="@string/win"
@@ -28,6 +43,7 @@
         android:background="@drawable/btn_border"
         android:fontFamily="@font/bree_serif"
         android:text="@string/finish"
+        android:textColor="#0E1428"
         android:textSize="18sp" />
 
     <androidx.appcompat.widget.AppCompatButton
@@ -37,9 +53,8 @@
         android:layout_marginStart="5dp"
         android:layout_below="@+id/text"
         android:layout_toEndOf="@+id/finish"
-        android:layout_toRightOf="@+id/finish"
         android:fontFamily="@font/bree_serif"
-        android:background="#E0583A"
+        android:background="@drawable/btn_orange"
         android:text="@string/playAgain"
         android:textColor="#FFF"
         android:textSize="18sp" />

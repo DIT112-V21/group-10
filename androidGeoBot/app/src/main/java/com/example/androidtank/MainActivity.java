@@ -19,6 +19,7 @@ import java.util.Objects;
 
 public class MainActivity extends AppCompatActivity {
     private Button buttonLaunchManualAc;
+    private Button buttonLaunchHelp;
     MainVideoView mainVideoView;
     private int videoViewId = R.raw.mainscreen_video2;
     MediaPlayer mainMusic;
@@ -54,6 +55,14 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 switchActivities(ManualActivity.class);
+            }
+        });
+
+        buttonLaunchHelp = findViewById(R.id.helpbutton);
+        buttonLaunchHelp.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                switchActivities(HelpActivity.class);
             }
         });
     }

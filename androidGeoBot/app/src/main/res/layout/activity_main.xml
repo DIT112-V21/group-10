@@ -34,7 +34,7 @@
         android:id="@+id/txtMessage"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:fontFamily="casual"
+        android:fontFamily="@font/bree_serif"
         android:text="@string/app_title"
         android:textColor="#E5E5E5"
         android:textSize="78sp"

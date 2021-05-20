@@ -1,28 +1,12 @@
-#include <Smartcar.h>
+#include <car.h>
 
 // Car and attachments
 ArduinoRuntime arduinoRuntime;
-BrushedMotor leftMotor(arduinoRuntime, smartcarlib::pins::v2::leftMotorPins);
-BrushedMotor rightMotor(arduinoRuntime, smartcarlib::pins::v2::rightMotorPins);
+BrushedMotor leftMotor(arduinoRuntime, carlib::pins::v2::leftMotorPins);
+BrushedMotor rightMotor(arduinoRuntime, carlib::pins::v2::rightMotorPins);
 DifferentialControl control(leftMotor, rightMotor);
 
-GY50 gyroscope(arduinoRuntime, 37);
-
-const auto pulsesPerMeter = 600;
-
-DirectionlessOdometer leftOdometer{
-    arduinoRuntime,
-    smartcarlib::pins::v2::leftOdometerPin,
-    []() { leftOdometer.update(); },
-    pulsesPerMeter};
-DirectionlessOdometer rightOdometer{
-    arduinoRuntime,
-    smartcarlib::pins::v2::rightOdometerPin,
-    []() { rightOdometer.update(); },
-    pulsesPerMeter};
-
-SmartCar smartCar(arduinoRuntime, control, gyroscope, leftOdometer, rightOdometer);
-// SimpleCar car(control);
+SimpleCar car(control);
 
 // Sensors on car
 const int TRIGGER_PIN = 6; // D6
@@ -34,18 +18,18 @@ const unsigned short FRONT_IR_PIN = 0;
 const unsigned short LEFT_IR_PIN = 1;
 const unsigned short RIGHT_IR_PIN = 2;
 const unsigned short BACK_IR_PIN = 3;
-GP2Y0A21 infraredSensor0(arduinoRuntime, FRONT_IR_PIN);
-GP2Y0A21 infraredSensor1(arduinoRuntime, LEFT_IR_PIN);
-GP2Y0A21 infraredSensor2(arduinoRuntime, RIGHT_IR_PIN);
-GP2Y0A21 infraredSensor3(arduinoRuntime, BACK_IR_PIN);
+GP2Y0A21 infraredFront(arduinoRuntime, FRONT_IR_PIN);
+GP2Y0A21 infraredLeft(arduinoRuntime, LEFT_IR_PIN);
+GP2Y0A21 infraredRight(arduinoRuntime, RIGHT_IR_PIN);
+GP2Y0A21 infraredBack(arduinoRuntime, BACK_IR_PIN);
 
 // variables to measure time.
-const long infraInterval = 1000; // 1 second. Used instead of delay()
+const long INFRA_INTERVAL = 1000; // 1 second. Used instead of delay()
 unsigned long infraPreviousMillis = 0;
 unsigned long infraCurrentMillis = 0;
 boolean detection = false;
 
-const long debugMessageInterval = 750; // Used instead of delay()
+const long DEBUG_INTERVAL = 750; // Used instead of delay()
 unsigned long debugPreviousMillis = 0;
 unsigned long debugCurrentMillis = 0;
 
@@ -76,7 +60,7 @@ void loop()
 void autoCar()
 {
     float distance = front.getDistance();
-    smartCar.setSpeed(magnitude);
+    car.setSpeed(magnitude);
     distanceHandler(0, 200, distance);
 }
 
@@ -85,8 +69,8 @@ void autoCar()
  */
 void handleObstacle() // handle Ultrasonic sensor detection
 {
-    smartCar.setSpeed(-magnitude);  //In here the car will go back in the opposite direction but with the same speed
-    smartCar.setAngle(randomAngle); //In this line the car will turn while going backward to avoid obstacle
+    car.setSpeed(-magnitude);  //In here the car will go back in the opposite direction but with the same speed
+    car.setAngle(randomAngle); //In this line the car will turn while going backward to avoid obstacle
     distanceHandler(0, 200, front.getDistance());
 }
 
@@ -95,19 +79,19 @@ void handleObstacleInfrared(String detectionDirection) // handle infrared sensor
 {
     infraCurrentMillis = millis();
 
-    while ((infraCurrentMillis - infraPreviousMillis) <= infraInterval * 2)
+    while ((infraCurrentMillis - infraPreviousMillis) <= INFRA_INTERVAL * 2)
     {
         infraCurrentMillis = millis();
 
         if (detectionDirection.equals("BACK")) // If the back sensor has detected something
         {
-            smartCar.setSpeed(magnitude);
-            smartCar.setAngle(randomAngle);
+            car.setSpeed(magnitude);
+            car.setAngle(randomAngle);
         }
         else // if the FRONT sensor has detected something
         {
-            smartCar.setSpeed(-magnitude);
-            smartCar.setAngle(randomAngle);
+            car.setSpeed(-magnitude);
+            car.setAngle(randomAngle);
         }
     }
     randomAngle = angleMaker(); // new angle for car, so it doesnt turn the same way always.
@@ -124,10 +108,11 @@ void handleObstacleInfrared(String detectionDirection) // handle infrared sensor
  */
 void distanceHandler(float lowerBound, float upperBound, float distance)
 {
-    int f = infraredSensor0.getDistance();
-    // int l = infraredSensor1.getDistance(); // TODO, Use left infrared
-    // int r = infraredSensor2.getDistance(); // TODO, Use Right infrared
-    int b = infraredSensor3.getDistance();
+    int f = infraredFront
+                .getDistance();
+    // int l = infraredLeft.getDistance(); // TODO, Use left infrared
+    // int r = infraredRight.getDistance(); // TODO, Use Right infrared
+    int b = infraredBack.getDistance();
 
     if (distance > lowerBound && distance < upperBound)
     {
@@ -151,8 +136,8 @@ void distanceHandler(float lowerBound, float upperBound, float distance)
         handleObstacleInfrared("BACK");
     }
 
-    smartCar.setSpeed(magnitude); //this makes sure the car is back to its forward direction if a turning happened.
-    smartCar.setAngle(0);         //and this!
+    car.setSpeed(magnitude); //this makes sure the car is back to its forward direction if a turning happened.
+    car.setAngle(0);         //and this!
 }
 
 /**
@@ -190,25 +175,21 @@ int angleMaker()
  */
 void serialMsg()
 {
-    if ((debugCurrentMillis - debugPreviousMillis) >= debugMessageInterval)
+    if ((debugCurrentMillis - debugPreviousMillis) >= DEBUG_INTERVAL)
     {
         Serial.print("Speed: ");
-        Serial.println(smartCar.getSpeed());
+        Serial.println(car.getSpeed());
         Serial.print("Magnitude: ");
         Serial.println(magnitude);
 
-        int f = infraredSensor0.getDistance();
-        int l = infraredSensor1.getDistance();
-        int r = infraredSensor2.getDistance();
-        int b = infraredSensor3.getDistance();
         Serial.print("infraFront: ");
-        Serial.println(f);
+        Serial.println(infraredFront.getDistance());
         Serial.print("infraLeft: ");
-        Serial.println(l);
+        Serial.println(infraredLeft.getDistance());
         Serial.print("infraRight: ");
-        Serial.println(r);
+        Serial.println(infraredRight.getDistance());
         Serial.print("infraBack: ");
-        Serial.println(b);
+        Serial.println(infraredBack.getDistance());
 
         Serial.println("");
 

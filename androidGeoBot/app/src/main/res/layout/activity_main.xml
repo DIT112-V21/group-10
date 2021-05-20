@@ -25,7 +25,7 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:background="#12FFFFFF">
+            android:background="#07FFFFFF">
         </LinearLayout>
     </androidx.constraintlayout.widget.ConstraintLayout>
 
@@ -70,8 +70,8 @@
 
     <androidx.appcompat.widget.AppCompatButton
         android:id="@+id/button_manual"
-        android:layout_width="250dp"
-        android:layout_height="wrap_content"
+        android:layout_width="150dp"
+        android:layout_height="53dp"
         android:background="@drawable/bg_button_one"
         android:fontFamily="@font/bree_serif"
         android:text="@string/manual"

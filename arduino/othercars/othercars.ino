@@ -2,8 +2,8 @@
 
 // Car and attachments
 ArduinoRuntime arduinoRuntime;
-BrushedMotor leftMotor(arduinoRuntime, carlib::pins::v2::leftMotorPins);
-BrushedMotor rightMotor(arduinoRuntime, carlib::pins::v2::rightMotorPins);
+BrushedMotor leftMotor(arduinoRuntime, smartcarlib::pins::v2::leftMotorPins);
+BrushedMotor rightMotor(arduinoRuntime, smartcarlib::pins::v2::rightMotorPins);
 DifferentialControl control(leftMotor, rightMotor);
 
 SimpleCar car(control);
@@ -177,8 +177,6 @@ void serialMsg()
 {
     if ((debugCurrentMillis - debugPreviousMillis) >= DEBUG_INTERVAL)
     {
-        Serial.print("Speed: ");
-        Serial.println(car.getSpeed());
         Serial.print("Magnitude: ");
         Serial.println(magnitude);
 

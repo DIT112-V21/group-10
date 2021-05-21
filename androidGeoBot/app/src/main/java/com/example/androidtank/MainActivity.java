@@ -81,7 +81,7 @@ public class MainActivity extends AppCompatActivity {
 
         //The background music: https://www.chosic.com/
         mainMusic = MediaPlayer.create(MainActivity.this, R.raw.main_music);
-        mainMusic.setVolume(0.4f,0.4f);
+        mainMusic.setVolume(0.27f,0.27f);
         mainMusic.setLooping(true);
         mainMusic.start();
     }

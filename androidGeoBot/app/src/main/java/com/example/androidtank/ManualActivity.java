@@ -24,7 +24,7 @@ public class ManualActivity extends AppCompatActivity implements JoystickView.Jo
 
     //joystick buttons
     private Button breakBtn, acceleration , deceleration, backBtn;
-    private MediaPlayer breakSound, engineSound;
+    private MediaPlayer breakSound;
     private Client client;
     public ImageView mCameraView;
     JoystickView joystick;
@@ -154,17 +154,11 @@ public class ManualActivity extends AppCompatActivity implements JoystickView.Jo
         if (music.equals("breakSound")) {
             breakSound = MediaPlayer.create(this, R.raw.break_sound);
             breakSound.start();
-        } else if (music.equals("engineSound")) {
-            engineSound = MediaPlayer.create(this, R.raw.acceleration);
-            engineSound.setLooping(true);
-            engineSound.start();
         }
     }
     public void stopSoundEffect(String music) {
         if (music.equals("breakSound")) {
             breakSound.stop();
-        } else if (music.equals("engineSound")) {
-            engineSound.stop();
         }
     }
 }

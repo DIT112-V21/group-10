@@ -24,8 +24,6 @@ import java.util.Objects;
 public class ManualActivity extends AppCompatActivity implements JoystickView.JoystickListener {
     //joystick buttons
     private Button breakBtn, acceleration , deceleration, backBtn;
-    MediaPlayer breakSound;
-    MediaPlayer engineSound;
     private Client client;
     public ImageView mCameraView;
     JoystickView joystick;
@@ -46,10 +44,6 @@ public class ManualActivity extends AppCompatActivity implements JoystickView.Jo
         setContentView(R.layout.activity_manual);
         this.mCameraView = (ImageView)findViewById(R.id.cameraView);
         joystick = new JoystickView(this);
-
-        //Sound effect initiation
-        breakSound = MediaPlayer.create(this, R.raw.break_sound);
-        engineSound = MediaPlayer.create(this, R.raw.acceleration);
 
         // Mqtt Client
         this.client = new Client(this);
@@ -82,8 +76,6 @@ public class ManualActivity extends AppCompatActivity implements JoystickView.Jo
         button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                engineSound.pause();
-                breakSound.start();
                 client.button_publish(button);
             }
         });
@@ -105,7 +97,6 @@ public class ManualActivity extends AppCompatActivity implements JoystickView.Jo
         switch (id)
         {
             case R.id.joystick:
-                engineSound.start();
                 client.joystick_publish(joystick,  xPercent,  yPercent);
                 break;
         }

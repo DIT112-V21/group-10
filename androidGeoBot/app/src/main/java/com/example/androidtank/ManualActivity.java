@@ -3,6 +3,7 @@ package com.example.androidtank;
 
 import android.graphics.Bitmap;
 import android.annotation.SuppressLint;
+import android.media.MediaPlayer;
 import android.os.Bundle;
 import android.os.Handler;
 import android.util.Log;
@@ -63,12 +64,8 @@ public class ManualActivity extends AppCompatActivity implements JoystickView.Jo
         // Setup ordinary buttons
         breakBtn = findViewById(R.id.break_button);
         backBtn = findViewById(R.id.button_back);
-        //acceleration = (Button) findViewById(R.id.accelerate_up);
-        //deceleration = (Button) findViewById(R.id.accelerate_down);
         setupOrdinaryButton(breakBtn);
         setupOrdinaryButton2(backBtn);
-        //setupOrdinaryButton(acceleration);
-        //setupOrdinaryButton(deceleration);
     }
 
     /**
@@ -82,6 +79,7 @@ public class ManualActivity extends AppCompatActivity implements JoystickView.Jo
                 client.button_publish(button);
             }
         });
+
     }
     // For the back button
     private void setupOrdinaryButton2(Button button) {

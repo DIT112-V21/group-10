@@ -1,37 +1,29 @@
 -- Merging decision tree log ---
 manifest
-ADDED from C:\dev\School\DIT112\Project\group-10\androidGeoBot\openCVLibrary3414\src\main\AndroidManifest.xml:2:1-6:12
-INJECTED from C:\dev\School\DIT112\Project\group-10\androidGeoBot\openCVLibrary3414\src\main\AndroidManifest.xml:2:1-6:12
-INJECTED from C:\dev\School\DIT112\Project\group-10\androidGeoBot\openCVLibrary3414\src\main\AndroidManifest.xml:2:1-6:12
-INJECTED from C:\dev\School\DIT112\Project\group-10\androidGeoBot\openCVLibrary3414\src\main\AndroidManifest.xml:2:1-6:12
-INJECTED from C:\dev\School\DIT112\Project\group-10\androidGeoBot\openCVLibrary3414\src\main\AndroidManifest.xml:2:1-6:12
-INJECTED from C:\dev\School\DIT112\Project\group-10\androidGeoBot\openCVLibrary3414\src\main\AndroidManifest.xml:2:1-6:12
-INJECTED from C:\dev\School\DIT112\Project\group-10\androidGeoBot\openCVLibrary3414\src\main\AndroidManifest.xml:2:1-6:12
+ADDED from C:\Users\marye\AndroidStudioProjects\group-10\androidGeoBot\openCVLibrary3414\src\main\AndroidManifest.xml:2:1-6:12
+INJECTED from C:\Users\marye\AndroidStudioProjects\group-10\androidGeoBot\openCVLibrary3414\src\main\AndroidManifest.xml:2:1-6:12
+INJECTED from C:\Users\marye\AndroidStudioProjects\group-10\androidGeoBot\openCVLibrary3414\src\main\AndroidManifest.xml:2:1-6:12
 	package
-		ADDED from C:\dev\School\DIT112\Project\group-10\androidGeoBot\openCVLibrary3414\src\main\AndroidManifest.xml:3:7-27
-		INJECTED from C:\dev\School\DIT112\Project\group-10\androidGeoBot\openCVLibrary3414\src\main\AndroidManifest.xml
-		INJECTED from C:\dev\School\DIT112\Project\group-10\androidGeoBot\openCVLibrary3414\src\main\AndroidManifest.xml
+		ADDED from C:\Users\marye\AndroidStudioProjects\group-10\androidGeoBot\openCVLibrary3414\src\main\AndroidManifest.xml:3:7-27
+		INJECTED from C:\Users\marye\AndroidStudioProjects\group-10\androidGeoBot\openCVLibrary3414\src\main\AndroidManifest.xml
+		INJECTED from C:\Users\marye\AndroidStudioProjects\group-10\androidGeoBot\openCVLibrary3414\src\main\AndroidManifest.xml
 	android:versionName
-		ADDED from C:\dev\School\DIT112\Project\group-10\androidGeoBot\openCVLibrary3414\src\main\AndroidManifest.xml:5:7-35
-		INJECTED from C:\dev\School\DIT112\Project\group-10\androidGeoBot\openCVLibrary3414\src\main\AndroidManifest.xml
-		INJECTED from C:\dev\School\DIT112\Project\group-10\androidGeoBot\openCVLibrary3414\src\main\AndroidManifest.xml
+		ADDED from C:\Users\marye\AndroidStudioProjects\group-10\androidGeoBot\openCVLibrary3414\src\main\AndroidManifest.xml:5:7-35
 	xmlns:android
-		ADDED from C:\dev\School\DIT112\Project\group-10\androidGeoBot\openCVLibrary3414\src\main\AndroidManifest.xml:2:11-69
+		ADDED from C:\Users\marye\AndroidStudioProjects\group-10\androidGeoBot\openCVLibrary3414\src\main\AndroidManifest.xml:2:11-69
 	android:versionCode
-		ADDED from C:\dev\School\DIT112\Project\group-10\androidGeoBot\openCVLibrary3414\src\main\AndroidManifest.xml:4:7-34
-		INJECTED from C:\dev\School\DIT112\Project\group-10\androidGeoBot\openCVLibrary3414\src\main\AndroidManifest.xml
-		INJECTED from C:\dev\School\DIT112\Project\group-10\androidGeoBot\openCVLibrary3414\src\main\AndroidManifest.xml
+		ADDED from C:\Users\marye\AndroidStudioProjects\group-10\androidGeoBot\openCVLibrary3414\src\main\AndroidManifest.xml:4:7-34
 uses-sdk
-INJECTED from C:\dev\School\DIT112\Project\group-10\androidGeoBot\openCVLibrary3414\src\main\AndroidManifest.xml reason: use-sdk injection requested
-INJECTED from C:\dev\School\DIT112\Project\group-10\androidGeoBot\openCVLibrary3414\src\main\AndroidManifest.xml
-INJECTED from C:\dev\School\DIT112\Project\group-10\androidGeoBot\openCVLibrary3414\src\main\AndroidManifest.xml
-INJECTED from C:\dev\School\DIT112\Project\group-10\androidGeoBot\openCVLibrary3414\src\main\AndroidManifest.xml
-INJECTED from C:\dev\School\DIT112\Project\group-10\androidGeoBot\openCVLibrary3414\src\main\AndroidManifest.xml
+INJECTED from C:\Users\marye\AndroidStudioProjects\group-10\androidGeoBot\openCVLibrary3414\src\main\AndroidManifest.xml reason: use-sdk injection requested
+INJECTED from C:\Users\marye\AndroidStudioProjects\group-10\androidGeoBot\openCVLibrary3414\src\main\AndroidManifest.xml
+INJECTED from C:\Users\marye\AndroidStudioProjects\group-10\androidGeoBot\openCVLibrary3414\src\main\AndroidManifest.xml
+INJECTED from C:\Users\marye\AndroidStudioProjects\group-10\androidGeoBot\openCVLibrary3414\src\main\AndroidManifest.xml
+INJECTED from C:\Users\marye\AndroidStudioProjects\group-10\androidGeoBot\openCVLibrary3414\src\main\AndroidManifest.xml
 	android:targetSdkVersion
-		INJECTED from C:\dev\School\DIT112\Project\group-10\androidGeoBot\openCVLibrary3414\src\main\AndroidManifest.xml
-		ADDED from C:\dev\School\DIT112\Project\group-10\androidGeoBot\openCVLibrary3414\src\main\AndroidManifest.xml
-		INJECTED from C:\dev\School\DIT112\Project\group-10\androidGeoBot\openCVLibrary3414\src\main\AndroidManifest.xml
+		INJECTED from C:\Users\marye\AndroidStudioProjects\group-10\androidGeoBot\openCVLibrary3414\src\main\AndroidManifest.xml
+		ADDED from C:\Users\marye\AndroidStudioProjects\group-10\androidGeoBot\openCVLibrary3414\src\main\AndroidManifest.xml
+		INJECTED from C:\Users\marye\AndroidStudioProjects\group-10\androidGeoBot\openCVLibrary3414\src\main\AndroidManifest.xml
 	android:minSdkVersion
-		INJECTED from C:\dev\School\DIT112\Project\group-10\androidGeoBot\openCVLibrary3414\src\main\AndroidManifest.xml
-		ADDED from C:\dev\School\DIT112\Project\group-10\androidGeoBot\openCVLibrary3414\src\main\AndroidManifest.xml
-		INJECTED from C:\dev\School\DIT112\Project\group-10\androidGeoBot\openCVLibrary3414\src\main\AndroidManifest.xml
+		INJECTED from C:\Users\marye\AndroidStudioProjects\group-10\androidGeoBot\openCVLibrary3414\src\main\AndroidManifest.xml
+		ADDED from C:\Users\marye\AndroidStudioProjects\group-10\androidGeoBot\openCVLibrary3414\src\main\AndroidManifest.xml
+		INJECTED from C:\Users\marye\AndroidStudioProjects\group-10\androidGeoBot\openCVLibrary3414\src\main\AndroidManifest.xml

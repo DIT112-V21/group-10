@@ -121,10 +121,12 @@ public class JoystickView extends SurfaceView implements SurfaceHolder.Callback,
     {
         if(v.equals(this))
         {
-
-            if(e.getAction() == e.ACTION_DOWN)
-            {
+            if(e.getAction() == e.ACTION_DOWN) {
                 setSoundEffect("engineSound");
+            }
+
+            if(e.getAction() != e.ACTION_UP)
+            {
                 float displacement = (float) Math.sqrt((Math.pow(e.getX() - centerX, 2)) + Math.pow(e.getY() - centerY, 2));
                 if(displacement < baseRadius)
                 {

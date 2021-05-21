@@ -1,32 +1,39 @@
 package com.example.androidtank;
 
 
+import android.app.Dialog;
+import android.content.Intent;
 import android.graphics.Bitmap;
 import android.annotation.SuppressLint;
 import android.media.MediaPlayer;
 import android.os.Bundle;
-import android.os.Handler;
-import android.util.Log;
-import android.view.MotionEvent;
+// we are using the joystick from https://github.com/controlwear/virtual-joystick-android
+import io.github.controlwear.virtual.joystick.android.JoystickView;
+
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.Toast;
+
 import androidx.appcompat.app.AppCompatActivity;
+
 import com.example.androidtank.utilities.Client;
 
 import java.util.Objects;
 
 
-
-public class ManualActivity extends AppCompatActivity implements JoystickView.JoystickListener {
+public class ManualActivity extends AppCompatActivity {
     //joystick buttons
-    private Button breakBtn, acceleration , deceleration, backBtn;
+    private Button breakBtn, acceleration, deceleration, backBtn;
     private Client client;
     public ImageView mCameraView;
-    JoystickView joystick;
+    private JoystickView joystick;
+    // currently win/lose will display based on this variable
+    // but feel free to change this
+    private int points = 3;
+
 
     private static final String FAIL = "CONNECTION TO TANK COULD NOT BE ESTABLISHED";
     private static final String SUCCESS = "CONNECTION TO TANK ESTABLISHED";
@@ -42,21 +49,55 @@ public class ManualActivity extends AppCompatActivity implements JoystickView.Jo
 
         // Setting the layout to be used
         setContentView(R.layout.activity_manual);
-        this.mCameraView = (ImageView)findViewById(R.id.cameraView);
-        joystick = new JoystickView(this);
+        this.mCameraView = (ImageView) findViewById(R.id.cameraView);
 
         // Mqtt Client
         this.client = new Client(this);
 
+       // uncomment to view dialog box
+       // showDialog();
 
-        if (!client.connect(null,null,null,null)) {
+        if (!client.connect(null, null, null, null)) {
             Toast.makeText(this, FAIL, Toast.LENGTH_SHORT).show();
-        } else{
+        } else {
             Toast.makeText(this, SUCCESS, Toast.LENGTH_SHORT).show();
         }
 
         // Setting up controls
         setTankControls();
+    }
+
+    public void showDialog() {
+        Dialog dialog = new Dialog(ManualActivity.this);
+
+        // user can not click away from box without interacting with it
+        dialog.setCancelable(false);
+
+        dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
+        Window window = dialog.getWindow();
+        window.setBackgroundDrawableResource(android.R.color.transparent);
+        // initial logic for winning/losing
+        if(points > 4){
+            dialog.setContentView(R.layout.dialog_win);
+        } else {
+            dialog.setContentView(R.layout.dialog_lose);
+        }
+        Button finish = (Button) dialog.findViewById(R.id.finish);
+        setupOrdinaryButton2(finish);
+        Button reload = (Button) dialog.findViewById(R.id.playAgain);
+        setupReloadBtn(reload);
+        dialog.show();
+    }
+
+
+    public void setupJoystick() {
+        joystick = (JoystickView) findViewById(R.id.joystickView);
+        joystick.setOnMoveListener(new JoystickView.OnMoveListener() {
+            @Override
+            public void onMove(int angle, int strength) {
+                client.joystick_publish(joystick, angle, strength);
+            }
+        });
     }
 
     // Setup of the controls for the SMCE car.
@@ -66,6 +107,7 @@ public class ManualActivity extends AppCompatActivity implements JoystickView.Jo
         backBtn = findViewById(R.id.button_back);
         setupOrdinaryButton(breakBtn);
         setupOrdinaryButton2(backBtn);
+        setupJoystick();
     }
 
     /**
@@ -81,7 +123,8 @@ public class ManualActivity extends AppCompatActivity implements JoystickView.Jo
         });
 
     }
-    // For the back button
+
+    // go back one screen
     private void setupOrdinaryButton2(Button button) {
         button.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -90,16 +133,18 @@ public class ManualActivity extends AppCompatActivity implements JoystickView.Jo
             }
         });
     }
-
-
-    @Override
-    public void onJoystickMoved(float xPercent, float yPercent, int id) {
-        switch (id)
-        {
-            case R.id.joystick:
-                client.joystick_publish(joystick,  xPercent,  yPercent);
-                break;
-        }
+    // reload activity
+    private void setupReloadBtn(Button button) {
+        button.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent i = new Intent(ManualActivity.this, ManualActivity.class);
+                finish();
+                overridePendingTransition(0, 0);
+                startActivity(i);
+                overridePendingTransition(0, 0);
+            }
+        });
     }
 
 
@@ -137,7 +182,7 @@ public class ManualActivity extends AppCompatActivity implements JoystickView.Jo
             };
         });
     }*/
-    public void setBitmap(Bitmap bm){
+    public void setBitmap(Bitmap bm) {
         this.mCameraView.setImageBitmap(bm);
     }
 }

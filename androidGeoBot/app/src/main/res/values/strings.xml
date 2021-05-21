@@ -9,4 +9,11 @@
     <string name="help">help</string>
     <string name="break_button">Break!</string>>
     <string name="cameraview">cameraView</string>
+    <string name="win">You won!</string>
+    <string name="lose">Game over!</string>
+
+    <string name="finish">Finish</string>
+    <string name="playAgain">Play again!</string>
+    <string name="confetti">🎉</string>
+    <string name="sad_emoji">😨</string>
 </resources>

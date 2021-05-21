@@ -55,7 +55,7 @@ public class ManualActivity extends AppCompatActivity {
         this.client = new Client(this);
 
        // uncomment to view dialog box
-      // showDialog();
+       // showDialog();
 
         if (!client.connect(null, null, null, null)) {
             Toast.makeText(this, FAIL, Toast.LENGTH_SHORT).show();
@@ -107,6 +107,7 @@ public class ManualActivity extends AppCompatActivity {
         backBtn = findViewById(R.id.button_back);
         setupOrdinaryButton(breakBtn);
         setupOrdinaryButton2(backBtn);
+        setupJoystick();
     }
 
     /**

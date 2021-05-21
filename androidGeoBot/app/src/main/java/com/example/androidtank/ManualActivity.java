@@ -5,6 +5,7 @@ import android.app.Dialog;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.annotation.SuppressLint;
+import android.media.MediaPlayer;
 import android.os.Bundle;
 // we are using the joystick from https://github.com/controlwear/virtual-joystick-android
 import io.github.controlwear.virtual.joystick.android.JoystickView;
@@ -82,7 +83,7 @@ public class ManualActivity extends AppCompatActivity {
             dialog.setContentView(R.layout.dialog_lose);
         }
         Button finish = (Button) dialog.findViewById(R.id.finish);
-        setupBackBtn(finish);
+        setupOrdinaryButton2(finish);
         Button reload = (Button) dialog.findViewById(R.id.playAgain);
         setupReloadBtn(reload);
         dialog.show();
@@ -104,13 +105,8 @@ public class ManualActivity extends AppCompatActivity {
         // Setup ordinary buttons
         breakBtn = findViewById(R.id.break_button);
         backBtn = findViewById(R.id.button_back);
-        //acceleration = (Button) findViewById(R.id.accelerate_up);
-        //deceleration = (Button) findViewById(R.id.accelerate_down);
         setupOrdinaryButton(breakBtn);
-        setupBackBtn(backBtn);
-        setupJoystick();
-        //setupOrdinaryButton(acceleration);
-        //setupOrdinaryButton(deceleration);
+        setupOrdinaryButton2(backBtn);
     }
 
     /**
@@ -124,10 +120,11 @@ public class ManualActivity extends AppCompatActivity {
                 client.button_publish(button);
             }
         });
+
     }
 
     // go back one screen
-    private void setupBackBtn(Button button) {
+    private void setupOrdinaryButton2(Button button) {
         button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {

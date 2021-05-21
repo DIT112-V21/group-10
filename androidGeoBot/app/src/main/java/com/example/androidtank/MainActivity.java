@@ -78,12 +78,7 @@ public class MainActivity extends AppCompatActivity {
     protected void onResume() {
         super.onResume();
         mainVideoView.start();
-
-        //The background music: https://www.chosic.com/
-        mainMusic = MediaPlayer.create(MainActivity.this, R.raw.main_music);
-        mainMusic.setVolume(0.4f,0.4f);
-        mainMusic.setLooping(true);
-        mainMusic.start();
+        music();
     }
 
     @Override
@@ -93,6 +88,17 @@ public class MainActivity extends AppCompatActivity {
         mainVideoView.stopPlayback();
         mainMusic.stop();
     }
+
+    //Set the music of the main Screen
+
+    private void music() {
+        //The background music: https://www.chosic.com/
+        mainMusic = MediaPlayer.create(MainActivity.this, R.raw.main_music);
+        mainMusic.setVolume(0.4f,0.4f);
+        mainMusic.setLooping(true);
+        mainMusic.start();
+    }
+
 
     // Set video view and load video
     private void initializeVideoView() {

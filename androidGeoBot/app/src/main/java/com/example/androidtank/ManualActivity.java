@@ -48,8 +48,8 @@ public class ManualActivity extends AppCompatActivity implements JoystickView.Jo
         joystick = new JoystickView(this);
 
         //Sound effect initiation
-        breakSound = MediaPlayer.create(this, R.raw.break_sound);
-        engineSound = MediaPlayer.create(this, R.raw.acceleration);
+//        breakSound = MediaPlayer.create(this, R.raw.break_sound);
+//        engineSound = MediaPlayer.create(this, R.raw.acceleration);
 
         // Mqtt Client
         this.client = new Client(this);
@@ -82,8 +82,7 @@ public class ManualActivity extends AppCompatActivity implements JoystickView.Jo
         button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                engineSound.pause();
-                breakSound.start();
+                setSoundEffects("breakSound");
                 client.button_publish(button);
             }
         });
@@ -91,11 +90,35 @@ public class ManualActivity extends AppCompatActivity implements JoystickView.Jo
     }
     // For the back button
     private void setupOrdinaryButton2(Button button) {
-        button.setOnClickListener(new View.OnClickListener() {
+        button.setOnTouchListener(new View.OnTouchListener() {
+
+            private Handler mHandler;
+
             @Override
-            public void onClick(View view) {
-                finish();
+            public boolean onTouch(View v, MotionEvent event) {
+                switch(event.getAction()) {
+                    case MotionEvent.ACTION_DOWN:
+                        if (mHandler != null) return true;
+                        mHandler = new Handler();
+                        mHandler.postDelayed(mAction, 100);
+                        break;
+                    case MotionEvent.ACTION_UP:
+                        if (mHandler == null) return true;
+                        client.button_publish(null);
+                        mHandler.removeCallbacksAndMessages(null);
+                        mHandler = null;
+                        break;
+                }
+                return false;
             }
+
+            Runnable mAction = new Runnable() {
+                @Override public void run() {
+
+                    client.button_publish(button);
+                    mHandler.postDelayed(this, 100);
+                }
+            };
         });
     }
 
@@ -148,5 +171,16 @@ public class ManualActivity extends AppCompatActivity implements JoystickView.Jo
     }*/
     public void setBitmap(Bitmap bm){
         this.mCameraView.setImageBitmap(bm);
+    }
+
+
+    public void setSoundEffects(String music) {
+        if (music.equals("breakSound")) {
+            breakSound = MediaPlayer.create(this, R.raw.break_sound);
+            breakSound.start();
+        } else if (music.equals("engineSound")) {
+            engineSound = MediaPlayer.create(this, R.raw.acceleration);
+            engineSound.start();
+        }
     }
 }

@@ -8,8 +8,6 @@ import android.widget.Toast;
 
 import android.widget.Button;
 
-import androidx.annotation.NonNull;
-
 import io.github.controlwear.virtual.joystick.android.JoystickView;
 import com.example.androidtank.ManualActivity;
 import com.example.androidtank.R;
@@ -22,12 +20,14 @@ import org.eclipse.paho.client.mqttv3.IMqttToken;
 import org.eclipse.paho.client.mqttv3.MqttCallback;
 import org.eclipse.paho.client.mqttv3.MqttMessage;
 
+
 // Helper class between actual MqttClient and activities
 //
 public class Client extends MqttClient {
 
     private final String TAG2 = this.getClass().getName();
     protected MqttClient mqttClient;
+    private int scoreValue;
 
     // Topics to update to
     private static final String FAIL = "CONNECTION TO TANK COULD NOT BE ESTABLISHED";
@@ -129,6 +129,8 @@ public class Client extends MqttClient {
                     manualActivity.setBitmap(bm);
 
                 }else if(topic.equals(UPDATE_SCORE)){
+                    String scoreString = message.toString();
+                    scoreValue = Integer.parseInt(scoreString);
                     ManualActivity manualActivity = (ManualActivity)context;
                     TextView scoreDisplay = manualActivity.getScore();
                     String scoreMessage = "Score: " + message.toString();
@@ -173,23 +175,6 @@ public class Client extends MqttClient {
         public void button_publish(Button button){
             if(!(button == null) && isConnected){
                 switch (button.getId()){
-
-               /*     case R.id.forward_button:
-                        publish(FORWARD_CONTROL, Integer.toString(SPEED),QOS, null);
-                        break;
-
-                    case R.id.backward_button:
-                        publish(BACKWARD_CONTROL, Integer.toString(SPEED),QOS, null);
-                        break;
-
-                    case R.id.right_button:
-                        publish(TURN_RIGHT, Integer.toString(ANGLE),QOS, null);
-                        break;
-
-                    case R.id.left_button:
-                        publish(TURN_LEFT, Integer.toString(ANGLE),QOS,null);
-                        break;*/
-
 //               case R.id.accelerate_up:
 //                   mqttClient.publish(ACCELERATE, Integer.toString(SPEED),QOS,null);
 //                   break;
@@ -231,17 +216,20 @@ public class Client extends MqttClient {
                 float sliderValue = slider.getValue();
                 publish(BACKWARD_CONTROL, Float.toString(sliderValue),QOS,null);
             }
-            if(strength > 0 && angle <= 180){
-                ManualActivity manualActivity = (ManualActivity)context;
+            if(strength > 0 && angle <= 180) {
+                ManualActivity manualActivity = (ManualActivity) context;
                 Slider slider = manualActivity.getSlider();
                 float sliderValue = slider.getValue();
-                publish(FORWARD_CONTROL, Float.toString(sliderValue),QOS,null);
+                publish(FORWARD_CONTROL, Float.toString(sliderValue), QOS, null);
             }
-        } else if((joystickView == null) && isConnected) {
+            } else if((joystickView == null) && isConnected) {
             publish("/Group10/manual/nocontrol", Integer.toString(0),QOS,null);
-        } else {
+            } else {
             Toast.makeText(context, "Connection not established", Toast.LENGTH_SHORT).show();
         }
+    }
+    public int getScoreValue(){
+        return this.scoreValue;
     }
 }
 

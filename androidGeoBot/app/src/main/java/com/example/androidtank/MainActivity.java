@@ -1,23 +1,28 @@
 package com.example.androidtank;
 
 import android.content.Intent;
+import android.media.MediaPlayer;
+import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
 import android.widget.Button;
-
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.example.androidtank.utilities.HandleFiles;
 import org.opencv.android.OpenCVLoader;
 
+import java.io.FileNotFoundException;
 import java.util.Objects;
 
 public class MainActivity extends AppCompatActivity {
-    private Button buttonLaunchManualAc,
-            buttonLaunchAutoAc,
-            buttonLaunchHelpAc;
+    private Button buttonLaunchManualAc;
+    private Button buttonLaunchHelp;
+    MainVideoView mainVideoView;
+    private int videoViewId = R.raw.mainscreen_video2;
+    MediaPlayer mainMusic;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -29,10 +34,14 @@ public class MainActivity extends AppCompatActivity {
         this.getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,
                 WindowManager.LayoutParams.FLAG_FULLSCREEN);
 
+        // Set view
         setContentView(R.layout.activity_main);
 
-        // Check if OpenCV can be initialized and used.
-        // System.loadLibrary("opencv_java4");
+        // Set video view and load video
+        initializeVideoView();
+
+        // Check if OpenCV can be initialized and used. the code in the parameters return false if
+        // OpenCV can't be loaded
         if (!OpenCVLoader.initDebug())
             Log.d("ERROR", "Unable to load OpenCV");
         else
@@ -40,20 +49,22 @@ public class MainActivity extends AppCompatActivity {
 
         // Sets the buttons in the activity layout to an actual Button objects that we can use
         buttonLaunchManualAc = findViewById(R.id.button_manual);
-        buttonLaunchAutoAc = findViewById(R.id.button_autopilot);
-        buttonLaunchHelpAc = findViewById(R.id.button_help);
 
-        // Creates onClickListener for the buttons.
-        // Does the same thing as the lambdas below. Lines with "->".
+        // Creates onClickListener for the buttons and views
         buttonLaunchManualAc.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 switchActivities(ManualActivity.class);
             }
         });
-        buttonLaunchAutoAc.setOnClickListener(view -> switchActivities(AutoActivity.class));
-        buttonLaunchHelpAc.setOnClickListener(view -> switchActivities(HelpActivity.class));
 
+        buttonLaunchHelp = findViewById(R.id.helpbutton);
+        buttonLaunchHelp.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                switchActivities(HelpActivity.class);
+            }
+        });
     }
 
     // An intent is used to launch an activity. Makes it possible to go from main screen to others.
@@ -61,5 +72,46 @@ public class MainActivity extends AppCompatActivity {
         Intent switchActivity = new Intent(this, ActivityClass);
         switchActivity.addFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
         startActivity(switchActivity);
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        mainVideoView.start();
+
+        //The background music: https://www.chosic.com/
+        mainMusic = MediaPlayer.create(MainActivity.this, R.raw.main_music);
+        mainMusic.setVolume(0.27f,0.27f);
+        mainMusic.setLooping(true);
+        mainMusic.start();
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        mainVideoView.suspend();
+        mainVideoView.stopPlayback();
+        mainMusic.stop();
+    }
+
+    // Set video view and load video
+    private void initializeVideoView() {
+        // TODO; 1. Don't set videoPath as null. 2. Refactor this code
+        HandleFiles handleFiles = new HandleFiles();
+        String videoPath = null;
+        mainVideoView = new MainVideoView(this);
+        mainVideoView = findViewById(R.id.mainVideoView);
+        try {
+            videoPath = handleFiles.getFileFromRes(this, videoViewId);
+
+            mainVideoView.setVideoURI(Uri.parse(videoPath));
+            mainVideoView.setVideoPath(videoPath);
+            mainVideoView.setLayoutLook(mainVideoView); // sets the layout look for the videoview
+            mainVideoView.enableRestartVideo(); // sets a listener that enables restarting video
+            mainVideoView.start();
+        } catch (FileNotFoundException e) {
+            Log.i("TAG", "Could not load video", e);
+            // e.printStackTrace();
+        }
     }
 }

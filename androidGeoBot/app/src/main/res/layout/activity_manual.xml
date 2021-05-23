@@ -30,7 +30,6 @@
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent">
-
             <!--     <ImageView
                      android:id="@+id/steering_wheel"
                      android:layout_width="250dp"
@@ -152,17 +151,6 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
                 app:layout_constraintVertical_bias="0.0" />
-
-            <androidx.appcompat.widget.AppCompatButton
-                android:id="@+id/help_button"
-                android:layout_width="45dp"
-                android:layout_height="45dp"
-                android:layout_marginTop="340dp"
-                android:background="@drawable/help_button_manual"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintHorizontal_bias="0.044"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
 
             <com.google.android.material.slider.Slider
                 android:id="@+id/speedSlider"

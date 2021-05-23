@@ -8,4 +8,6 @@
     <string name="autopilot">Autopilot</string>
     <string name="help">help</string>
     <string name="cameraview">cameraView</string>
+    <string name="brake">Brake</string>
+    <string name="score">Score: </string>
 </resources>

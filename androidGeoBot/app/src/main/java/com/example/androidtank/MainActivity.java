@@ -57,7 +57,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     // An intent is used to launch an activity. Makes it possible to go from main screen to others.
-    private void switchActivities(Class ActivityClass) {
+    public void switchActivities(Class ActivityClass) {
         Intent switchActivity = new Intent(this, ActivityClass);
         switchActivity.addFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
         startActivity(switchActivity);

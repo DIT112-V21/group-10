@@ -52,7 +52,6 @@ public class ManualActivity extends AppCompatActivity {
 
         // Setting the layout to be used
         setContentView(R.layout.activity_manual);
-        this.mCameraView = (ImageView) findViewById(R.id.cameraView);
         this.slider = (Slider) findViewById(R.id.speedSlider);
         this.score = (TextView) findViewById(R.id.scoreText);
         this.mCameraView = (ImageView) findViewById(R.id.cameraView);

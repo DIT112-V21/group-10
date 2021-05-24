@@ -85,7 +85,7 @@ void handleInput()
 {
     float distance = front.getDistance();
     serialMsg(distance);
-    distanceHandler(0, 200, distance);
+    // distanceHandler(0, 200, distance);
 }
 
 void handleObstacle()

@@ -212,14 +212,14 @@ public class Client extends MqttClient {
                     ManualActivity manualActivity = (ManualActivity) context;
                     Slider slider = manualActivity.getSlider();
                     float sliderValue = slider.getValue();
-                    yStrength = (float)yStrength/100 * sliderValue; // Convert yStrength to slider scale
+                    yStrength = Math.round((float)yStrength/100 * sliderValue); // Convert yStrength to slider scale
                     publish(BACKWARD_CONTROL, Float.toString(yStrength), QOS, null);
                 }
                 if (yStrength > 0 && angle < 180) {
                     ManualActivity manualActivity = (ManualActivity) context;
                     Slider slider = manualActivity.getSlider();
                     float sliderValue = slider.getValue();
-                    yStrength = (float)yStrength/100 * sliderValue; // Convert yStrength to slider scale
+                    yStrength = Math.round((float)yStrength/100 * sliderValue); // Convert yStrength to slider scale
                     publish(FORWARD_CONTROL, Float.toString(yStrength), QOS, null);
                 }
             }

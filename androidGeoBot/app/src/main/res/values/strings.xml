@@ -9,6 +9,8 @@
     <string name="help">help</string>
     <string name="break_button">Break!</string>>
     <string name="cameraview">cameraView</string>
+    <string name="brake">Brake</string>
+    <string name="score">Score: </string>
     <string name="win">You won!</string>
     <string name="lose">Game over!</string>
 

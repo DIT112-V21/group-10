@@ -1,6 +1,6 @@
 package com.example.androidtank;
 
-
+import android.content.Context;
 import android.app.Dialog;
 import android.content.Intent;
 import android.graphics.Bitmap;
@@ -14,23 +14,27 @@ import android.view.Window;
 import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.androidtank.utilities.Client;
+import com.google.android.material.slider.Slider;
 
 import java.util.Objects;
 
 
 public class ManualActivity extends AppCompatActivity {
+
+    private static Context context;
     //joystick buttons
     private Button breakBtn, acceleration, deceleration, backBtn;
     private Client client;
     public ImageView mCameraView;
     private JoystickView joystick;
-    // currently win/lose will display based on this variable
-    // but feel free to change this
+    Slider slider;
+    TextView score;
     private int points = 3;
 
 
@@ -49,12 +53,15 @@ public class ManualActivity extends AppCompatActivity {
         // Setting the layout to be used
         setContentView(R.layout.activity_manual);
         this.mCameraView = (ImageView) findViewById(R.id.cameraView);
+        this.slider = (Slider) findViewById(R.id.speedSlider);
+        this.score = (TextView) findViewById(R.id.scoreText);
+        this.mCameraView = (ImageView) findViewById(R.id.cameraView);
 
         // Mqtt Client
         this.client = new Client(this);
 
-       // uncomment to view dialog box
-       // showDialog();
+        // uncomment to view dialog box
+        //showDialog();
 
         if (!client.connect(null, null, null, null)) {
             Toast.makeText(this, FAIL, Toast.LENGTH_SHORT).show();
@@ -70,38 +77,49 @@ public class ManualActivity extends AppCompatActivity {
         Dialog dialog = new Dialog(ManualActivity.this);
 
         // user can not click away from box without interacting with it
-        dialog.setCancelable(false);
+        dialog.setCancelable(true);
 
         dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
         Window window = dialog.getWindow();
         window.setBackgroundDrawableResource(android.R.color.transparent);
         // initial logic for winning/losing
-        if(points > 4){
+        int score = client.getScoreValue();
+        if (score > 4) {
             dialog.setContentView(R.layout.dialog_win);
+            Button finish = (Button) dialog.findViewById(R.id.finish);
+            setupOrdinaryButton2(finish);
+            Button reload = (Button) dialog.findViewById(R.id.playAgain);
+            setupReloadBtn(reload);
+            dialog.show();
         } else {
             dialog.setContentView(R.layout.dialog_lose);
+            Button finish = (Button) dialog.findViewById(R.id.finish);
+            setupOrdinaryButton2(finish);
+            Button reload = (Button) dialog.findViewById(R.id.playAgain);
+            setupReloadBtn(reload);
+            dialog.show();
         }
-        Button finish = (Button) dialog.findViewById(R.id.finish);
-        setupOrdinaryButton2(finish);
-        Button reload = (Button) dialog.findViewById(R.id.playAgain);
-        setupReloadBtn(reload);
-        dialog.show();
     }
 
+
     // Setup of the controls for the SMCE car.
-    public void setTankControls() {
+    public void setTankControls () {
         // Setup ordinary buttons
         breakBtn = findViewById(R.id.break_button);
         backBtn = findViewById(R.id.button_back);
+        //acceleration = (Button) findViewById(R.id.accelerate_up);
+        //deceleration = (Button) findViewById(R.id.accelerate_down);
         setupOrdinaryButton(breakBtn);
         setupOrdinaryButton2(backBtn);
         setupJoystick();
+        //setupOrdinaryButton(acceleration);
+        //setupOrdinaryButton(deceleration);
     }
 
     /**
      * These methods takes in a Button object and makes it clickable
      */
-    private void setupOrdinaryButton(Button button) {
+    private void setupOrdinaryButton (Button button){
 
         button.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -112,25 +130,13 @@ public class ManualActivity extends AppCompatActivity {
 
     }
 
+    // For the back button
     // go back one screen
-    private void setupOrdinaryButton2(Button button) {
+    private void setupOrdinaryButton2 (Button button){
         button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 finish();
-            }
-        });
-    }
-    // reload activity
-    private void setupReloadBtn(Button button) {
-        button.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent i = new Intent(ManualActivity.this, ManualActivity.class);
-                finish();
-                overridePendingTransition(0, 0);
-                startActivity(i);
-                overridePendingTransition(0, 0);
             }
         });
     }
@@ -140,7 +146,6 @@ public class ManualActivity extends AppCompatActivity {
         int delay = 100;
 
         joystick.setOnMoveListener(new JoystickView.OnMoveListener() {
-
             @Override
             public void onMove(int angle, int strength) {
                 int newX = convertJoystickX(); // for determining angle strength
@@ -162,6 +167,19 @@ public class ManualActivity extends AppCompatActivity {
         return Math.round(newX); // return rounded number
     }
 
+    // reload activity
+    private void setupReloadBtn (Button button){
+        button.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent i = new Intent(ManualActivity.this, ManualActivity.class);
+                finish();
+                overridePendingTransition(0, 0);
+                startActivity(i);
+                overridePendingTransition(0, 0);
+            }
+        });
+    }
 
     /**
      * This method takes in a Button object and makes it into a touch button
@@ -197,7 +215,16 @@ public class ManualActivity extends AppCompatActivity {
             };
         });
     }*/
-    public void setBitmap(Bitmap bm) {
+
+    public Slider getSlider () {
+        return this.slider;
+    }
+
+    public void setBitmap (Bitmap bm){
         this.mCameraView.setImageBitmap(bm);
+    }
+
+    public TextView getScore () {
+        return this.score;
     }
 }

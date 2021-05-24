@@ -13,10 +13,11 @@ WiFiClient net;
 #endif
 MQTTClient mqtt;
 
+const int SIDE_FRONT_PIN = 0;
 ArduinoRuntime arduinoRuntime;
 unsigned long startMillis;
 unsigned long currentMillis;
-const unsigned long period = 7000; //7 seconds
+const unsigned long period = 5000; //5 seconds
 const auto oneSecond = 1000UL;
 BrushedMotor leftMotor(arduinoRuntime, smartcarlib::pins::v2::leftMotorPins);
 BrushedMotor rightMotor(arduinoRuntime, smartcarlib::pins::v2::rightMotorPins);
@@ -25,10 +26,13 @@ const int TRIGGER_PIN           = 6; // D6
 const int ECHO_PIN              = 7; // D7
 const unsigned int MAX_DISTANCE = 300;
 SR04 front(arduinoRuntime, TRIGGER_PIN, ECHO_PIN, MAX_DISTANCE);
+GP2D120 sideFrontIR(arduinoRuntime,
+                    SIDE_FRONT_PIN); // measure distances between 5 and 25 centimeters
 SimpleCar car(control);
 int latestSpeed = 0;
 int latestAngle = 0;
 int magnitude = 0;
+int score = 0;
 
 std::vector<char> frameBuffer;
 
@@ -74,6 +78,7 @@ void loop()
   }
 
     currentMillis = millis(); //get the current "time" (actually the number of milliseconds since the program started)
+    updateScore();
     handleInput();
     delay(35);
 }
@@ -81,7 +86,7 @@ void loop()
 void handleInput()
 {
     float distance = front.getDistance();
-    serialMsg(distance);
+    //serialMsg(distance);
     distanceHandler(0, 200, distance);
 }
 
@@ -121,11 +126,9 @@ void mqttHandler()
             } /*else if (topic == "/Group10/manual/accelerateup") {
                 latestSpeed = latestSpeed * 1.1;
                 car.setSpeed(latestSpeed);
-
             } else if (topic == "/Group10/manual/acceleratedown") {
                 latestSpeed = latestSpeed * 0.9;
                 car.setSpeed(latestSpeed);
-
             }*/ else if (topic == "/Group10/manual/nocontrol"){
                 latestSpeed = latestSpeed * 0.8;
                 latestAngle = 0;
@@ -164,6 +167,16 @@ void serialMsg(float distance)
     Serial.println(latestSpeed);
     Serial.print("Current Angle: ");
     Serial.println(latestAngle);
+}
+void updateScore(){
+
+  float distanceToScore = sideFrontIR.getDistance();
+  if(distanceToScore > 0 && distanceToScore < 15 && (currentMillis - startMillis) >= period){
+    score += 1;
+    Serial.println(score);
+    startMillis = currentMillis;
+    mqtt.publish("/Group10/manual/score", String(score));
+  }
 }
 //void angleMsg()
 //{

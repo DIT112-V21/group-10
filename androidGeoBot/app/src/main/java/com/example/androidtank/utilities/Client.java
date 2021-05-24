@@ -44,6 +44,8 @@ public class Client extends MqttClient {
     // Message attributes
     private static final int SPEED = 100;
     private static final int ANGLE = 30;
+    private int lastJoystickX = 0;
+    private int lastJoysticky = 0;
 //    private static final int LEFT_TURN = -75;
 //    private static final int RESET_ANGLE = 0;
 
@@ -187,26 +189,43 @@ public class Client extends MqttClient {
             }
         }
 
-    public void joystick_publish(JoystickView joystickView, int angle, int strength){
+    public void joystick_publish(JoystickView joystickView, int angle, int yStrength, int xAngle){
+        Log.i("Stuff", "X:" + xAngle + ", Y:" + yStrength); // for debugging
 
         if(!(joystickView == null) && isConnected){
-            if(strength > 0 && angle <= 180){
-                publish(FORWARD_CONTROL, Integer.toString(SPEED),QOS,null);
-            }
-            if(strength > 0 && angle >= 180){
-                publish(BACKWARD_CONTROL, Integer.toString(SPEED),QOS,null);
+
+            if (xAngle != lastJoystickX) {
+                if(yStrength > 0 && angle <= 180){
+                    publish(FORWARD_CONTROL, Integer.toString(yStrength),QOS,null);
+                }
+                if(yStrength > 0 && angle >= 180){
+                    publish(BACKWARD_CONTROL, Integer.toString(yStrength),QOS,null);
+                }
             }
 
-            if(angle <= 90){
-                publish(TURN_RIGHT, Integer.toString(ANGLE),QOS,null);
-            }else if(angle <= 180){
-                publish(TURN_LEFT, Integer.toString(ANGLE),QOS,null);
+            if (yStrength != lastJoysticky) {
+                if(angle <= 90){
+                    publish(TURN_RIGHT, Integer.toString(xAngle),QOS,null);
+                }else if(angle <= 180){
+                    publish(TURN_LEFT, Integer.toString(xAngle),QOS,null);
+                } else if (angle <= 270) {
+                    publish(TURN_LEFT, Integer.toString(xAngle),QOS,null);
+                } else {
+                    publish(TURN_RIGHT, Integer.toString(xAngle),QOS,null);
+                }
+            }
+
+            if (yStrength == 0 && angle == 0) {
+                publish(BREAK, Integer.toString(0),QOS,null);
             }
         } else if((joystickView == null) && isConnected) {
             publish("/Group10/manual/nocontrol", Integer.toString(0),QOS,null);
         } else {
             Toast.makeText(context, "Connection not established", Toast.LENGTH_SHORT).show();
         }
+
+        lastJoystickX = xAngle;
+        lastJoysticky = yStrength;
     }
 }
 

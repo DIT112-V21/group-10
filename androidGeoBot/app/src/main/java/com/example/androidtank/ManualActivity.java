@@ -5,7 +5,6 @@ import android.app.Dialog;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.annotation.SuppressLint;
-import android.media.MediaPlayer;
 import android.os.Bundle;
 // we are using the joystick from https://github.com/controlwear/virtual-joystick-android
 import io.github.controlwear.virtual.joystick.android.JoystickView;
@@ -89,17 +88,6 @@ public class ManualActivity extends AppCompatActivity {
         dialog.show();
     }
 
-
-    public void setupJoystick() {
-        joystick = (JoystickView) findViewById(R.id.joystickView);
-        joystick.setOnMoveListener(new JoystickView.OnMoveListener() {
-            @Override
-            public void onMove(int angle, int strength) {
-                client.joystick_publish(joystick, angle, strength);
-            }
-        });
-    }
-
     // Setup of the controls for the SMCE car.
     public void setTankControls() {
         // Setup ordinary buttons
@@ -145,6 +133,33 @@ public class ManualActivity extends AppCompatActivity {
                 overridePendingTransition(0, 0);
             }
         });
+    }
+
+    public void setupJoystick() {
+        joystick = (JoystickView) findViewById(R.id.joystickView);
+        int delay = 100;
+
+        joystick.setOnMoveListener(new JoystickView.OnMoveListener() {
+
+            @Override
+            public void onMove(int angle, int strength) {
+                int newX = convertJoystickX(); // for determining angle strength
+                client.joystick_publish(joystick, angle, strength, newX);
+            }
+        }, delay);
+    }
+
+    // Convert Joystick Angle so that Tank understands
+    private int convertJoystickX() {
+        int joystickX = joystick.getNormalizedX();
+
+        if (joystickX <= 50) {
+            joystickX = 50 - joystickX; // invert the value
+        } else {
+            joystickX -= 50; // Simply Bring the value down to between 0-50
+        }
+        float newX = (float)joystickX/50 * 30; // Convert to scale 30
+        return Math.round(newX); // return rounded number
     }
 
 

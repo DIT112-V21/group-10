@@ -21,8 +21,8 @@ const auto oneSecond = 1000UL;
 BrushedMotor leftMotor(arduinoRuntime, smartcarlib::pins::v2::leftMotorPins);
 BrushedMotor rightMotor(arduinoRuntime, smartcarlib::pins::v2::rightMotorPins);
 DifferentialControl control(leftMotor, rightMotor);
-const int TRIGGER_PIN           = 6; // D6
-const int ECHO_PIN              = 7; // D7
+const int TRIGGER_PIN = 6; // D6
+const int ECHO_PIN = 7;    // D7
 const unsigned int MAX_DISTANCE = 300;
 SR04 front(arduinoRuntime, TRIGGER_PIN, ECHO_PIN, MAX_DISTANCE);
 SimpleCar car(control);
@@ -39,39 +39,42 @@ void setup()
     Serial.setTimeout(200);
 #ifdef __SMCE__
 
-  Camera.begin(QVGA, RGB888, 15);
-  frameBuffer.resize(Camera.width() * Camera.height() * Camera.bytesPerPixel());
-  mqtt.begin(WiFi);
+    Camera.begin(QVGA, RGB888, 15);
+    frameBuffer.resize(Camera.width() * Camera.height() * Camera.bytesPerPixel());
+    mqtt.begin(WiFi);
 #else
-  mqtt.begin(net);
+    mqtt.begin(net);
 #endif
-  mqttHandler();
-  startMillis = millis();
+    mqttHandler();
+    startMillis = millis();
 }
 
 void loop()
 {
-  if (mqtt.connected()) {
-    mqtt.loop();
-    const auto currentTime = millis();
+    if (mqtt.connected())
+    {
+        mqtt.loop();
+        const auto currentTime = millis();
 
-  #ifdef __SMCE__
-  static auto previousFrame = 0UL;
-  if (currentTime - previousFrame >= 65) {
-    previousFrame = currentTime;
-    Camera.readFrame(frameBuffer.data());
-    mqtt.publish("/Group10/camera", frameBuffer.data(), frameBuffer.size(),
-                   false, 0);
-    }
-  #endif
-    static auto previousTransmission = 0UL;
-    if (currentTime - previousTransmission >= oneSecond) {
-      previousTransmission = currentTime;
+#ifdef __SMCE__
+        static auto previousFrame = 0UL;
+        if (currentTime - previousFrame >= 65)
+        {
+            previousFrame = currentTime;
+            Camera.readFrame(frameBuffer.data());
+            mqtt.publish("/Group10/camera", frameBuffer.data(), frameBuffer.size(),
+                         false, 0);
+        }
+#endif
+        static auto previousTransmission = 0UL;
+        if (currentTime - previousTransmission >= oneSecond)
+        {
+            previousTransmission = currentTime;
 
-      const auto distance = String(front.getDistance());
-      mqtt.publish("/Group10/sensor/ultrasound/front", distance);
+            const auto distance = String(front.getDistance());
+            mqtt.publish("/Group10/sensor/ultrasound/front", distance);
+        }
     }
-  }
 
     currentMillis = millis(); //get the current "time" (actually the number of milliseconds since the program started)
     handleInput();
@@ -87,34 +90,40 @@ void handleInput()
 
 void handleObstacle()
 {
-    magnitude = latestSpeed * 0.4;
+    magnitude = latestSpeed /* * 0.4*/;
     car.setSpeed(magnitude);
 }
 
 void mqttHandler()
 {
-    if (mqtt.connect("arduino", "public", "public")) {
+    if (mqtt.connect("arduino", "public", "public"))
+    {
         mqtt.subscribe("/Group10/manual/#", 1);
         mqtt.onMessage([](String topic, String message) {
-            if (topic == "/Group10/manual/forward") {
+            if (topic == "/Group10/manual/forward")
+            {
                 latestSpeed = message.toInt();
                 car.setAngle(latestAngle);
                 car.setSpeed(latestSpeed);
-
-            } else if (topic == "/Group10/manual/backward") {
+            }
+            else if (topic == "/Group10/manual/backward")
+            {
                 latestSpeed = (-1) * message.toInt();
                 car.setAngle(latestAngle);
                 car.setSpeed(latestSpeed);
-
-            } else if (topic == "/Group10/manual/turnleft") {
+            }
+            else if (topic == "/Group10/manual/turnleft")
+            {
                 latestAngle = (-1) * message.toInt();
                 car.setAngle(latestAngle);
-
-            } else if (topic == "/Group10/manual/turnright") {
+            }
+            else if (topic == "/Group10/manual/turnright")
+            {
                 latestAngle = message.toInt();
                 car.setAngle(latestAngle);
-
-            } else if (topic == "/Group10/manual/break") {
+            }
+            else if (topic == "/Group10/manual/break")
+            {
                 latestSpeed = 0;
                 car.setSpeed(latestSpeed);
 
@@ -126,14 +135,14 @@ void mqttHandler()
                 latestSpeed = latestSpeed * 0.9;
                 car.setSpeed(latestSpeed);
 
-            }*/ else if (topic == "/Group10/manual/nocontrol"){
+            }*/
+            else if (topic == "/Group10/manual/nocontrol")
+            {
                 latestSpeed = latestSpeed * 0.8;
                 latestAngle = 0;
                 car.setSpeed(latestSpeed);
                 car.setAngle(latestAngle);
-
             }
-
         });
     }
 }
@@ -148,14 +157,17 @@ void distanceHandler(float lowerBound, float upperBound, float distance)
 
 void serialMsg(float distance)
 {
-    if (distance > 0 && (currentMillis - startMillis) >= period) { //The user is updated on the distance to an obstacle every 7 seconds
+    if (distance > 0 && (currentMillis - startMillis) >= period)
+    { //The user is updated on the distance to an obstacle every 7 seconds
         String msg1 = "There is an obstacle in ";
         String msg2 = " cm.";
         Serial.print(msg1);
         Serial.print(distance);
         Serial.println(msg2);
         startMillis = currentMillis;
-    } else if ((currentMillis - startMillis) >= period) {
+    }
+    else if ((currentMillis - startMillis) >= period)
+    {
         String msg = "No obstacle detected.";
         Serial.println(msg);
         startMillis = currentMillis;

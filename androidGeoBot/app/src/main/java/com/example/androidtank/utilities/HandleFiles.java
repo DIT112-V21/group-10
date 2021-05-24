@@ -24,7 +24,7 @@ public class HandleFiles {
 
     // Constructor that simply logs the instantiation of this class.
     public HandleFiles() {
-        Log.i(TAG, "Instantiated new " + this.getClass());
+        //Log.i(TAG, "Instantiated new " + this.getClass());
     }
 
     // Get a file from asset folder

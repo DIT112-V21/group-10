@@ -110,7 +110,9 @@ public class ManualActivity extends AppCompatActivity {
         backBtn = findViewById(R.id.button_back);
         setupBreakButton(breakBtn);
         setupBackButton(backBtn);
-        setupJoystick();
+//        setupJoystick();
+        setUpJoystick1();
+
     }
 
     /**
@@ -161,33 +163,41 @@ public class ManualActivity extends AppCompatActivity {
     }
 
 
-    public void setupJoystick() {
-        joystick = (JoystickView) findViewById(R.id.joystickView);
-        int delay = 100;
-
-        joystick.setOnMoveListener(new JoystickView.OnMoveListener() {
-            public void onMove(int angle, int strength) {
-                int newX = convertJoystickX(); // for determining angle strength
-                client.joystick_publish(joystick, angle, strength, newX);
-            }
-        }, delay);
-
-    }
+//    public void setupJoystick() {
+//        joystick = (JoystickView) findViewById(R.id.joystickView);
+//        int delay = 100;
+//
+//        joystick.setOnMoveListener(new JoystickView.OnMoveListener() {
+//            public void onMove(int angle, int strength) {
+//                int newX = convertJoystickX(); // for determining angle strength
+//                client.joystick_publish(joystick, angle, strength, newX);
+//            }
+//        }, delay);
+//
+//    }
 
     @SuppressLint("ClickableViewAccessibility")
     public void setUpJoystick1() {
         joystick = (JoystickView) findViewById(R.id.joystickView);
-        int delay = 100;
-
         joystick.setOnTouchListener(new JoystickView.OnTouchListener() {
             @Override
             public boolean onTouch(View v, MotionEvent event) {
                 if (event.getAction() == event.ACTION_DOWN) {
+                    SoundEffect.stopEffect();
                     SoundEffect.startEffect(ManualActivity.this, R.raw.acceleration, 0.6f, true);
                 }
                 if (event.getAction()  != event.ACTION_UP) {
-                    int newX = convertJoystickX(); // for determining angle strength
-                    int angle = joystick.onGenericMotionEvent()
+                    int delay = 100;
+                    joystick.setOnMoveListener(new JoystickView.OnMoveListener() {
+                        public void onMove(int angle, int strength) {
+                            int newX = convertJoystickX(); // for determining angle strength
+                            client.joystick_publish(joystick, angle, strength, newX);
+                        }
+                    }, delay);
+                } else {
+                    SoundEffect.stopEffect();
+                    //TODO find a better sound effect. this is too low!
+                    SoundEffect.startEffect(ManualActivity.this, R.raw.carsound, 1f, true);
                 }
                 return false;
             }

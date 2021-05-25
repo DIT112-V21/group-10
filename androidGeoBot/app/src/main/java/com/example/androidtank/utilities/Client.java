@@ -208,8 +208,8 @@ public class Client extends MqttClient {
         if(!(joystickView == null) && isConnected){
 
             // Handle Speed Messages
-            // This "if" stops mqtt from sending a message with the same "x" value as the previous message
-            if (x != lastJoystickX) {
+            // This "if" stops mqtt from sending a message with the same "y" value as the previous message
+            if (y != lastJoysticky) {
                 if (y > 0 && angle >= 180) {
                     ManualActivity manualActivity = (ManualActivity) context;
                     Slider slider = manualActivity.getSlider();
@@ -228,7 +228,7 @@ public class Client extends MqttClient {
 
             // Handle Angle Messages
             // This "if" stops mqtt from sending a message with the same "y" value as the previous message
-            if (y != lastJoysticky) {
+            if (x != lastJoystickX) {
                 if(angle <= 90){
                     publish(TURN_RIGHT, Integer.toString(x),QOS,null);
                 }else if(angle <= 180){

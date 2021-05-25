@@ -11,6 +11,9 @@ public class SoundEffect {
                                    int soundId,
                                    float soundVolume,
                                    Boolean isThereLoop) {
+        if (soundEffect != null) {
+            soundEffect.stop();
+        }
         soundEffect = MediaPlayer.create(context, soundId);
         soundEffect.setVolume(soundVolume, soundVolume);
         soundEffect.setLooping(isThereLoop);

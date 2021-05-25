@@ -30,6 +30,9 @@ import java.util.Objects;
 
 public class ManualActivity extends AppCompatActivity {
 
+    //sound effect initiation
+    SoundEffect effects;
+
     //joystick buttons
     private Button breakBtn, backBtn;
     private Client client;
@@ -130,14 +133,15 @@ public class ManualActivity extends AppCompatActivity {
                         if (mHandler != null) return true;
                         mHandler = new Handler();
                         mHandler.postDelayed(mAction, 100);
-                        SoundEffect.startEffect(ManualActivity.this, R.raw.break_sound, 0.6f,false);
+                        effects.startEffect(ManualActivity.this, R.raw.break_sound,
+                                0.9f,false);
                         break;
                     case MotionEvent.ACTION_UP:
                         if (mHandler == null) return true;
                         client.button_publish(null);
                         mHandler.removeCallbacksAndMessages(null);
                         mHandler = null;
-                        SoundEffect.stopEffect();
+                        effects.stopEffect();
                         break;
                 }
                 return false;
@@ -183,11 +187,11 @@ public class ManualActivity extends AppCompatActivity {
             @Override
             public boolean onTouch(View v, MotionEvent event) {
                 if (event.getAction() == event.ACTION_DOWN) {
-                    SoundEffect.stopEffect();
-                    SoundEffect.startEffect(ManualActivity.this, R.raw.acceleration, 0.6f, true);
+
+                    effects.startEffect(ManualActivity.this, R.raw.acceleration, 0.4f, true);
                 }
                 if (event.getAction()  != event.ACTION_UP) {
-                    int delay = 100;
+                    int delay = 30;
                     joystick.setOnMoveListener(new JoystickView.OnMoveListener() {
                         public void onMove(int angle, int strength) {
                             int newX = convertJoystickX(); // for determining angle strength
@@ -195,9 +199,8 @@ public class ManualActivity extends AppCompatActivity {
                         }
                     }, delay);
                 } else {
-                    SoundEffect.stopEffect();
-                    //TODO find a better sound effect. this is too low!
-                    SoundEffect.startEffect(ManualActivity.this, R.raw.carsound, 1f, true);
+                    //TODO find a better sound effect. This is too annoying and low!
+                    effects.startEffect(ManualActivity.this, R.raw.carsound, 0.9f, false);
                 }
                 return false;
             }

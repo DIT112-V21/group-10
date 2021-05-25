@@ -24,6 +24,7 @@ import com.google.android.material.slider.Slider;
 
 import java.util.Objects;
 
+import android.os.CountDownTimer;
 
 public class ManualActivity extends AppCompatActivity {
 
@@ -40,6 +41,8 @@ public class ManualActivity extends AppCompatActivity {
 
     private static final String FAIL = "CONNECTION TO TANK COULD NOT BE ESTABLISHED";
     private static final String SUCCESS = "CONNECTION TO TANK ESTABLISHED";
+    public int counter = 0;
+    TextView timer;
 
         @Override
         protected void onCreate(Bundle savedInstanceState) {
@@ -56,6 +59,7 @@ public class ManualActivity extends AppCompatActivity {
             this.slider = (Slider) findViewById(R.id.speedSlider);
             this.score = (TextView) findViewById(R.id.scoreText);
             this.mCameraView = (ImageView) findViewById(R.id.cameraView);
+            this.timer = (TextView) findViewById(R.id.textView2);
 
             // Mqtt Client
             this.client = new Client(this);
@@ -84,7 +88,7 @@ public class ManualActivity extends AppCompatActivity {
                 window.setBackgroundDrawableResource(android.R.color.transparent);
                 // initial logic for winning/losing
                 int score = client.getScoreValue();
-                if (score > 4) {
+                if (score > 4 && counter <= 180) {
                     dialog.setContentView(R.layout.dialog_win);
                     Button finish = (Button) dialog.findViewById(R.id.finish);
                     setupOrdinaryButton2(finish);
@@ -143,7 +147,22 @@ public class ManualActivity extends AppCompatActivity {
 
             public void setupJoystick () {
                 joystick = (JoystickView) findViewById(R.id.joystickView);
-                joystick.setOnMoveListener((angle, strength) -> client.joystick_publish(joystick, angle, strength));
+
+                joystick.setOnMoveListener((angle, strength) -> client.joystick_publish(joystick, angle, strength)
+                {
+                    @Override
+                    public void onMove(View v) {
+                    new CountDownTimer(180000, 1000){
+                        public void onTick(long millisUntilFinished){
+                            timer.setText(String.valueOf(counter));
+                            counter++;
+                        }
+                        public  void onFinish(){
+                            timer.setText("TIME UP!!");
+                        }
+                    }.start();
+                }
+                });
             }
 
                 // reload activity

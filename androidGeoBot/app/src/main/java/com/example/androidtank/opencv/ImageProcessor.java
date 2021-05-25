@@ -18,7 +18,7 @@ public class ImageProcessor {
 
     // Constructor that simply logs the instantiation of this class.
     public ImageProcessor() {
-        Log.i(TAG, "Instantiated new " + this.getClass());
+        //Log.i(TAG, "Instantiated new " + this.getClass());
     }
 
     /**

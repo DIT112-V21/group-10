@@ -160,7 +160,7 @@ public class ManualActivity extends AppCompatActivity {
         });
     }
 
-    @SuppressLint("ClickableViewAccessibility")
+
     public void setupJoystick() {
         joystick = (JoystickView) findViewById(R.id.joystickView);
         int delay = 100;
@@ -172,6 +172,26 @@ public class ManualActivity extends AppCompatActivity {
             }
         }, delay);
 
+    }
+
+    @SuppressLint("ClickableViewAccessibility")
+    public void setUpJoystick1() {
+        joystick = (JoystickView) findViewById(R.id.joystickView);
+        int delay = 100;
+
+        joystick.setOnTouchListener(new JoystickView.OnTouchListener() {
+            @Override
+            public boolean onTouch(View v, MotionEvent event) {
+                if (event.getAction() == event.ACTION_DOWN) {
+                    SoundEffect.startEffect(ManualActivity.this, R.raw.acceleration, 0.6f, true);
+                }
+                if (event.getAction()  != event.ACTION_UP) {
+                    int newX = convertJoystickX(); // for determining angle strength
+                    int angle = joystick.onGenericMotionEvent()
+                }
+                return false;
+            }
+        });
     }
 
     // Convert Joystick Angle so that Tank understands
@@ -217,15 +237,4 @@ public class ManualActivity extends AppCompatActivity {
 
 
 
-joystick.setOnTouchListener(new JoystickView.OnTouchListener() {
-@Override
-public boolean onTouch(View v, MotionEvent event) {
-        if (event.getAction() == event.ACTION_DOWN) {
-        SoundEffect.startEffect(ManualActivity.this, R.raw.acceleration, 0.6f, true);
-        }
-        if (event.getAction()  != event.ACTION_UP) {
-        int newX = convertJoystickX(); // for determining angle strength
-        client.joystick_publish(joystick, int angle, int strength, newX);
-        }
-        return false;
-        }
+

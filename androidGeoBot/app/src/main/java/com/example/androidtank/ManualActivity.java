@@ -150,7 +150,7 @@ public class ManualActivity extends AppCompatActivity {
                         effects.stopEffect();
                         break;
                 }
-                return false;
+                return true;
             }
             Runnable mAction = new Runnable() {
                 @Override public void run() {
@@ -194,10 +194,13 @@ public class ManualActivity extends AppCompatActivity {
                             timerHandler();
                         }
                     }, delay);
-                } else {
+                }
+
+                else {
                     effects.startEffect(ManualActivity.this, R.raw.carsound, 1.0f,
                             false, 0);
                 }
+
                 return false;
             }
         });

@@ -184,12 +184,13 @@ public class ManualActivity extends AppCompatActivity {
                     effects.startEffect(ManualActivity.this, R.raw.acceleration,
                             0.2f, true, 7000);
                 }
-                if (event.getAction()  != event.ACTION_UP) {
-                    int delay = 30;
+                 if (event.getAction()  != event.ACTION_UP) {
+                    int delay = 0;
                     joystick.setOnMoveListener(new JoystickView.OnMoveListener() {
                         public void onMove(int angle, int strength) {
                             int newX = convertJoystickX(); // for determining angle strength
                             client.joystick_publish(joystick, angle, strength, newX);
+                            timerHandler();
                         }
                     }, delay);
                 } else {
@@ -199,6 +200,25 @@ public class ManualActivity extends AppCompatActivity {
                 return false;
             }
         });
+    }
+
+    public void timerHandler() {
+        if (counter == 120 && mqttConnection)
+        {
+            CountDownTimer gametimer = new CountDownTimer(120000, 1000)
+            {
+                public void onTick(long millisUntilFinished)
+                {
+                    timer.setText(String.valueOf(millisUntilFinished/1000));
+                    counter--;
+                }
+                public void onFinish()
+                {
+                    timer.setText(TEM);
+                    showDialog();
+                }
+            }.start();
+        }
     }
 
     // Convert Joystick Angle so that Tank understands

@@ -26,6 +26,8 @@ import androidx.core.content.res.ResourcesCompat;
 
 import com.example.androidtank.utilities.Client;
 import com.example.androidtank.utilities.HandleFiles;
+import com.example.androidtank.utilities.SoundEffect;
+
 import org.opencv.android.OpenCVLoader;
 
 import java.io.FileNotFoundException;
@@ -41,8 +43,6 @@ public class MainActivity extends AppCompatActivity {
 
     MainVideoView mainVideoView;
     private int videoViewId = R.raw.mainscreen_video2;
-
-    MediaPlayer mainMusic;
 
     private String mText = "";
     private String mText2 = "";
@@ -113,10 +113,7 @@ public class MainActivity extends AppCompatActivity {
         mainVideoView.start();
 
         //The background music: https://www.chosic.com/
-        mainMusic = MediaPlayer.create(MainActivity.this, R.raw.main_music);
-        mainMusic.setVolume(0.27f,0.27f);
-        mainMusic.setLooping(true);
-        mainMusic.start();
+        SoundEffect.startEffect(this, R.raw.main_music, 0.27f, true, 0);
     }
 
     @Override
@@ -124,7 +121,7 @@ public class MainActivity extends AppCompatActivity {
         super.onPause();
         mainVideoView.suspend();
         mainVideoView.stopPlayback();
-        mainMusic.stop();
+        SoundEffect.stopEffect();
     }
 
     private void checkClientConnection() {

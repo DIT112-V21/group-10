@@ -9,6 +9,8 @@ import android.os.Bundle;
 // we are using the joystick from https://github.com/controlwear/virtual-joystick-android
 import io.github.controlwear.virtual.joystick.android.JoystickView;
 
+import android.os.CountDownTimer;
+
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
@@ -36,10 +38,15 @@ public class ManualActivity extends AppCompatActivity {
     Slider slider;
     TextView score;
     private int points = 3;
+    private boolean mqttConnection = false;
 
 
     private static final String FAIL = "CONNECTION TO TANK COULD NOT BE ESTABLISHED";
     private static final String SUCCESS = "CONNECTION TO TANK ESTABLISHED";
+
+    public int counter = 120;
+    TextView timer;
+    private static final String TEM = "TIME IS UP!!"; //TEM is Timer End Message
 
         @Override
         protected void onCreate(Bundle savedInstanceState) {
@@ -56,6 +63,7 @@ public class ManualActivity extends AppCompatActivity {
             this.slider = (Slider) findViewById(R.id.speedSlider);
             this.score = (TextView) findViewById(R.id.scoreText);
             this.mCameraView = (ImageView) findViewById(R.id.cameraView);
+            this.timer = (TextView) findViewById(R.id.textView2);
 
             // Mqtt Client
             this.client = new Client(this);
@@ -141,10 +149,47 @@ public class ManualActivity extends AppCompatActivity {
             }
 
 
-            public void setupJoystick () {
-                joystick = (JoystickView) findViewById(R.id.joystickView);
-                joystick.setOnMoveListener((angle, strength) -> client.joystick_publish(joystick, angle, strength));
+    public void setupJoystick() {
+        joystick = (JoystickView) findViewById(R.id.joystickView);
+        int delay = 100;
+
+        joystick.setOnMoveListener(new JoystickView.OnMoveListener() {
+            @Override
+            public void onMove(int angle, int strength) {
+                int newX = convertJoystickX(); // for determining angle strength
+                client.joystick_publish(joystick, angle, strength, newX);
+
+                if (counter == 120 && mqttConnection)
+                {
+                    CountDownTimer gametimer = new CountDownTimer(120000, 1000)
+                    {
+                        public void onTick(long millisUntilFinished)
+                        {
+                            timer.setText(String.valueOf(millisUntilFinished/1000));
+                            counter--;
+                        }
+                        public void onFinish()
+                        {
+                            timer.setText(TEM);
+                            showDialog();
+                        }
+                    }.start();
+                }
             }
+        }, delay);
+    }
+    // Convert Joystick Angle so that Tank understands
+    private int convertJoystickX() {
+        int joystickX = joystick.getNormalizedX();
+
+        if (joystickX <= 50) {
+            joystickX = 50 - joystickX; // invert the value
+        } else {
+            joystickX -= 50; // Simply Bring the value down to between 0-50
+        }
+        float newX = (float)joystickX/50 * 30; // Convert to scale 30
+        return Math.round(newX); // return rounded number
+    }
 
                 // reload activity
                 private void setupReloadBtn (Button button){

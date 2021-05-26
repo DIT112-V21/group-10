@@ -28,6 +28,8 @@ public class Client extends MqttClient {
     private final String TAG2 = this.getClass().getName();
     protected MqttClient mqttClient;
     private int scoreValue;
+    private int lastJoystickX = 0;
+    private int lastJoysticky = 0;
 
     // Topics to update to
     private static final String FAIL = "CONNECTION TO TANK COULD NOT BE ESTABLISHED";
@@ -36,6 +38,7 @@ public class Client extends MqttClient {
     private static final String TURN_LEFT = "/Group10/manual/turnleft";
     private static final String TURN_RIGHT = "/Group10/manual/turnright";
     private static final String BREAK = "/Group10/manual/break";
+    private static final String STOPPING = "/Group10/manual/stopping";
     private static final String ACCELERATE = "/Group10/manual/accelerateup";
     private static final String DECELERATE = "/Group10/manual/acceleratedown";
     private static final int IMAGE_WIDTH = 320;
@@ -200,33 +203,57 @@ public class Client extends MqttClient {
             }
         }
 
-    public void joystick_publish(JoystickView joystickView, int angle, int strength){
-
+    public void joystick_publish(JoystickView joystickView, int angle, int y, int x){
+        Log.i("Stuff", "X:" + x + ", Y:" + y); // for debugging
 
         if(!(joystickView == null) && isConnected){
-            if(angle <= 180){
-                publish(TURN_LEFT, Integer.toString(ANGLE),QOS,null);
+
+            // Handle Speed Messages
+            // This "if" stops mqtt from sending a message with the same "y" value as the previous message
+            if (y != lastJoysticky) {
+                if (y > 0 && angle >= 180) {
+                    ManualActivity manualActivity = (ManualActivity) context;
+                    Slider slider = manualActivity.getSlider();
+                    float sliderValue = slider.getValue();
+                    y = Math.round((float)y/100 * sliderValue); // Convert y to slider scale
+                    publish(BACKWARD_CONTROL, Float.toString(y), QOS, null);
+                }
+                if (y > 0 && angle < 180) {
+                    ManualActivity manualActivity = (ManualActivity) context;
+                    Slider slider = manualActivity.getSlider();
+                    float sliderValue = slider.getValue();
+                    y = Math.round((float)y/100 * sliderValue); // Convert y to slider scale
+                    publish(FORWARD_CONTROL, Float.toString(y), QOS, null);
+                }
             }
-            if(angle <= 90){
-                publish(TURN_RIGHT, Integer.toString(ANGLE),QOS,null);
+
+            // Handle Angle Messages
+            // This "if" stops mqtt from sending a message with the same "y" value as the previous message
+            if (x != lastJoystickX) {
+                if(angle <= 90){
+                    publish(TURN_RIGHT, Integer.toString(x),QOS,null);
+                }else if(angle <= 180){
+                    publish(TURN_LEFT, Integer.toString(x),QOS,null);
+                } else if (angle <= 270) {
+                    publish(TURN_LEFT, Integer.toString(x),QOS,null);
+                } else {
+                    publish(TURN_RIGHT, Integer.toString(x),QOS,null);
+                }
             }
-            if(strength > 0 && angle >= 180){
-                ManualActivity manualActivity = (ManualActivity)context;
-                Slider slider = manualActivity.getSlider();
-                float sliderValue = slider.getValue();
-                publish(BACKWARD_CONTROL, Float.toString(sliderValue),QOS,null);
+
+            // Handle Joystick Released Message
+            if (y == 0 && angle == 0) {
+                publish(STOPPING, Integer.toString(0),QOS,null);
             }
-            if(strength > 0 && angle <= 180) {
-                ManualActivity manualActivity = (ManualActivity) context;
-                Slider slider = manualActivity.getSlider();
-                float sliderValue = slider.getValue();
-                publish(FORWARD_CONTROL, Float.toString(sliderValue), QOS, null);
-            }
-            } else if((joystickView == null) && isConnected) {
+
+        } else if((joystickView == null) && isConnected) {
             publish("/Group10/manual/nocontrol", Integer.toString(0),QOS,null);
-            } else {
+        } else {
             Toast.makeText(context, "Connection not established", Toast.LENGTH_SHORT).show();
         }
+
+        lastJoystickX = x;
+        lastJoysticky = y;
     }
     public int getScoreValue(){
         return this.scoreValue;

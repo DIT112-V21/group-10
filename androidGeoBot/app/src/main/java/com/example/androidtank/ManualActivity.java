@@ -43,6 +43,7 @@ public class ManualActivity extends AppCompatActivity {
     private static final String SUCCESS = "CONNECTION TO TANK ESTABLISHED";
     public int counter = 0;
     TextView timer;
+    private static final String TEM = "TIME IS UP!!"; //TEM is Timer End Message
 
         @Override
         protected void onCreate(Bundle savedInstanceState) {
@@ -88,21 +89,20 @@ public class ManualActivity extends AppCompatActivity {
                 window.setBackgroundDrawableResource(android.R.color.transparent);
                 // initial logic for winning/losing
                 int score = client.getScoreValue();
-                if (score > 4 && counter <= 180) {
+                if (score > 4 && counter <= 15000) {
                     dialog.setContentView(R.layout.dialog_win);
                     Button finish = (Button) dialog.findViewById(R.id.finish);
                     setupOrdinaryButton2(finish);
                     Button reload = (Button) dialog.findViewById(R.id.playAgain);
                     setupReloadBtn(reload);
-                    dialog.show();
                 } else {
                     dialog.setContentView(R.layout.dialog_lose);
                     Button finish = (Button) dialog.findViewById(R.id.finish);
                     setupOrdinaryButton2(finish);
                     Button reload = (Button) dialog.findViewById(R.id.playAgain);
                     setupReloadBtn(reload);
-                    dialog.show();
                 }
+                dialog.show();
             }
 
 
@@ -144,26 +144,35 @@ public class ManualActivity extends AppCompatActivity {
                 });
             }
 
-
-            public void setupJoystick () {
-                joystick = (JoystickView) findViewById(R.id.joystickView);
-
-                joystick.setOnMoveListener((angle, strength) -> client.joystick_publish(joystick, angle, strength)
+public void setupJoystick ()
+{
+	joystick = (JoystickView) findViewById(R.id.joystickView);
+	joystick.setOnMoveListener (new JoystickView.OnMoveListener()
+	{
+		@Override
+		public void onMove(int angle, int strength)
+		{
+			client.joystick_publish(joystick, angle, strength);
+			if (counter == 0)
+			{
+                CountDownTimer gametimer = new CountDownTimer(15000, 1000)
                 {
-                    @Override
-                    public void onMove(View v) {
-                    new CountDownTimer(180000, 1000){
-                        public void onTick(long millisUntilFinished){
-                            timer.setText(String.valueOf(counter));
-                            counter++;
-                        }
-                        public  void onFinish(){
-                            timer.setText("TIME UP!!");
-                        }
-                    }.start();
-                }
-                });
+                    public void onTick(long millisUntilFinished)
+                    {
+                        int displaycounter = counter / 1000;
+                        timer.setText(String.valueOf(displaycounter));
+                        counter++;
+                    }
+                    public void onFinish()
+                    {
+                        timer.setText(TEM);
+                        showDialog();
+                    }
+                }.start();
             }
+		}
+	});
+}
 
                 // reload activity
                 private void setupReloadBtn (Button button){

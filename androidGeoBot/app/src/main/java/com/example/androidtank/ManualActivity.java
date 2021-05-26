@@ -174,7 +174,7 @@ public class ManualActivity extends AppCompatActivity {
                 if (event.getAction() == event.ACTION_DOWN) {
 
                     effects.startEffect(ManualActivity.this, R.raw.acceleration,
-                            0.2f, true, 9000);
+                            0.2f, true, 7000);
                 }
                 if (event.getAction()  != event.ACTION_UP) {
                     int delay = 30;

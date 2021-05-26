@@ -139,6 +139,7 @@ void mqttHandler()
     mqtt.onMessage([](String topic, String message) {
       if (topic == "/Group10/manual/forward")
       {
+        Serial.println(message);
         latestSpeed = message.toInt();
         car.setAngle(latestAngle);
         car.setSpeed(latestSpeed);

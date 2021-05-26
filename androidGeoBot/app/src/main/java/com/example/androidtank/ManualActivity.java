@@ -37,10 +37,6 @@ public class ManualActivity extends AppCompatActivity {
     TextView score;
     private int points = 3;
 
-
-    private static final String FAIL = "CONNECTION TO TANK COULD NOT BE ESTABLISHED";
-    private static final String SUCCESS = "CONNECTION TO TANK ESTABLISHED";
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -50,23 +46,17 @@ public class ManualActivity extends AppCompatActivity {
         this.getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,
                 WindowManager.LayoutParams.FLAG_FULLSCREEN);
 
+        this.client = new Client(this);
+        client = MainActivity.client;
+
         // Setting the layout to be used
         setContentView(R.layout.activity_manual);
         this.slider = (Slider) findViewById(R.id.speedSlider);
         this.score = (TextView) findViewById(R.id.scoreText);
         this.mCameraView = (ImageView) findViewById(R.id.cameraView);
 
-        // Mqtt Client
-        this.client = new Client(this);
-
         // uncomment to view dialog box
         //showDialog();
-
-        if (!client.connect(null, null, null, null)) {
-            Toast.makeText(this, FAIL, Toast.LENGTH_SHORT).show();
-        } else {
-            Toast.makeText(this, SUCCESS, Toast.LENGTH_SHORT).show();
-        }
 
         // Setting up controls
         setTankControls();

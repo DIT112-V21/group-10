@@ -34,6 +34,10 @@ int latestAngle = 0;
 int magnitude = 0;
 int score = 0;
 
+char hostname[50];
+char portTemp[50];
+int port;
+
 boolean stopping = false;
 
 std::vector<char> frameBuffer;
@@ -48,6 +52,7 @@ void setup()
   Camera.begin(QVGA, RGB888, 15);
   frameBuffer.resize(Camera.width() * Camera.height() * Camera.bytesPerPixel());
   mqtt.begin(WiFi);
+  //mqtt.begin("aerostun.dev", 1883, WiFi);
 #else
   mqtt.begin(net);
 #endif
@@ -91,7 +96,7 @@ void loop()
 void handleInput()
 {
   float distance = front.getDistance();
-  serialMsg(distance);
+  // serialMsg(distance);
   // distanceHandler(0, 200, distance);
   if (stopping == true)
   {
@@ -167,6 +172,31 @@ void mqttHandler()
       else if (topic == "/Group10/manual/stopping" || topic == "/Group10/manual/nocontrol")
       {
         stopping = true;
+      }
+      else if (topic == "/Group10/manual/server/ip")
+      {
+        memset(hostname, '\0', sizeof(hostname));
+        message.toCharArray(hostname, 50);
+
+        Serial.println("hohost: ");
+        Serial.print(hostname);
+        Serial.print("------");
+      }
+      else if (topic == "/Group10/manual/server/p")
+      {
+        memset(portTemp, '\0', sizeof(portTemp));
+        message.toCharArray(portTemp, 50);
+
+        Serial.print("port: ");
+        Serial.print(portTemp); // debug
+        Serial.print("---");
+
+        int portu = message.toInt();
+        String stringTest = String(portu);
+        Serial.print(stringTest);
+
+        mqtt.setHost("aerostun.dev", 1883);
+        //mqtt.begin(hostname, stringu.toInt(), WiFi);
       }
     });
   }

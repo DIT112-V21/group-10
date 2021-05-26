@@ -133,7 +133,7 @@ public class ManualActivity extends AppCompatActivity {
                         mHandler = new Handler();
                         mHandler.postDelayed(mAction, 100);
                         effects.startEffect(ManualActivity.this, R.raw.break_sound,
-                                0.5f,false);
+                                0.5f,false, 0);
                         break;
                     case MotionEvent.ACTION_UP:
                         if (mHandler == null) return true;
@@ -173,7 +173,8 @@ public class ManualActivity extends AppCompatActivity {
             public boolean onTouch(View v, MotionEvent event) {
                 if (event.getAction() == event.ACTION_DOWN) {
 
-                    effects.startEffect(ManualActivity.this, R.raw.acceleration, 0.2f, true);
+                    effects.startEffect(ManualActivity.this, R.raw.acceleration,
+                            0.2f, true, 9000);
                 }
                 if (event.getAction()  != event.ACTION_UP) {
                     int delay = 30;
@@ -185,7 +186,8 @@ public class ManualActivity extends AppCompatActivity {
                     }, delay);
                 } else {
                     //TODO find a better sound effect. This is too annoying and low!
-                    effects.startEffect(ManualActivity.this, R.raw.carsound, 1.0f, false);
+                    effects.startEffect(ManualActivity.this, R.raw.carsound, 1.0f,
+                            false, 0);
                 }
                 return false;
             }

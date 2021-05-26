@@ -81,7 +81,7 @@ public class MainActivity extends AppCompatActivity {
         mainVideoView.start();
 
         //The background music: https://www.chosic.com/
-        SoundEffect.startEffect(this, R.raw.main_music, 0.27f, true);
+        SoundEffect.startEffect(this, R.raw.main_music, 0.27f, true, 0);
     }
 
     @Override

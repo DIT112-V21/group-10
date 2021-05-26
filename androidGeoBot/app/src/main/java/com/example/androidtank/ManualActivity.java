@@ -22,10 +22,8 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.androidtank.utilities.Client;
 import com.google.android.material.slider.Slider;
-
 import java.util.Objects;
 
-import android.os.CountDownTimer;
 
 public class ManualActivity extends AppCompatActivity {
 
@@ -43,7 +41,7 @@ public class ManualActivity extends AppCompatActivity {
 
     private static final String FAIL = "CONNECTION TO TANK COULD NOT BE ESTABLISHED";
     private static final String SUCCESS = "CONNECTION TO TANK ESTABLISHED";
-    public int counter = 60;
+    public int counter = 120;
     TextView timer;
     private static final String TEM = "TIME IS UP!!"; //TEM is Timer End Message
 
@@ -92,7 +90,7 @@ public class ManualActivity extends AppCompatActivity {
         window.setBackgroundDrawableResource(android.R.color.transparent);
         // initial logic for winning/losing
         int score = client.getScoreValue();
-        if (score > 1 && counter <= 60000) {
+        if (score > 1 && counter <= 120) {
             dialog.setContentView(R.layout.dialog_win);
             Button finish = (Button) dialog.findViewById(R.id.finish);
             setupOrdinaryButton2(finish);
@@ -106,6 +104,7 @@ public class ManualActivity extends AppCompatActivity {
             setupReloadBtn(reload);
         }
         dialog.show();
+        counter = 120; //reset counter back to 120
     }
 
 
@@ -158,7 +157,7 @@ public class ManualActivity extends AppCompatActivity {
                 int newX = convertJoystickX(); // for determining angle strength
                 client.joystick_publish(joystick, angle, strength, newX);
 
-                if (counter == 60 && mqttConnection)
+                if (counter == 120 && mqttConnection)
                 {
                     CountDownTimer gametimer = new CountDownTimer(120000, 1000)
                     {

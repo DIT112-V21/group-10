@@ -1,5 +1,6 @@
 package com.example.androidtank;
 
+import android.content.Context;
 import android.app.Dialog;
 import android.content.Intent;
 import android.graphics.Bitmap;
@@ -10,6 +11,7 @@ import io.github.controlwear.virtual.joystick.android.JoystickView;
 
 import android.os.Handler;
 import android.view.MotionEvent;
+import android.os.CountDownTimer;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
@@ -40,10 +42,14 @@ public class ManualActivity extends AppCompatActivity {
     Slider slider;
     TextView score;
     private int points = 3;
+    private boolean mqttConnection = false;
 
 
     private static final String FAIL = "CONNECTION TO TANK COULD NOT BE ESTABLISHED";
     private static final String SUCCESS = "CONNECTION TO TANK ESTABLISHED";
+    public int counter = 120;
+    TextView timer;
+    private static final String TEM = "TIME IS UP!!"; //TEM is Timer End Message
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -59,6 +65,7 @@ public class ManualActivity extends AppCompatActivity {
         this.slider = (Slider) findViewById(R.id.speedSlider);
         this.score = (TextView) findViewById(R.id.scoreText);
         this.mCameraView = (ImageView) findViewById(R.id.cameraView);
+        this.timer = (TextView) findViewById(R.id.textView2);
 
         // Mqtt Client
         this.client = new Client(this);
@@ -68,8 +75,10 @@ public class ManualActivity extends AppCompatActivity {
 
         if (!client.connect(null, null, null, null)) {
             Toast.makeText(this, FAIL, Toast.LENGTH_SHORT).show();
+            mqttConnection = false;
         } else {
             Toast.makeText(this, SUCCESS, Toast.LENGTH_SHORT).show();
+            mqttConnection = true;
         }
 
         // Setting up controls
@@ -87,7 +96,7 @@ public class ManualActivity extends AppCompatActivity {
         window.setBackgroundDrawableResource(android.R.color.transparent);
         // initial logic for winning/losing
         int score = client.getScoreValue();
-        if (score > 4) {
+        if (score > 1) {
             dialog.setContentView(R.layout.dialog_win);
             Button finish = (Button) dialog.findViewById(R.id.finish);
             setupBackButton(finish);
@@ -100,8 +109,9 @@ public class ManualActivity extends AppCompatActivity {
             setupBackButton(finish);
             Button reload = (Button) dialog.findViewById(R.id.playAgain);
             setupReloadBtn(reload);
-            dialog.show();
         }
+        dialog.show();
+        counter = 120; //reset counter back to 120
     }
 
 
@@ -152,6 +162,7 @@ public class ManualActivity extends AppCompatActivity {
                 }
             };
         });
+
     }
 
     // For the back button
@@ -192,6 +203,28 @@ public class ManualActivity extends AppCompatActivity {
                 return false;
             }
         });
+            public void onMove(int angle, int strength) {
+                int newX = convertJoystickX(); // for determining angle strength
+                client.joystick_publish(joystick, angle, strength, newX);
+
+                if (counter == 120 && mqttConnection)
+                {
+                    CountDownTimer gametimer = new CountDownTimer(120000, 1000)
+                    {
+                        public void onTick(long millisUntilFinished)
+                        {
+                            timer.setText(String.valueOf(millisUntilFinished/1000));
+                            counter--;
+                        }
+                        public void onFinish()
+                        {
+                            timer.setText(TEM);
+                            showDialog();
+                        }
+                    }.start();
+                }
+            }
+        }, delay);
     }
 
     // Convert Joystick Angle so that Tank understands

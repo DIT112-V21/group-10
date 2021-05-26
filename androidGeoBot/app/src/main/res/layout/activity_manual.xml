@@ -137,7 +137,7 @@
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
-                app:layout_constraintVertical_bias="0.976" />
+                app:layout_constraintVertical_bias="0.865" />
 
             <ImageView
                 android:id="@+id/cameraView"
@@ -188,6 +188,37 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
                 app:layout_constraintVertical_bias="0.751" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                android:layout_marginBottom="25dp"
+                android:gravity="center">
+                <EditText
+                    android:id="@+id/editTextTextPersonName2"
+                    android:layout_width="86dp"
+                    android:layout_height="56dp"
+                    android:ems="10"
+                    android:inputType="textPersonName"
+                    android:text="TIMER:"
+                    android:textColor="#F44336"
+                    android:textSize="24sp"
+                    android:textStyle="bold"
+                    tools:layout_editor_absoluteX="113dp"
+                    tools:layout_editor_absoluteY="659dp" />
+                <TextView
+                    android:id="@+id/textView2"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text=""
+                    android:textColor="#F44336"
+                    android:textSize="24sp"
+                    android:textStyle="bold"
+                    tools:layout_editor_absoluteX="206dp"
+                    tools:layout_editor_absoluteY="671dp" />
+            </LinearLayout>
+
         </androidx.constraintlayout.widget.ConstraintLayout>
     </LinearLayout>
 </androidx.constraintlayout.widget.ConstraintLayout>

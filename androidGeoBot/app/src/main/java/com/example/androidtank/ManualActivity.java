@@ -179,13 +179,14 @@ public class ManualActivity extends AppCompatActivity {
         joystick.setOnTouchListener(new JoystickView.OnTouchListener() {
             @Override
             public boolean onTouch(View v, MotionEvent event) {
-                if (event.getAction() == event.ACTION_DOWN) {
 
+                if (event.getAction() == event.ACTION_DOWN) {
                     effects.startEffect(ManualActivity.this, R.raw.acceleration,
                             0.2f, true, 7000);
                 }
-                 if (event.getAction()  != event.ACTION_UP) {
-                    int delay = 0;
+
+                if (event.getAction() != event.ACTION_UP) {
+                    int delay = 30;
                     joystick.setOnMoveListener(new JoystickView.OnMoveListener() {
                         public void onMove(int angle, int strength) {
                             int newX = convertJoystickX(); // for determining angle strength

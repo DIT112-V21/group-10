@@ -4,7 +4,6 @@ import android.app.Dialog;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.annotation.SuppressLint;
-import android.media.MediaPlayer;
 import android.os.Bundle;
 // we are using the joystick from https://github.com/controlwear/virtual-joystick-android
 import io.github.controlwear.virtual.joystick.android.JoystickView;
@@ -114,7 +113,7 @@ public class ManualActivity extends AppCompatActivity {
         setupBreakButton(breakBtn);
         setupBackButton(backBtn);
 //        setupJoystick();
-        setUpJoystick1();
+        setUpJoystick();
 
     }
 
@@ -134,7 +133,7 @@ public class ManualActivity extends AppCompatActivity {
                         mHandler = new Handler();
                         mHandler.postDelayed(mAction, 100);
                         effects.startEffect(ManualActivity.this, R.raw.break_sound,
-                                0.9f,false);
+                                0.5f,false);
                         break;
                     case MotionEvent.ACTION_UP:
                         if (mHandler == null) return true;
@@ -166,29 +165,15 @@ public class ManualActivity extends AppCompatActivity {
         });
     }
 
-
-//    public void setupJoystick() {
-//        joystick = (JoystickView) findViewById(R.id.joystickView);
-//        int delay = 100;
-//
-//        joystick.setOnMoveListener(new JoystickView.OnMoveListener() {
-//            public void onMove(int angle, int strength) {
-//                int newX = convertJoystickX(); // for determining angle strength
-//                client.joystick_publish(joystick, angle, strength, newX);
-//            }
-//        }, delay);
-//
-//    }
-
     @SuppressLint("ClickableViewAccessibility")
-    public void setUpJoystick1() {
+    public void setUpJoystick() {
         joystick = (JoystickView) findViewById(R.id.joystickView);
         joystick.setOnTouchListener(new JoystickView.OnTouchListener() {
             @Override
             public boolean onTouch(View v, MotionEvent event) {
                 if (event.getAction() == event.ACTION_DOWN) {
 
-                    effects.startEffect(ManualActivity.this, R.raw.acceleration, 0.4f, true);
+                    effects.startEffect(ManualActivity.this, R.raw.acceleration, 0.2f, true);
                 }
                 if (event.getAction()  != event.ACTION_UP) {
                     int delay = 30;
@@ -200,7 +185,7 @@ public class ManualActivity extends AppCompatActivity {
                     }, delay);
                 } else {
                     //TODO find a better sound effect. This is too annoying and low!
-                    effects.startEffect(ManualActivity.this, R.raw.carsound, 0.9f, false);
+                    effects.startEffect(ManualActivity.this, R.raw.carsound, 1.0f, false);
                 }
                 return false;
             }

@@ -38,11 +38,12 @@ public class ManualActivity extends AppCompatActivity {
     Slider slider;
     TextView score;
     private int points = 3;
+    private boolean mqttConnection = false;
 
 
     private static final String FAIL = "CONNECTION TO TANK COULD NOT BE ESTABLISHED";
     private static final String SUCCESS = "CONNECTION TO TANK ESTABLISHED";
-    public int counter = 0;
+    public int counter = 60;
     TextView timer;
     private static final String TEM = "TIME IS UP!!"; //TEM is Timer End Message
 
@@ -70,8 +71,10 @@ public class ManualActivity extends AppCompatActivity {
 
         if (!client.connect(null, null, null, null)) {
             Toast.makeText(this, FAIL, Toast.LENGTH_SHORT).show();
+            mqttConnection = false;
         } else {
             Toast.makeText(this, SUCCESS, Toast.LENGTH_SHORT).show();
+            mqttConnection = true;
         }
 
         // Setting up controls
@@ -155,15 +158,14 @@ public class ManualActivity extends AppCompatActivity {
                 int newX = convertJoystickX(); // for determining angle strength
                 client.joystick_publish(joystick, angle, strength, newX);
 
-                if (counter == 0)
+                if (counter == 60 && mqttConnection)
                 {
-                    CountDownTimer gametimer = new CountDownTimer(60000, 1000)
+                    CountDownTimer gametimer = new CountDownTimer(120000, 1000)
                     {
                         public void onTick(long millisUntilFinished)
                         {
-                            int displaycounter = counter / 1000;
-                            timer.setText(String.valueOf(displaycounter));
-                            counter++;
+                            timer.setText(String.valueOf(millisUntilFinished/1000));
+                            counter--;
                         }
                         public void onFinish()
                         {

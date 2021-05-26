@@ -91,7 +91,7 @@ void loop()
 void handleInput()
 {
   float distance = front.getDistance();
-  serialMsg(distance);
+  // serialMsg(distance);
   // distanceHandler(0, 200, distance);
   if (stopping == true)
   {
@@ -134,6 +134,7 @@ void mqttHandler()
     mqtt.onMessage([](String topic, String message) {
       if (topic == "/Group10/manual/forward")
       {
+        Serial.println(message);
         latestSpeed = message.toInt();
         car.setAngle(latestAngle);
         car.setSpeed(latestSpeed);

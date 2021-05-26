@@ -89,7 +89,7 @@ public class ManualActivity extends AppCompatActivity {
                 window.setBackgroundDrawableResource(android.R.color.transparent);
                 // initial logic for winning/losing
                 int score = client.getScoreValue();
-                if (score > 4 && counter <= 15000) {
+                if (score > 1 && counter <= 60000) {
                     dialog.setContentView(R.layout.dialog_win);
                     Button finish = (Button) dialog.findViewById(R.id.finish);
                     setupOrdinaryButton2(finish);
@@ -155,7 +155,7 @@ public void setupJoystick ()
 			client.joystick_publish(joystick, angle, strength);
 			if (counter == 0)
 			{
-                CountDownTimer gametimer = new CountDownTimer(15000, 1000)
+                CountDownTimer gametimer = new CountDownTimer(60000, 1000)
                 {
                     public void onTick(long millisUntilFinished)
                     {

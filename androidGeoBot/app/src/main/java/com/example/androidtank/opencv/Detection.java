@@ -31,7 +31,7 @@ public class Detection {
 
     // Constructor that simply logs the instantiation of this class.
     public Detection() {
-        Log.i(TAG, "Instantiated new " + this.getClass());
+        //Log.i(TAG, "Instantiated new " + this.getClass());
     }
 
 

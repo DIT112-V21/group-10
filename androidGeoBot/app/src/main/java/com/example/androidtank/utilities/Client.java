@@ -20,16 +20,15 @@ import org.eclipse.paho.client.mqttv3.IMqttToken;
 import org.eclipse.paho.client.mqttv3.MqttCallback;
 import org.eclipse.paho.client.mqttv3.MqttMessage;
 
-
 // Helper class between actual MqttClient and activities
 //
 public class Client extends MqttClient {
 
+    // Attributes
     private final String TAG2 = this.getClass().getName();
-    protected MqttClient mqttClient;
-    private int scoreValue;
     private int lastJoystickX = 0;
     private int lastJoysticky = 0;
+    private int scoreValue;
 
     // Topics to update to
     private static final String FAIL = "CONNECTION TO TANK COULD NOT BE ESTABLISHED";
@@ -39,8 +38,6 @@ public class Client extends MqttClient {
     private static final String TURN_RIGHT = "/Group10/manual/turnright";
     private static final String BREAK = "/Group10/manual/break";
     private static final String STOPPING = "/Group10/manual/stopping";
-    private static final String ACCELERATE = "/Group10/manual/accelerateup";
-    private static final String DECELERATE = "/Group10/manual/acceleratedown";
     private static final int IMAGE_WIDTH = 320;
     private static final int IMAGE_HEIGHT = 240;
 
@@ -48,13 +45,8 @@ public class Client extends MqttClient {
     private static final String ULTRASOUND_FRONT = "/Group10/sensor/ultrasound/front";
     private static final String UPDATE_SCORE = "/Group10/manual/score";
 
-    // Message attributes
-    private static final int SPEED = 100;
-    private static final int ANGLE = 30;
-//    private static final int LEFT_TURN = -75;
-//    private static final int RESET_ANGLE = 0;
-
-    // Connection attributes
+    // Connection related attributes
+    protected MqttClient mqttClient;
     private static final String TAG = "localhost";
     private static final String MQTT_BROKER = "aerostun.dev";
     private static final String LOCAL_MQTT = "10.0.2.2";
@@ -174,10 +166,10 @@ public class Client extends MqttClient {
 
 
 
-// Depending on ID of button the method sends appropriate messages to relevant topic.
-        public void button_publish(Button button){
-            if(!(button == null) && isConnected){
-                switch (button.getId()){
+    // Depending on ID of button the method sends appropriate messages to relevant topic.
+    public void button_publish(Button button){
+        if(!(button == null) && isConnected){
+            switch (button.getId()){
 //               case R.id.accelerate_up:
 //                   mqttClient.publish(ACCELERATE, Integer.toString(SPEED),QOS,null);
 //                   break;
@@ -186,23 +178,30 @@ public class Client extends MqttClient {
 //                   mqttClient.publish(DECELERATE, Integer.toString(SPEED),QOS,null);
 //                   break;
 
-                    case R.id.break_button:
-                        publish(BREAK, Integer.toString(0),QOS,null);
-                        break;
+                case R.id.break_button:
+                    publish(BREAK, Integer.toString(0),QOS,null);
+                    break;
 
-                    default:
-                }
-            } else if((button == null) && isConnected) {
-
-                publish("/Group10/manual/nocontrol", Integer.toString(0),QOS,null);
-
-            } else {
-
-                Toast.makeText(context, "Connection not established", Toast.LENGTH_SHORT).show();
-
+                default:
             }
-        }
+        } else if((button == null) && isConnected) {
 
+            publish("/Group10/manual/nocontrol", Integer.toString(0),QOS,null);
+
+        } else {
+
+            Toast.makeText(context, "Connection not established", Toast.LENGTH_SHORT).show();
+
+        }
+    }
+
+    /**
+     *
+     * @param joystickView The view that displays the joystick
+     * @param angle The angle that the joystick uses
+     * @param y The joysticks y coordinate. Translated into speed for Tank
+     * @param x The joysticks y coordinate. Translated into angle for Tank
+     */
     public void joystick_publish(JoystickView joystickView, int angle, int y, int x){
         Log.i("Stuff", "X:" + x + ", Y:" + y); // for debugging
 
@@ -259,5 +258,3 @@ public class Client extends MqttClient {
         return this.scoreValue;
     }
 }
-
-

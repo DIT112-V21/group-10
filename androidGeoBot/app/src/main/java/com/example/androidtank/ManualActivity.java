@@ -185,22 +185,21 @@ public class ManualActivity extends AppCompatActivity {
                             0.2f, true, 7000);
                 }
 
-                if (event.getAction() != event.ACTION_UP) {
-                    int delay = 30;
-                    joystick.setOnMoveListener(new JoystickView.OnMoveListener() {
-                        public void onMove(int angle, int strength) {
-                            int newX = convertJoystickX(); // for determining angle strength
-                            client.joystick_publish(joystick, angle, strength, newX);
-                            timerHandler();
-                        }
-                    }, delay);
-                }
+                switch (event.getAction()) {
 
-                else {
-                    effects.startEffect(ManualActivity.this, R.raw.carsound, 1.0f,
-                            false, 0);
+                    case MotionEvent.ACTION_UP:
+                        effects.startEffect(ManualActivity.this, R.raw.carsound, 1.0f,
+                                false, 0);
+                    default:
+                        int delay = 30;
+                        joystick.setOnMoveListener(new JoystickView.OnMoveListener() {
+                            public void onMove(int angle, int strength) {
+                                int newX = convertJoystickX(); // for determining angle strength
+                                client.joystick_publish(joystick, angle, strength, newX);
+                                timerHandler();
+                            }
+                        }, delay);
                 }
-
                 return false;
             }
         });

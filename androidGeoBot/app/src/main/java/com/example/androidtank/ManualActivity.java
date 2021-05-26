@@ -9,6 +9,8 @@ import android.os.Bundle;
 // we are using the joystick from https://github.com/controlwear/virtual-joystick-android
 import io.github.controlwear.virtual.joystick.android.JoystickView;
 
+import android.os.Handler;
+import android.view.MotionEvent;
 import android.os.CountDownTimer;
 import android.view.View;
 import android.view.Window;
@@ -21,15 +23,19 @@ import android.widget.Toast;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.androidtank.utilities.Client;
+import com.example.androidtank.utilities.SoundEffect;
 import com.google.android.material.slider.Slider;
+
 import java.util.Objects;
 
 
 public class ManualActivity extends AppCompatActivity {
 
-    private static Context context;
+    //sound effect initiation
+    SoundEffect effects;
+
     //joystick buttons
-    private Button breakBtn, acceleration, deceleration, backBtn;
+    private Button breakBtn, backBtn;
     private Client client;
     public ImageView mCameraView;
     private JoystickView joystick;
@@ -93,13 +99,14 @@ public class ManualActivity extends AppCompatActivity {
         if (score > 1) {
             dialog.setContentView(R.layout.dialog_win);
             Button finish = (Button) dialog.findViewById(R.id.finish);
-            setupOrdinaryButton2(finish);
+            setupBackButton(finish);
             Button reload = (Button) dialog.findViewById(R.id.playAgain);
             setupReloadBtn(reload);
+            dialog.show();
         } else {
             dialog.setContentView(R.layout.dialog_lose);
             Button finish = (Button) dialog.findViewById(R.id.finish);
-            setupOrdinaryButton2(finish);
+            setupBackButton(finish);
             Button reload = (Button) dialog.findViewById(R.id.playAgain);
             setupReloadBtn(reload);
         }
@@ -107,38 +114,57 @@ public class ManualActivity extends AppCompatActivity {
         counter = 120; //reset counter back to 120
     }
 
-
     // Setup of the controls for the SMCE car.
     public void setTankControls () {
         // Setup ordinary buttons
         breakBtn = findViewById(R.id.break_button);
         backBtn = findViewById(R.id.button_back);
-        //acceleration = (Button) findViewById(R.id.accelerate_up);
-        //deceleration = (Button) findViewById(R.id.accelerate_down);
-        setupOrdinaryButton(breakBtn);
-        setupOrdinaryButton2(backBtn);
-        setupJoystick();
-        //setupOrdinaryButton(acceleration);
-        //setupOrdinaryButton(deceleration);
+        setupBreakButton(breakBtn);
+        setupBackButton(backBtn);
+        setUpJoystick();
     }
 
     /**
      * These methods takes in a Button object and makes it clickable
      */
-    private void setupOrdinaryButton (Button button){
 
-        button.setOnClickListener(new View.OnClickListener() {
+    @SuppressLint("ClickableViewAccessibility")
+   private void setupBreakButton(Button button){
+        button.setOnTouchListener(new View.OnTouchListener() {
+            private Handler mHandler;
             @Override
-            public void onClick(View view) {
-                client.button_publish(button);
+            public boolean onTouch(View v, MotionEvent event) {
+                switch(event.getAction()) {
+                    case MotionEvent.ACTION_DOWN:
+                        if (mHandler != null) return true;
+                        mHandler = new Handler();
+                        mHandler.postDelayed(mAction, 100);
+                        effects.startEffect(ManualActivity.this, R.raw.break_sound,
+                                0.5f,false, 0);
+                        break;
+                    case MotionEvent.ACTION_UP:
+                        if (mHandler == null) return true;
+                        client.button_publish(null);
+                        mHandler.removeCallbacksAndMessages(null);
+                        mHandler = null;
+                        effects.stopEffect();
+                        break;
+                }
+                return true;
             }
+            Runnable mAction = new Runnable() {
+                @Override public void run() {
+                    client.button_publish(button);
+                    mHandler.postDelayed(this, 100);
+                }
+            };
         });
 
     }
 
     // For the back button
     // go back one screen
-    private void setupOrdinaryButton2 (Button button){
+    private void setupBackButton(Button button){
         button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -147,34 +173,55 @@ public class ManualActivity extends AppCompatActivity {
         });
     }
 
-    public void setupJoystick() {
+    @SuppressLint("ClickableViewAccessibility")
+    public void setUpJoystick() {
         joystick = (JoystickView) findViewById(R.id.joystickView);
-        int delay = 100;
-
-        joystick.setOnMoveListener(new JoystickView.OnMoveListener() {
+        joystick.setOnTouchListener(new JoystickView.OnTouchListener() {
             @Override
-            public void onMove(int angle, int strength) {
-                int newX = convertJoystickX(); // for determining angle strength
-                client.joystick_publish(joystick, angle, strength, newX);
+            public boolean onTouch(View v, MotionEvent event) {
 
-                if (counter == 120 && mqttConnection)
-                {
-                    CountDownTimer gametimer = new CountDownTimer(120000, 1000)
-                    {
-                        public void onTick(long millisUntilFinished)
-                        {
-                            timer.setText(String.valueOf(millisUntilFinished/1000));
-                            counter--;
-                        }
-                        public void onFinish()
-                        {
-                            timer.setText(TEM);
-                            showDialog();
-                        }
-                    }.start();
+                if (event.getAction() == event.ACTION_DOWN) {
+                    effects.startEffect(ManualActivity.this, R.raw.acceleration,
+                            0.2f, true, 7000);
                 }
+
+                switch (event.getAction()) {
+
+                    case MotionEvent.ACTION_UP:
+                        effects.startEffect(ManualActivity.this, R.raw.carsound, 1.0f,
+                                false, 0);
+                    default:
+                        int delay = 30;
+                        joystick.setOnMoveListener(new JoystickView.OnMoveListener() {
+                            public void onMove(int angle, int strength) {
+                                int newX = convertJoystickX(); // for determining angle strength
+                                client.joystick_publish(joystick, angle, strength, newX);
+                                timerHandler();
+                            }
+                        }, delay);
+                }
+                return false;
             }
-        }, delay);
+        });
+    }
+
+    public void timerHandler() {
+        if (counter == 120 && mqttConnection)
+        {
+            CountDownTimer gametimer = new CountDownTimer(120000, 1000)
+            {
+                public void onTick(long millisUntilFinished)
+                {
+                    timer.setText(String.valueOf(millisUntilFinished/1000));
+                    counter--;
+                }
+                public void onFinish()
+                {
+                    timer.setText(TEM);
+                    showDialog();
+                }
+            }.start();
+        }
     }
 
     // Convert Joystick Angle so that Tank understands
@@ -204,41 +251,6 @@ public class ManualActivity extends AppCompatActivity {
         });
     }
 
-    /**
-     * This method takes in a Button object and makes it into a touch button
-     */
-    @SuppressLint("ClickableViewAccessibility")
-/*    private void setupTouchController(Button button){
-        button.setOnTouchListener(new View.OnTouchListener() {
-            private Handler mHandler;
-
-            @Override
-            public boolean onTouch(View v, MotionEvent event) {
-                switch(event.getAction()) {
-                    case MotionEvent.ACTION_DOWN:
-                        if (mHandler != null) return true;
-                        mHandler = new Handler();
-                        mHandler.postDelayed(mAction, 100);
-                        break;
-                    case MotionEvent.ACTION_UP:
-                        if (mHandler == null) return true;
-                        client.button_publish(null);
-                        mHandler.removeCallbacksAndMessages(null);
-                        mHandler = null;
-                        break;
-                }
-                return false;
-            }
-
-            Runnable mAction = new Runnable() {
-                @Override public void run() {
-                    client.button_publish(button);
-                    mHandler.postDelayed(this, 100);
-                }
-            };
-        });
-    }*/
-
     public Slider getSlider () {
         return this.slider;
     }
@@ -251,3 +263,8 @@ public class ManualActivity extends AppCompatActivity {
         return this.score;
     }
 }
+
+
+
+
+

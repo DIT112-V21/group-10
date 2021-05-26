@@ -114,7 +114,6 @@ public class ManualActivity extends AppCompatActivity {
         counter = 120; //reset counter back to 120
     }
 
-
     // Setup of the controls for the SMCE car.
     public void setTankControls () {
         // Setup ordinary buttons
@@ -122,9 +121,7 @@ public class ManualActivity extends AppCompatActivity {
         backBtn = findViewById(R.id.button_back);
         setupBreakButton(breakBtn);
         setupBackButton(backBtn);
-//        setupJoystick();
         setUpJoystick();
-
     }
 
     /**
@@ -196,35 +193,12 @@ public class ManualActivity extends AppCompatActivity {
                         }
                     }, delay);
                 } else {
-                    //TODO find a better sound effect. This is too annoying and low!
                     effects.startEffect(ManualActivity.this, R.raw.carsound, 1.0f,
                             false, 0);
                 }
                 return false;
             }
         });
-            public void onMove(int angle, int strength) {
-                int newX = convertJoystickX(); // for determining angle strength
-                client.joystick_publish(joystick, angle, strength, newX);
-
-                if (counter == 120 && mqttConnection)
-                {
-                    CountDownTimer gametimer = new CountDownTimer(120000, 1000)
-                    {
-                        public void onTick(long millisUntilFinished)
-                        {
-                            timer.setText(String.valueOf(millisUntilFinished/1000));
-                            counter--;
-                        }
-                        public void onFinish()
-                        {
-                            timer.setText(TEM);
-                            showDialog();
-                        }
-                    }.start();
-                }
-            }
-        }, delay);
     }
 
     // Convert Joystick Angle so that Tank understands

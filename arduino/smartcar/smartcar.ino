@@ -11,7 +11,7 @@
 #ifndef __SMCE__
 WiFiClient net;
 #endif
-MQTTClient mqtt;
+MQTTClient mqtt(256);
 
 const int SIDE_FRONT_PIN = 0;
 ArduinoRuntime arduinoRuntime;
@@ -51,6 +51,17 @@ void setup()
 
   Camera.begin(QVGA, RGB888, 15);
   frameBuffer.resize(Camera.width() * Camera.height() * Camera.bytesPerPixel());
+  if (hostname[0] == 0 || portTemp[0] == 0)
+  {
+    mqtt.begin(WiFi);
+  }
+  else
+  {
+    String stringTemp = String(portTemp);
+    int intTemp = stringTemp.toInt();
+    mqtt.begin(hostname, intTemp, WiFi);
+  }
+
   mqtt.begin(WiFi);
   //mqtt.begin("aerostun.dev", 1883, WiFi);
 #else
@@ -178,26 +189,12 @@ void mqttHandler()
       {
         memset(hostname, '\0', sizeof(hostname));
         message.toCharArray(hostname, 50);
-
-        Serial.println("hohost: ");
-        Serial.print(hostname);
-        Serial.print("------");
       }
       else if (topic == "/Group10/manual/server/p")
       {
         memset(portTemp, '\0', sizeof(portTemp));
         message.toCharArray(portTemp, 50);
-
-        Serial.print("port: ");
-        Serial.print(portTemp); // debug
-        Serial.print("---");
-
-        int portu = message.toInt();
-        String stringTest = String(portu);
-        Serial.print(stringTest);
-
-        mqtt.setHost("aerostun.dev", 1883);
-        //mqtt.begin(hostname, stringu.toInt(), WiFi);
+        setup(); // Redo the setup on connection //TODO make a method for doing mqtt connection
       }
     });
   }

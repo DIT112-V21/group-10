@@ -153,7 +153,6 @@ public class MainActivity extends AppCompatActivity {
             mainVideoView.start();
         } catch (FileNotFoundException e) {
             Log.i("TAG", "Could not load video", e);
-            // e.printStackTrace();
         }
     }
 
@@ -201,7 +200,7 @@ public class MainActivity extends AppCompatActivity {
         inputIP.setTypeface(face);
         inputPort.setTypeface(face);
 
-        // set margins for the textfields
+        // Set margins for the textfields
         final ViewGroup.MarginLayoutParams mlp = (ViewGroup.MarginLayoutParams) inputIP.getLayoutParams();
         final ViewGroup.MarginLayoutParams mlp2 = (ViewGroup.MarginLayoutParams) inputPort.getLayoutParams();
         mlp.setMargins(55, 0, 55, 0);
@@ -216,26 +215,22 @@ public class MainActivity extends AppCompatActivity {
                 mText = inputIP.getText().toString();
                 mText2 = inputPort.getText().toString();
 
+                // Check if input fields are empty
                 if (mText.isEmpty()) {
-                    Toast toast = Toast.makeText(MainActivity.this, "Please enter an Ip/Url", Toast.LENGTH_SHORT);
-                    toast.setGravity(Gravity.CENTER, 0, 0);
-                    toast.show();
+                    customToast("Please enter an Ip/Url", Toast.LENGTH_SHORT).show();
                 } else if (mText2.isEmpty()) {
-                    Toast toast = Toast.makeText(MainActivity.this, "Please enter a Port", Toast.LENGTH_SHORT);
-                    toast.setGravity(Gravity.CENTER, 0, 0);
-                    toast.show();
-                } else if (mText.contains("10.0.2.2") && mText2.contains("1883")) {
-                    Toast toast = Toast.makeText(MainActivity.this, "Setting server to '10.0.2.2:1883'", Toast.LENGTH_SHORT);
-                    toast.setGravity(Gravity.CENTER, 0, 0);
-                    toast.show();
+                    customToast("Please enter a Port", Toast.LENGTH_SHORT).show();
+                }
+
+                // If user presses Ok, set default broker to localhost, else set it to their input.
+                if (mText.contains("10.0.2.2") && mText2.contains("1883")) {
+                    customToast("Setting server to '10.0.2.2:1883'", Toast.LENGTH_LONG).show();
                     client.server_publish("10.0.2.2");
                     client.server_publish2("1883");
                     client = new Client(MainActivity.this, "10.0.2.2", "1883");
                     checkClientConnection();
                 } else {
-                    Toast toast = Toast.makeText(MainActivity.this, "Settings: " + "IP: " + mText + ", PORT: " + mText2, Toast.LENGTH_LONG);
-                    toast.setGravity(Gravity.CENTER, 0, 0);
-                    toast.show();
+                    customToast("Settings: " + "IP: " + mText + ", PORT: " + mText2, Toast.LENGTH_LONG).show();
                     client.server_publish(mText);
                     client.server_publish2(mText2);
                     client = new Client(MainActivity.this, mText, mText2);
@@ -252,5 +247,11 @@ public class MainActivity extends AppCompatActivity {
 
         // Show the View
         dialog.show();
+    }
+
+    private Toast customToast(String text, int length) {
+        Toast toast = Toast.makeText(MainActivity.this, text, length);
+        toast.setGravity(Gravity.CENTER, 0, 0);
+        return toast;
     }
 }

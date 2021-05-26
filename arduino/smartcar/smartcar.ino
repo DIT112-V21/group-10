@@ -48,22 +48,10 @@ void setup()
   Serial.begin(9600);
   Serial.setTimeout(200);
 #ifdef __SMCE__
-
   Camera.begin(QVGA, RGB888, 15);
   frameBuffer.resize(Camera.width() * Camera.height() * Camera.bytesPerPixel());
-  if (hostname[0] == 0 || portTemp[0] == 0)
-  {
-    mqtt.begin(WiFi);
-  }
-  else
-  {
-    String stringTemp = String(portTemp);
-    int intTemp = stringTemp.toInt();
-    mqtt.begin(hostname, intTemp, WiFi);
-  }
 
-  mqtt.begin(WiFi);
-  //mqtt.begin("aerostun.dev", 1883, WiFi);
+  connectToMQTT(hostname, portTemp); // Connect to broker
 #else
   mqtt.begin(net);
 #endif
@@ -142,6 +130,20 @@ void stopTank()
   car.setAngle(latestAngle);
 }
 
+void connectToMQTT(char host[], char port[])
+{
+  if (host[0] == 0 || port[0] == 0)
+  {
+    mqtt.begin(WiFi);
+  }
+  else
+  {
+    String stringTemp = String(portTemp);
+    int intTemp = stringTemp.toInt();
+    mqtt.begin(hostname, intTemp, WiFi);
+  }
+}
+
 void mqttHandler()
 {
   if (mqtt.connect("arduino", "public", "public"))
@@ -194,6 +196,7 @@ void mqttHandler()
       {
         memset(portTemp, '\0', sizeof(portTemp));
         message.toCharArray(portTemp, 50);
+
         setup(); // Redo the setup on connection //TODO make a method for doing mqtt connection
       }
     });

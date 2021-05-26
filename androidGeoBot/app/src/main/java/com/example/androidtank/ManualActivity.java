@@ -124,10 +124,10 @@ public class ManualActivity extends AppCompatActivity {
         setUpJoystick();
     }
 
+
     /**
      * These methods takes in a Button object and makes it clickable
      */
-
     @SuppressLint("ClickableViewAccessibility")
    private void setupBreakButton(Button button){
         button.setOnTouchListener(new View.OnTouchListener() {
@@ -191,7 +191,7 @@ public class ManualActivity extends AppCompatActivity {
                         effects.startEffect(ManualActivity.this, R.raw.carsound, 1.0f,
                                 false, 0);
                     default:
-                        int delay = 30;
+                        int delay = 100;
                         joystick.setOnMoveListener(new JoystickView.OnMoveListener() {
                             public void onMove(int angle, int strength) {
                                 int newX = convertJoystickX(); // for determining angle strength

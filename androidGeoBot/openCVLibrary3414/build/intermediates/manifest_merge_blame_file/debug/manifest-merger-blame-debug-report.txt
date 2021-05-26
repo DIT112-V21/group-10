@@ -6,8 +6,8 @@
 6
 7    <uses-sdk
 8        android:minSdkVersion="21"
-8-->C:\Users\marye\AndroidStudioProjects\group-10\androidGeoBot\openCVLibrary3414\src\main\AndroidManifest.xml
+8-->C:\dev\School\DIT112\Project\group-10\androidGeoBot\openCVLibrary3414\src\main\AndroidManifest.xml
 9        android:targetSdkVersion="30" />
-9-->C:\Users\marye\AndroidStudioProjects\group-10\androidGeoBot\openCVLibrary3414\src\main\AndroidManifest.xml
+9-->C:\dev\School\DIT112\Project\group-10\androidGeoBot\openCVLibrary3414\src\main\AndroidManifest.xml
 10
 11</manifest>

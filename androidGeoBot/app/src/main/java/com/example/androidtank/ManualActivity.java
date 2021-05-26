@@ -90,7 +90,7 @@ public class ManualActivity extends AppCompatActivity {
         window.setBackgroundDrawableResource(android.R.color.transparent);
         // initial logic for winning/losing
         int score = client.getScoreValue();
-        if (score > 1 && counter <= 120) {
+        if (score > 1) {
             dialog.setContentView(R.layout.dialog_win);
             Button finish = (Button) dialog.findViewById(R.id.finish);
             setupOrdinaryButton2(finish);

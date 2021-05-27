@@ -166,7 +166,7 @@ public class Client extends MqttClient {
 
 
 
-// Depending on ID of button the method sends appropriate messages to relevant topic.
+    // Depending on ID of button the method sends appropriate messages to relevant topic.
     public void button_publish(Button button){
         if(!(button == null) && isConnected){
             switch (button.getId()){
@@ -258,5 +258,3 @@ public class Client extends MqttClient {
         return this.scoreValue;
     }
 }
-
-

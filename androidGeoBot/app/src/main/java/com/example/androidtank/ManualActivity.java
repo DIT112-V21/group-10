@@ -99,6 +99,7 @@ public class ManualActivity extends AppCompatActivity {
         int score = client.getScoreValue();
         if (score > 1) {
             dialog.setContentView(R.layout.dialog_win);
+            effects.stopEffect();
             SoundEffect.startEffect(ManualActivity.this, R.raw.wingame, 0.2f, false, 0);
             Button finish = (Button) dialog.findViewById(R.id.finish);
             setupBackButton(finish);
@@ -107,6 +108,7 @@ public class ManualActivity extends AppCompatActivity {
             dialog.show();
         } else {
             dialog.setContentView(R.layout.dialog_lose);
+            effects.stopEffect();
             SoundEffect.startEffect(ManualActivity.this, R.raw.losegame, 0.2f, false, 0);
             Button finish = (Button) dialog.findViewById(R.id.finish);
             setupBackButton(finish);
@@ -194,7 +196,7 @@ public class ManualActivity extends AppCompatActivity {
                         effects.startEffect(ManualActivity.this, R.raw.carsound, 1.0f,
                                 false, 0);
                     default:
-                        int delay = 100;
+                        int delay = 150;
                         joystick.setOnMoveListener(new JoystickView.OnMoveListener() {
                             public void onMove(int angle, int strength) {
                                 int newX = convertJoystickX(); // for determining angle strength
@@ -250,6 +252,7 @@ public class ManualActivity extends AppCompatActivity {
                 overridePendingTransition(0, 0);
                 startActivity(i);
                 overridePendingTransition(0, 0);
+                SoundEffect.stopEffect();
             }
         });
     }

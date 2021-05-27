@@ -131,7 +131,7 @@ void stopTank()
   car.setAngle(latestAngle);
 }
 
-// Connect to a new broker. Is not working at the moment.
+// Connect to a new broker. Works when switching to a custom broker but not when switching back to localhost
 void connect(char host[], char port[])
 {
 #ifdef __SMCE__

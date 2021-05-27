@@ -35,8 +35,7 @@ int magnitude = 0;
 int score = 0;
 
 char hostname[50];
-char portTemp[50];
-int port;
+char portNumber[50];
 
 boolean stopping = false;
 
@@ -51,7 +50,9 @@ void setup()
   Camera.begin(QVGA, RGB888, 15);
   frameBuffer.resize(Camera.width() * Camera.height() * Camera.bytesPerPixel());
 
-  connectToMQTT(hostname, portTemp); // Connect to broker
+  Serial.println("Localhost Initialized"); // Debugging
+  mqtt.begin(WiFi);
+
 #else
   mqtt.begin(net);
 #endif
@@ -130,18 +131,49 @@ void stopTank()
   car.setAngle(latestAngle);
 }
 
-void connectToMQTT(char host[], char port[])
+// Connect to a new broker. Is not working at the moment.
+void connect(char host[], char port[])
 {
-  if (host[0] == 0 || port[0] == 0)
-  {
+#ifdef __SMCE__
+  Camera.begin(QVGA, RGB888, 15);
+  frameBuffer.resize(Camera.width() * Camera.height() * Camera.bytesPerPixel());
+
+  String hostTemp = String(host);
+  String portTemp = String(port);
+
+  if (host[0] == 0 || port[0] == 0)          // default, connect to localhost
+  {                                          // Todo Make this work when switching back from custom broker
+    Serial.println("Localhost Initialized"); // Debugging
+    mqtt.disconnect();                       // disconnect from previous broker
     mqtt.begin(WiFi);
+    Serial.print(mqtt.connected()); // Check new connection. returns 1 if true
   }
-  else
+  else if (hostTemp.equals("10.0.2.2"))  // if user input port is "10.0.2.2", connect to localhost
+  {                                      // Todo Make this work when switching back from custom broker
+    Serial.println("Localhost enabled"); // Debugging
+    mqtt.disconnect();                   // disconnect from previous broker
+    mqtt.begin(WiFi);
+    Serial.print(mqtt.connected()); // Check new connection. returns 1 if true
+  }
+  else // else, connect to user input.
   {
-    String stringTemp = String(portTemp);
+    //Serial.println(hostTemp);
+    //Serial.println(portTemp);
+    Serial.println("Custom host enabled"); // Debugging
+    String stringTemp = String(portNumber);
     int intTemp = stringTemp.toInt();
+
+    mqtt.disconnect(); // disconnect from previous broker
     mqtt.begin(hostname, intTemp, WiFi);
+    Serial.print(mqtt.connected()); // Check new connection. returns 1 if true
   }
+#else
+  Serial.println("net"); // Debugging
+  mqtt.begin(net);
+#endif
+  Serial.println("mqttHandler"); // Debugging
+  mqttHandler();
+  startMillis = millis();
 }
 
 void mqttHandler()
@@ -194,13 +226,18 @@ void mqttHandler()
       }
       else if (topic == "/Group10/manual/server/p")
       {
-        memset(portTemp, '\0', sizeof(portTemp));
-        message.toCharArray(portTemp, 50);
+        memset(portNumber, '\0', sizeof(portNumber));
+        message.toCharArray(portNumber, 50);
 
-        setup(); // Redo the setup on connection //TODO make a method for doing mqtt connection
+        connect(hostname, portNumber); // TODO; Make this work 100% of times. It is not at the moment.
       }
     });
   }
+}
+
+void testtest()
+{
+  Serial.print("wtf");
 }
 
 void serialMsg(float distance)

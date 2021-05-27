@@ -42,8 +42,11 @@ public class ManualActivity extends AppCompatActivity {
     Slider slider;
     TextView score;
     private int points = 3;
-    private boolean mqttConnection = false;
 
+    private boolean mqttConnection = false;
+    private String loadedHost = "";
+    private String loadedPort = "";
+    Context context;
 
     private static final String FAIL = "CONNECTION TO TANK COULD NOT BE ESTABLISHED";
     private static final String SUCCESS = "CONNECTION TO TANK ESTABLISHED";
@@ -60,6 +63,7 @@ public class ManualActivity extends AppCompatActivity {
         this.getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,
                 WindowManager.LayoutParams.FLAG_FULLSCREEN);
 
+        // TODO Re-think Client and it's relation to context
         this.client = new Client(this);
         client = MainActivity.client;
 
@@ -195,7 +199,7 @@ public class ManualActivity extends AppCompatActivity {
                         joystick.setOnMoveListener(new JoystickView.OnMoveListener() {
                             public void onMove(int angle, int strength) {
                                 int newX = convertJoystickX(); // for determining angle strength
-                                client.joystick_publish(joystick, angle, strength, newX);
+                                client.joystick_publish(ManualActivity.this, joystick, angle, strength, newX);
                                 timerHandler();
                             }
                         }, delay);

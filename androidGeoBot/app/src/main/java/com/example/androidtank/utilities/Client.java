@@ -53,7 +53,8 @@ public class Client extends MqttClient {
     private static final String MQTT_BROKER = "aerostun.dev";
     private static final String DEFAULT_HOST = "10.0.2.2"; // default is 10.0.2.2
     private static final String DEFAULT_PORT = "1883";
-    private MqttCallback mqttCallback;
+    private String customHost = "10.0.2.2"; // default is 10.0.2.2
+    private String customPort = "1883";
     private static String mqtt_server = "tcp://" + DEFAULT_HOST + ":" + DEFAULT_PORT;
     private static final int QOS = 1;
     private boolean isConnected = false;
@@ -66,13 +67,15 @@ public class Client extends MqttClient {
     public Client(Context context) {
         super(context, mqtt_server, TAG);
         Log.i(TAG2, "Instantiated new " + this.getClass());
-        this.context = context;
+        Client.context = context;
     }
 
     public Client(Context context, String host, String port) {
         super(context, mqtt_server = "tcp://" + host + ":" + port, TAG);
         Log.i(TAG2, "Instantiated new " + this.getClass());
-        this.context = context;
+        customHost = host;
+        customPort = port;
+        Client.context = context;
     }
 
 
@@ -101,7 +104,7 @@ public class Client extends MqttClient {
                 //throw new UnsupportedOperationException();
             }
 
-        }, this.mqttCallback = new MqttCallback() {
+        }, new MqttCallback() {
             @Override
             public void connectionLost(Throwable cause) {
                 isConnected = false;
@@ -213,7 +216,7 @@ public class Client extends MqttClient {
      * @param y            The joysticks y coordinate. Translated into speed for Tank
      * @param x            The joysticks y coordinate. Translated into angle for Tank
      */
-    public void joystick_publish(JoystickView joystickView, int angle, int y, int x) {
+    public void joystick_publish(Context context, JoystickView joystickView, int angle, int y, int x) {
         Log.i("Stuff", "X:" + x + ", Y:" + y); // for debugging
 
         if (!(joystickView == null) && isConnected) {
@@ -266,14 +269,14 @@ public class Client extends MqttClient {
         lastJoysticky = y;
     }
 
-    public void server_publish (String host) {
+    public void host_publish(String host) {
         publish(MQTT_HOST, host, QOS, null);
-        Log.i("Stuff", host + ", ");
+        Log.i("Server", host + ", ");
     }
 
-    public void server_publish2 (String newPort) {
+    public void port_publish(String newPort) {
         publish(MQTT_PORT, newPort, QOS, null);
-        Log.i("Stuff", ", " + newPort);
+        Log.i("Server", ", " + newPort);
     }
 
 
@@ -292,8 +295,12 @@ public class Client extends MqttClient {
         return DEFAULT_PORT;
     }
 
-    public MqttCallback getMqttCallback() {
-        return mqttCallback;
+    public String getCustomPort() {
+        return customPort;
+    }
+
+    public String getCustomHost() {
+        return customHost;
     }
 }
 

@@ -1,12 +1,13 @@
 package com.example.androidtank;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Typeface;
-import android.media.MediaPlayer;
 import android.net.Uri;
 import android.os.Bundle;
+import android.os.CountDownTimer;
 import android.text.InputType;
 import android.util.Log;
 import android.view.Gravity;
@@ -31,21 +32,24 @@ import com.example.androidtank.utilities.SoundEffect;
 import org.opencv.android.OpenCVLoader;
 
 import java.io.FileNotFoundException;
+import java.util.ArrayList;
 import java.util.Objects;
 
 public class MainActivity extends AppCompatActivity {
 
+    Context context;
     public static Client client;
     private static final String FAIL = "CONNECTION TO TANK COULD NOT BE ESTABLISHED";
     private static final String SUCCESS = "CONNECTION TO TANK ESTABLISHED";
+    private boolean loadedFromFile = false;
 
     private Button buttonLaunchManualAc, buttonLaunchHelp, buttonLaunchBroker;
 
     MainVideoView mainVideoView;
     private int videoViewId = R.raw.mainscreen_video2;
 
-    private String mText = "";
-    private String mText2 = "";
+    private String textHost = "";
+    private String textPort = "";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -60,10 +64,27 @@ public class MainActivity extends AppCompatActivity {
         // Set view
         setContentView(R.layout.activity_main);
 
-        // Mqtt Client
-        this.client = new Client(this);
-        checkClientConnection();
+        /**
+         * Try:
+         * 1. loading the file with broker settings
+         * 2. Creating a client from those stored settings
+         * 3. publish these settings to Tank
+         */
+        try {
+            HandleFiles handleFiles = new HandleFiles();
+            ArrayList<String> broker = handleFiles.read(MainActivity.this);
+            client = new Client(this, broker.get(0), broker.get(1)); // Host(0) and port(1)
+            loadedFromFile = true; // used for later in ManualActivity, to send the current host and port
 
+            customToast("Settings: " + "IP: " + broker.get(0) + ", PORT: " + broker.get(1), Toast.LENGTH_LONG).show();
+        } catch (NullPointerException e) {
+            e.printStackTrace();
+            client = new Client(this); // Else create a standard Client
+            loadedFromFile = false; // used for later in ManualActivity, to send the current host and port
+
+            customToast("Settings: " + "IP: " + client.getMqtt() + ", PORT: " + client.getPort(), Toast.LENGTH_LONG).show();
+        }
+        checkClientConnection();
         // Set video view and load video
         initializeVideoView();
 
@@ -98,6 +119,8 @@ public class MainActivity extends AppCompatActivity {
                 initializeServerView();
             }
         });
+
+        publishCurrentClient(); // Publish the current chosen broker settings to Tank.
     }
 
     // An intent is used to launch an activity. Makes it possible to go from main screen to others.
@@ -112,6 +135,8 @@ public class MainActivity extends AppCompatActivity {
         super.onResume();
         mainVideoView.start();
 
+        publishCurrentClient(); // Publish the current chosen broker settings to Tank.
+
         //The background music: https://www.chosic.com/
         SoundEffect.startEffect(this, R.raw.main_music, 0.27f, true, 0);
     }
@@ -122,6 +147,31 @@ public class MainActivity extends AppCompatActivity {
         mainVideoView.suspend();
         mainVideoView.stopPlayback();
         SoundEffect.stopEffect();
+    }
+
+    // Publish the current chosen broker settings to Tank.
+    private void publishCurrentClient() {
+        // This CountDownTimer is necessary since we need to have a connection with Tank first.
+        // If we publish too soon after connecting we will get NullPointerException
+        new CountDownTimer(1000, 1000)
+        {
+            public void onTick(long millisUntilFinished) {
+                // Do nothing
+            }
+            public void onFinish() {
+                try {
+                    if (loadedFromFile) {
+                        client.host_publish(client.getCustomHost());
+                        client.port_publish(client.getCustomPort());
+                    } else {
+                        client.host_publish(client.getMqtt());
+                        client.port_publish(client.getPort());
+                    }
+                } catch (NullPointerException e) {
+                    Log.i("Publish Broker", "Could not publish broker to Tank");
+                }
+            }
+        }.start();
     }
 
     private void checkClientConnection() {
@@ -159,9 +209,9 @@ public class MainActivity extends AppCompatActivity {
     /**
      * Methods related to Server settings
      */
+    @SuppressLint("SetTextI18n")
     private void initializeServerView() {
-        Context context = MainActivity.this;
-
+        context = (MainActivity) MainActivity.this;
         // Create a new linear layout for storing text-fields
         LinearLayout layout = new LinearLayout(context);
         layout.setLayoutParams(new ViewGroup.LayoutParams(
@@ -175,8 +225,8 @@ public class MainActivity extends AppCompatActivity {
         final EditText inputPort = new EditText(context); // Input text for port
         layout.addView(inputIP);
         layout.addView(inputPort);
-        inputIP.setText("ip/url (Default: 10.0.2.2)");
-        inputPort.setText("port (Default: 1883)");
+        inputIP.setText("Current host: " + client.getCustomHost());
+        inputPort.setText("Current port: " + client.getCustomPort());
 
         // Set the expected input type for the text-fields
         inputIP.setInputType(InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_VARIATION_NORMAL);
@@ -193,7 +243,7 @@ public class MainActivity extends AppCompatActivity {
 
         // Create a new Alert Dialog view and set the font for text
         AlertDialog.Builder dialog = new AlertDialog.Builder(context);
-        dialog.setTitle("Server settings"); // Title
+        dialog.setTitle("Server ( Default: 10.0.2.2, 1883)"); // Title
         TextView textView = (TextView) new TextView(context);
         Typeface face = ResourcesCompat.getFont(context, R.font.bree_serif);
         textView.setTypeface(face);
@@ -212,29 +262,28 @@ public class MainActivity extends AppCompatActivity {
         dialog.setPositiveButton("Ok", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
-                mText = inputIP.getText().toString();
-                mText2 = inputPort.getText().toString();
+                textHost = inputIP.getText().toString();
+                textPort = inputPort.getText().toString();
 
                 // Check if input fields are empty
-                if (mText.isEmpty()) {
+                if (textHost.isEmpty()) {
                     customToast("Please enter an Ip/Url", Toast.LENGTH_SHORT).show();
-                } else if (mText2.isEmpty()) {
+                } else if (textPort.isEmpty()) {
                     customToast("Please enter a Port", Toast.LENGTH_SHORT).show();
                 }
 
-                // If user presses Ok, set default broker to localhost, else set it to their input.
-                if (mText.contains("10.0.2.2") && mText2.contains("1883")) {
-                    customToast("Setting server to '10.0.2.2:1883'", Toast.LENGTH_LONG).show();
-                    client.server_publish("10.0.2.2");
-                    client.server_publish2("1883");
-                    client = new Client(MainActivity.this, "10.0.2.2", "1883");
+                // Create a new Client, check the connection and save it to a file, broker.txt
+                // TODO Change "else if" to not rely on "Current host" and "Current port".
+                if (!textHost.contains("Current host") && !textPort.contains("Current port")){
+                    customToast("Settings: " + "IP: " + textHost + ", PORT: " + textPort, Toast.LENGTH_LONG).show();
+                    client.host_publish(textHost);
+                    client.port_publish(textPort);
+                    client = new Client(context, textHost, textPort);
+
                     checkClientConnection();
+                    saveBroker(context);
                 } else {
-                    customToast("Settings: " + "IP: " + mText + ", PORT: " + mText2, Toast.LENGTH_LONG).show();
-                    client.server_publish(mText);
-                    client.server_publish2(mText2);
-                    client = new Client(MainActivity.this, mText, mText2);
-                    checkClientConnection();
+                    customToast("Please specify both host and port", Toast.LENGTH_LONG).show();
                 }
             }
         });
@@ -247,6 +296,15 @@ public class MainActivity extends AppCompatActivity {
 
         // Show the View
         dialog.show();
+    }
+
+    private void saveBroker(Context context) {
+        // Save the data to broker.txt for next app start
+        HandleFiles handleFiles = new HandleFiles();
+        ArrayList<String> broker = new ArrayList<String>();
+        broker.add(textHost);
+        broker.add(textPort);
+        handleFiles.write(broker, context);
     }
 
     private Toast customToast(String text, int length) {

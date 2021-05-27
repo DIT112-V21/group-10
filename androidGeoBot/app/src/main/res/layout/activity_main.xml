@@ -123,23 +123,6 @@
             app:layout_constraintVertical_bias="0.925" />
 
         <androidx.appcompat.widget.AppCompatButton
-            android:id="@+id/button_tutorial"
-            android:layout_width="150dp"
-            android:layout_height="43dp"
-            android:layout_marginTop="16dp"
-            android:background="@drawable/bg_top_gradient"
-            android:fontFamily="@font/bree_serif"
-            android:text="@string/tutorial"
-            android:textColor="@color/white"
-            android:textSize="22sp"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.496"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/imageView2"
-            app:layout_constraintVertical_bias="0.925" />
-
-        <androidx.appcompat.widget.AppCompatButton
             android:id="@+id/button_broker"
             android:layout_width="150dp"
             android:layout_height="43dp"

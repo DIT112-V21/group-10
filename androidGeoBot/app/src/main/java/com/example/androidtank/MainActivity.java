@@ -242,7 +242,7 @@ public class MainActivity extends AppCompatActivity {
         });
 
         // Create a new Alert Dialog view and set the font for text
-        AlertDialog.Builder dialog = new AlertDialog.Builder(context);
+        AlertDialog.Builder dialog = new AlertDialog.Builder(context, R.style.AlertDialog);
         dialog.setTitle("Server ( Default: 10.0.2.2, 1883)"); // Title
         TextView textView = (TextView) new TextView(context);
         Typeface face = ResourcesCompat.getFont(context, R.font.bree_serif);
@@ -255,7 +255,6 @@ public class MainActivity extends AppCompatActivity {
         final ViewGroup.MarginLayoutParams mlp2 = (ViewGroup.MarginLayoutParams) inputPort.getLayoutParams();
         mlp.setMargins(55, 0, 55, 0);
         mlp2.setMargins(55, 0, 55, 0);
-
         dialog.setView(layout);
 
         // Setup for the two button choices

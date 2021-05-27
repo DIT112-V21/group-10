@@ -107,6 +107,7 @@ public class ManualActivity extends AppCompatActivity {
             dialog.show();
         } else {
             dialog.setContentView(R.layout.dialog_lose);
+            SoundEffect.startEffect(ManualActivity.this, R.raw.losegame, 0.2f, false, 0);
             Button finish = (Button) dialog.findViewById(R.id.finish);
             setupBackButton(finish);
             Button reload = (Button) dialog.findViewById(R.id.playAgain);

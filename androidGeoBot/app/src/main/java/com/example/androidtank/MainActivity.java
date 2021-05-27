@@ -83,6 +83,12 @@ public class MainActivity extends AppCompatActivity {
             loadedFromFile = false; // used for later in ManualActivity, to send the current host and port
 
             customToast("Settings: " + "IP: " + client.getMqtt() + ", PORT: " + client.getPort(), Toast.LENGTH_LONG).show();
+        } catch (IndexOutOfBoundsException e) {
+            e.printStackTrace();
+            loadedFromFile = false; // used for later in ManualActivity, to send the current host and port
+            client = new Client(this); // Else create a standard Client
+
+            customToast("Broker file loading error", Toast.LENGTH_LONG).show();
         }
         checkClientConnection();
         // Set video view and load video

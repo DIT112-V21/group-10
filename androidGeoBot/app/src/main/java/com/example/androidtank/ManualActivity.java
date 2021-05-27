@@ -129,7 +129,7 @@ public class ManualActivity extends AppCompatActivity {
      */
 
     @SuppressLint("ClickableViewAccessibility")
-   private void setupBreakButton(Button button){
+    private void setupBreakButton(Button button){
         button.setOnTouchListener(new View.OnTouchListener() {
             private Handler mHandler;
             @Override
@@ -263,6 +263,8 @@ public class ManualActivity extends AppCompatActivity {
         return this.score;
     }
 }
+
+
 
 
 

@@ -18,4 +18,9 @@
     <string name="playAgain">Play again!</string>
     <string name="confetti">🎉</string>
     <string name="sad_emoji">😨</string>
+
+    <string name="rules"><font fgcolor="white">Rules</font></string>
+    <string name="play">Play</string>
+    <string name="timer">TIMER:</string>
+
 </resources>

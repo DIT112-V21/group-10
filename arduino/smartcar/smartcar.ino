@@ -276,7 +276,8 @@ void updateScore()
 }
 //void angleMsg()
 //{
-//    if(latestAngle > 0){
+//
+//if(latestAngle > 0){
 //        Serial.print("Turning ");
 //        Serial.print(latestAngle);
 //        Serial.println(" degrees right.");

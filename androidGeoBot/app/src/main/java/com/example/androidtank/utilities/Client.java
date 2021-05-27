@@ -303,5 +303,3 @@ public class Client extends MqttClient {
         return customHost;
     }
 }
-
-

@@ -33,7 +33,6 @@ public class ManualActivity extends AppCompatActivity {
 
     //sound effect initiation
     SoundEffect effects;
-    SoundEffect winLose;
 
     //joystick buttons
     private Button breakBtn, backBtn;
@@ -134,7 +133,7 @@ public class ManualActivity extends AppCompatActivity {
      */
 
     @SuppressLint("ClickableViewAccessibility")
-   private void setupBreakButton(Button button){
+    private void setupBreakButton(Button button){
         button.setOnTouchListener(new View.OnTouchListener() {
             private Handler mHandler;
             @Override

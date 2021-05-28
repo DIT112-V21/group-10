@@ -8,7 +8,7 @@
     <string name="autopilot">Autopilot</string>
     <string name="help">help</string>
     <string name="cameraview">cameraView</string>
-    <string name="brake">Brake!</string>
+    <string name="brake">Brake</string>
     <string name="score">Score: </string>
     <string name="win">You won!</string>
     <string name="lose">Game over!</string>

@@ -6,6 +6,7 @@ import android.graphics.Bitmap;
 import android.annotation.SuppressLint;
 import android.media.MediaPlayer;
 import android.os.Bundle;
+
 // we are using the joystick from https://github.com/controlwear/virtual-joystick-android
 import io.github.controlwear.virtual.joystick.android.JoystickView;
 
@@ -42,12 +43,11 @@ public class ManualActivity extends AppCompatActivity {
 
     private boolean mqttConnection = false;
 
-
     private static final String FAIL = "CONNECTION TO TANK COULD NOT BE ESTABLISHED";
     private static final String SUCCESS = "CONNECTION TO TANK ESTABLISHED";
     public int counter = 120;
     TextView timer;
-    private static final String TEM = "Time is up!!!"; //TEM is Timer End Message
+    private static final String TEM = "Time up!"; //TEM is Timer End Message
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -102,16 +102,18 @@ public class ManualActivity extends AppCompatActivity {
         if (score > 1) {
             dialog.setContentView(R.layout.dialog_win);
             effects.setEffect1(ManualActivity.this, R.raw.win, 0.2f, false, 0);
+
         } else {
             dialog.setContentView(R.layout.dialog_lose);
             effects.setEffect1(ManualActivity.this, R.raw.lose, 0.2f, false, 0);
+
         }
+        counter = 120; //reset counter back to 120
         Button finish = (Button) dialog.findViewById(R.id.finish);
         setupBackButton(finish);
         Button reload = (Button) dialog.findViewById(R.id.playAgain);
         setupReloadBtn(reload);
         dialog.show();
-        counter = 120; //reset counter back to 120
     }
 
     // Setup of the controls for the SMCE car.
@@ -210,7 +212,7 @@ public class ManualActivity extends AppCompatActivity {
         if (counter == 120 && mqttConnection) {
             new CountDownTimer(120000, 1000) {
                 public void onTick(long millisUntilFinished) {
-                    timer.setText(String.valueOf(millisUntilFinished / 1000) +" s");
+                    timer.setText(String.valueOf(millisUntilFinished / 1000) +"s");
                     counter--;
                 }
 

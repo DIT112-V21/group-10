@@ -207,20 +207,3 @@ void updateScore()
     mqtt.publish("/Group10/manual/score", String(score));
   }
 }
-//void angleMsg()
-//{
-//
-//if(latestAngle > 0){
-//        Serial.print("Turning ");
-//        Serial.print(latestAngle);
-//        Serial.println(" degrees right.");
-//    }
-//    else if(latestAngle == 0){
-//        Serial.println("Going straight ahead.");
-//    }
-//    else{
-//        Serial.print("Turning ");
-//        Serial.print(latestAngle);
-//        Serial.println(" degrees left.");
-//    }
-//}

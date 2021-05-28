@@ -1,7 +1,6 @@
 package com.example.androidtank;
 
 import android.content.Intent;
-import android.media.MediaPlayer;
 import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
@@ -81,7 +80,7 @@ public class MainActivity extends AppCompatActivity {
         mainVideoView.start();
 
         //The background music: https://www.chosic.com/
-        SoundEffect.startEffect(this, R.raw.main_music, 0.27f, true, 0);
+        SoundEffect.startEffect1(this, R.raw.main_music, 0.27f, true, 0);
     }
 
     @Override
@@ -89,7 +88,7 @@ public class MainActivity extends AppCompatActivity {
         super.onPause();
         mainVideoView.suspend();
         mainVideoView.stopPlayback();
-        SoundEffect.stopEffect();
+        SoundEffect.stopEffect1();
     }
 
     // Set video view and load video

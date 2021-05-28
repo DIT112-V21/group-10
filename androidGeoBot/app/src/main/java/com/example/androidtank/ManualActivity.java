@@ -211,6 +211,7 @@ public class ManualActivity extends AppCompatActivity {
     public void timerHandler() {
         if (counter == 120 && mqttConnection)
         {
+            // Background game music: www.bensound.com
             effects.startEffect2(ManualActivity.this, R.raw.gamebackground, 0.1f, true);
             CountDownTimer gametimer = new CountDownTimer(120000, 1000)
             {
@@ -268,7 +269,7 @@ public class ManualActivity extends AppCompatActivity {
     public TextView getScore () {
         return this.score;
     }
-    // Background game music: www.bensound.com
+
 }
 
 

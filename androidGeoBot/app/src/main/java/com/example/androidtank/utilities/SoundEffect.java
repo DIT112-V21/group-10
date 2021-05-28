@@ -5,14 +5,20 @@ import android.media.MediaPlayer;
 
 public class SoundEffect {
 
-   public static MediaPlayer soundEffect1;
-   public static MediaPlayer soundEffect2;
+   private MediaPlayer soundEffect1;
+   private  MediaPlayer soundEffect2;
 
-    public static void startEffect1(Context context,
-                                    int soundId,
-                                    float soundVolume,
-                                    Boolean isThereLoop,
-                                    int startPoint) {
+
+   public SoundEffect (MediaPlayer soundEffect1, MediaPlayer soundEffect2) {
+       this.soundEffect1 = soundEffect1;
+       this.soundEffect2 = soundEffect2;
+   }
+
+    public void setEffect1(Context context,
+                           int soundId,
+                           float soundVolume,
+                           Boolean isThereLoop,
+                           int startPoint) {
 
         if (soundEffect1 != null) {
             soundEffect1.stop();
@@ -26,7 +32,7 @@ public class SoundEffect {
         }
     }
 
-    public static void startEffect2(Context context,
+    public void setEffect2(Context context,
                                     int soundId,
                                     float soundVolume,
                                     Boolean isThereLoop) {
@@ -40,15 +46,15 @@ public class SoundEffect {
 
     }
 
-    public static void stopEffect1() {
+    public void stopEffect1() {
         soundEffect1.stop();
     }
 
-    public static void stopEffect2() {
+    public void stopEffect2() {
         soundEffect2.stop();
     }
 
-    public static void repeatEffect1(int startPoint) {
+    public void repeatEffect1(int startPoint) {
 
         soundEffect1.setOnCompletionListener(new MediaPlayer.OnCompletionListener() {
             public void onCompletion(MediaPlayer mp) {

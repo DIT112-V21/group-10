@@ -4,6 +4,7 @@ import android.app.Dialog;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.annotation.SuppressLint;
+import android.media.MediaPlayer;
 import android.os.Bundle;
 // we are using the joystick from https://github.com/controlwear/virtual-joystick-android
 import io.github.controlwear.virtual.joystick.android.JoystickView;
@@ -82,10 +83,18 @@ public class ManualActivity extends AppCompatActivity {
 
         // Setting up controls
         setTankControls();
+
+        //Sound effects initiallization
+        // Background game music: www.bensound.com
+        MediaPlayer effect1 = MediaPlayer.create(ManualActivity.this, R.raw.acceleration);
+        MediaPlayer effect2 = MediaPlayer.create(ManualActivity.this, R.raw.gamebackground);
+        this.effects = new SoundEffect(effect1, effect2);
+        effects.setEffect2(ManualActivity.this, R.raw.gamebackground, 0.2f, true);
     }
 
     public void showDialog() {
         Dialog dialog = new Dialog(ManualActivity.this);
+        effects.stopEffect2();
 
         // user can not click away from box without interacting with it
         dialog.setCancelable(true);
@@ -97,8 +106,7 @@ public class ManualActivity extends AppCompatActivity {
         int score = client.getScoreValue();
         if (score > 1) {
             dialog.setContentView(R.layout.dialog_win);
-            effects.stopEffect1();
-            SoundEffect.startEffect1(ManualActivity.this, R.raw.wingame, 0.2f, false, 0);
+            effects.setEffect1(ManualActivity.this, R.raw.wingame, 0.2f, false, 0);
             Button finish = (Button) dialog.findViewById(R.id.finish);
             setupBackButton(finish);
             Button reload = (Button) dialog.findViewById(R.id.playAgain);
@@ -106,8 +114,7 @@ public class ManualActivity extends AppCompatActivity {
             dialog.show();
         } else {
             dialog.setContentView(R.layout.dialog_lose);
-            effects.stopEffect1();
-            SoundEffect.startEffect1(ManualActivity.this, R.raw.losegame, 0.2f, false, 0);
+            effects.setEffect1(ManualActivity.this, R.raw.losegame, 0.2f, false, 0);
             Button finish = (Button) dialog.findViewById(R.id.finish);
             setupBackButton(finish);
             Button reload = (Button) dialog.findViewById(R.id.playAgain);
@@ -142,7 +149,7 @@ public class ManualActivity extends AppCompatActivity {
                         if (mHandler != null) return true;
                         mHandler = new Handler();
                         mHandler.postDelayed(mAction, 100);
-                        effects.startEffect1(ManualActivity.this, R.raw.break_sound,
+                        effects.setEffect1(ManualActivity.this, R.raw.break_sound,
                                 0.5f,false, 0);
                         break;
                     case MotionEvent.ACTION_UP:
@@ -171,6 +178,7 @@ public class ManualActivity extends AppCompatActivity {
         button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                effects.stopEffect2();
                 finish();
             }
         });
@@ -184,14 +192,14 @@ public class ManualActivity extends AppCompatActivity {
             public boolean onTouch(View v, MotionEvent event) {
 
                 if (event.getAction() == event.ACTION_DOWN) {
-                    effects.startEffect1(ManualActivity.this, R.raw.acceleration,
+                    effects.setEffect1(ManualActivity.this, R.raw.acceleration,
                             0.2f, true, 7000);
                 }
 
                 switch (event.getAction()) {
 
                     case MotionEvent.ACTION_UP:
-                        effects.startEffect1(ManualActivity.this, R.raw.carsound, 1.0f,
+                        effects.setEffect1(ManualActivity.this, R.raw.carsound, 1.0f,
                                 false, 0);
                     default:
                         int delay = 150;
@@ -211,8 +219,6 @@ public class ManualActivity extends AppCompatActivity {
     public void timerHandler() {
         if (counter == 120 && mqttConnection)
         {
-            // Background game music: www.bensound.com
-            effects.startEffect2(ManualActivity.this, R.raw.gamebackground, 0.1f, true);
             CountDownTimer gametimer = new CountDownTimer(120000, 1000)
             {
                 public void onTick(long millisUntilFinished)
@@ -253,7 +259,8 @@ public class ManualActivity extends AppCompatActivity {
                 overridePendingTransition(0, 0);
                 startActivity(i);
                 overridePendingTransition(0, 0);
-                SoundEffect.stopEffect1();
+                effects.stopEffect1();
+                effects.stopEffect2();
             }
         });
     }

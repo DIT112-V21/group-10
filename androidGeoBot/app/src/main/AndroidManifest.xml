@@ -26,7 +26,6 @@
         <activity android:name="com.example.androidtank.ManualActivity" />
         <activity android:name="com.example.androidtank.HelpActivity"
             android:parentActivityName="com.example.androidtank.MainActivity"/>
-        <activity android:name="com.example.androidtank.AutoActivity" />
 
 
         <service android:name="org.eclipse.paho.android.service.MqttService">

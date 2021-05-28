@@ -94,7 +94,7 @@ public class Detection {
      */
     private Mat drawRectangles (Mat mat, List<Rect> listOfRect) {
         for (Rect rect : listOfRect) {
-            Imgproc.rectangle(mat, rect.tl(), rect.br(), new Scalar(0, 0, 255), 2);
+            Imgproc.rectangle(mat, rect.tl(), rect.br(), new Scalar(255, 0, 0), 2);
         }
 
         return mat;
@@ -113,7 +113,7 @@ public class Detection {
                     0,
                     0,
                     360,
-                    new Scalar(255, 0, 255)
+                    new Scalar(255, 0, 0)
             );
         }
 

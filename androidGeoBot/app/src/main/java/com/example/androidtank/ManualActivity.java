@@ -31,17 +31,15 @@ import java.util.Objects;
 
 public class ManualActivity extends AppCompatActivity {
 
-    //sound effect initiation
+    private Client client;
     private SoundEffect effects;
 
-    //joystick buttons
     private Button breakBtn, backBtn;
-    private Client client;
-    public ImageView mCameraView;
+    ImageView mCameraView;
     private JoystickView joystick;
-    Slider slider;
+    private Slider slider;
     TextView score;
-    private int points = 3;
+
     private boolean mqttConnection = false;
 
 
@@ -49,7 +47,7 @@ public class ManualActivity extends AppCompatActivity {
     private static final String SUCCESS = "CONNECTION TO TANK ESTABLISHED";
     public int counter = 120;
     TextView timer;
-    private static final String TEM = "TIME IS UP!!"; //TEM is Timer End Message
+    private static final String TEM = "Time is up!!!"; //TEM is Timer End Message
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -65,13 +63,10 @@ public class ManualActivity extends AppCompatActivity {
         this.slider = (Slider) findViewById(R.id.speedSlider);
         this.score = (TextView) findViewById(R.id.scoreText);
         this.mCameraView = (ImageView) findViewById(R.id.cameraView);
-        this.timer = (TextView) findViewById(R.id.textView2);
+        this.timer = (TextView) findViewById(R.id.time);
 
         // Mqtt Client
         this.client = new Client(this);
-
-        // uncomment to view dialog box
-        //showDialog();
 
         if (!client.connect(null, null, null, null)) {
             Toast.makeText(this, FAIL, Toast.LENGTH_SHORT).show();
@@ -87,9 +82,9 @@ public class ManualActivity extends AppCompatActivity {
         //Sound effects initiallization
         // Background game music: www.bensound.com
         MediaPlayer effect1 = MediaPlayer.create(ManualActivity.this, R.raw.acceleration);
-        MediaPlayer effect2 = MediaPlayer.create(ManualActivity.this, R.raw.gamebackground);
+        MediaPlayer effect2 = MediaPlayer.create(ManualActivity.this, R.raw.game_bg);
         this.effects = new SoundEffect(effect1, effect2);
-        effects.setEffect2(ManualActivity.this, R.raw.gamebackground, 0.2f, true);
+        effects.setEffect2(ManualActivity.this, R.raw.game_bg, 0.2f, true);
     }
 
     public void showDialog() {
@@ -106,26 +101,21 @@ public class ManualActivity extends AppCompatActivity {
         int score = client.getScoreValue();
         if (score > 1) {
             dialog.setContentView(R.layout.dialog_win);
-            effects.setEffect1(ManualActivity.this, R.raw.wingame, 0.2f, false, 0);
-            Button finish = (Button) dialog.findViewById(R.id.finish);
-            setupBackButton(finish);
-            Button reload = (Button) dialog.findViewById(R.id.playAgain);
-            setupReloadBtn(reload);
-            dialog.show();
+            effects.setEffect1(ManualActivity.this, R.raw.win, 0.2f, false, 0);
         } else {
             dialog.setContentView(R.layout.dialog_lose);
-            effects.setEffect1(ManualActivity.this, R.raw.losegame, 0.2f, false, 0);
-            Button finish = (Button) dialog.findViewById(R.id.finish);
-            setupBackButton(finish);
-            Button reload = (Button) dialog.findViewById(R.id.playAgain);
-            setupReloadBtn(reload);
+            effects.setEffect1(ManualActivity.this, R.raw.lose, 0.2f, false, 0);
         }
+        Button finish = (Button) dialog.findViewById(R.id.finish);
+        setupBackButton(finish);
+        Button reload = (Button) dialog.findViewById(R.id.playAgain);
+        setupReloadBtn(reload);
         dialog.show();
         counter = 120; //reset counter back to 120
     }
 
     // Setup of the controls for the SMCE car.
-    public void setTankControls () {
+    public void setTankControls() {
         // Setup ordinary buttons
         breakBtn = findViewById(R.id.break_button);
         backBtn = findViewById(R.id.button_back);
@@ -139,18 +129,19 @@ public class ManualActivity extends AppCompatActivity {
      */
 
     @SuppressLint("ClickableViewAccessibility")
-    private void setupBreakButton(Button button){
+    private void setupBreakButton(Button button) {
         button.setOnTouchListener(new View.OnTouchListener() {
             private Handler mHandler;
+
             @Override
             public boolean onTouch(View v, MotionEvent event) {
-                switch(event.getAction()) {
+                switch (event.getAction()) {
                     case MotionEvent.ACTION_DOWN:
                         if (mHandler != null) return true;
                         mHandler = new Handler();
                         mHandler.postDelayed(mAction, 100);
-                        effects.setEffect1(ManualActivity.this, R.raw.break_sound,
-                                0.5f,false, 0);
+                        effects.setEffect1(ManualActivity.this, R.raw.brake,
+                                0.5f, false, 0);
                         break;
                     case MotionEvent.ACTION_UP:
                         if (mHandler == null) return true;
@@ -162,8 +153,10 @@ public class ManualActivity extends AppCompatActivity {
                 }
                 return true;
             }
+
             Runnable mAction = new Runnable() {
-                @Override public void run() {
+                @Override
+                public void run() {
                     client.button_publish(button);
                     mHandler.postDelayed(this, 100);
                 }
@@ -172,9 +165,8 @@ public class ManualActivity extends AppCompatActivity {
 
     }
 
-    // For the back button
     // go back one screen
-    private void setupBackButton(Button button){
+    private void setupBackButton(Button button) {
         button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -196,38 +188,33 @@ public class ManualActivity extends AppCompatActivity {
                             0.2f, true, 7000);
                 }
 
-                switch (event.getAction()) {
-
-                    case MotionEvent.ACTION_UP:
-                        effects.setEffect1(ManualActivity.this, R.raw.carsound, 1.0f,
-                                false, 0);
-                    default:
-                        int delay = 150;
-                        joystick.setOnMoveListener(new JoystickView.OnMoveListener() {
-                            public void onMove(int angle, int strength) {
-                                int newX = convertJoystickX(); // for determining angle strength
-                                client.joystick_publish(joystick, angle, strength, newX);
-                                timerHandler();
-                            }
-                        }, delay);
+                if (event.getAction() == MotionEvent.ACTION_UP) {
+                    effects.setEffect1(ManualActivity.this, R.raw.car_noise, 1.0f,
+                            false, 0);
                 }
+
+                int delay = 100;
+                joystick.setOnMoveListener(new JoystickView.OnMoveListener() {
+                    public void onMove(int angle, int strength) {
+                        int newX = convertJoystickX(); // for determining angle strength
+                        client.joystick_publish(joystick, angle, strength, newX);
+                        timerHandler();
+                    }
+                }, delay);
                 return false;
             }
         });
     }
 
     public void timerHandler() {
-        if (counter == 120 && mqttConnection)
-        {
-            CountDownTimer gametimer = new CountDownTimer(120000, 1000)
-            {
-                public void onTick(long millisUntilFinished)
-                {
-                    timer.setText(String.valueOf(millisUntilFinished/1000));
+        if (counter == 120 && mqttConnection) {
+            new CountDownTimer(120000, 1000) {
+                public void onTick(long millisUntilFinished) {
+                    timer.setText(String.valueOf(millisUntilFinished / 1000) +" s");
                     counter--;
                 }
-                public void onFinish()
-                {
+
+                public void onFinish() {
                     effects.stopEffect2();
                     timer.setText(TEM);
                     showDialog();
@@ -245,12 +232,12 @@ public class ManualActivity extends AppCompatActivity {
         } else {
             joystickX -= 50; // Simply Bring the value down to between 0-50
         }
-        float newX = (float)joystickX/50 * 30; // Convert to scale 30
+        float newX = (float) joystickX / 50 * 30; // Convert to scale 30
         return Math.round(newX); // return rounded number
     }
 
     // reload activity
-    private void setupReloadBtn (Button button){
+    private void setupReloadBtn(Button button) {
         button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -265,15 +252,15 @@ public class ManualActivity extends AppCompatActivity {
         });
     }
 
-    public Slider getSlider () {
+    public Slider getSlider() {
         return this.slider;
     }
 
-    public void setBitmap (Bitmap bm){
+    public void setBitmap(Bitmap bm) {
         this.mCameraView.setImageBitmap(bm);
     }
 
-    public TextView getScore () {
+    public TextView getScore() {
         return this.score;
     }
 

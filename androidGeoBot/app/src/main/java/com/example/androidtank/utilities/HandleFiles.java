@@ -41,7 +41,7 @@ public class HandleFiles {
                 }
             }
         } catch (IOException e) {
-            throw new IOException("Could not open cascade xml", e);
+            throw new IOException("Could not open " + fileName, e);
         }
         return cacheFile;
     }

@@ -11,6 +11,7 @@ import android.os.CountDownTimer;
 import android.text.InputType;
 import android.util.Log;
 import android.view.Gravity;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.Window;
@@ -50,6 +51,9 @@ public class MainActivity extends AppCompatActivity {
 
     private String textHost = "";
     private String textPort = "";
+    private boolean textHostPressed = false;
+    private boolean textPortPressed = false;
+    private boolean mqttConnection = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -185,10 +189,12 @@ public class MainActivity extends AppCompatActivity {
             Toast toast = Toast.makeText(this, FAIL, Toast.LENGTH_SHORT);
             toast.setGravity(Gravity.CENTER, 0, 0);
             toast.show();
+            mqttConnection = false;
         } else {
             Toast toast = Toast.makeText(this, SUCCESS, Toast.LENGTH_SHORT);
             toast.setGravity(Gravity.CENTER, 0, 0);
             toast.show();
+            mqttConnection = true;
         }
     }
 
@@ -214,10 +220,16 @@ public class MainActivity extends AppCompatActivity {
 
     /**
      * Methods related to Server settings
+     * TODO: Refactor this method and use layout xml instead, for customizing the look.
+     *  A lot of magic variables here
      */
-    @SuppressLint("SetTextI18n")
+    @SuppressLint({"ClickableViewAccessibility", "SetTextI18n"}) // TODO Don't suppress accessibility.
     private void initializeServerView() {
         context = (MainActivity) MainActivity.this;
+        // reset
+        textPortPressed = false;
+        textHostPressed = false;
+
         // Create a new linear layout for storing text-fields
         LinearLayout layout = new LinearLayout(context);
         layout.setLayoutParams(new ViewGroup.LayoutParams(
@@ -229,23 +241,37 @@ public class MainActivity extends AppCompatActivity {
         // Add text fields to the layout and set default text
         final EditText inputIP = new EditText(context); // Input text for IP
         final EditText inputPort = new EditText(context); // Input text for port
-        layout.addView(inputIP);
-        layout.addView(inputPort);
+        // set text and show current host and port
         inputIP.setText("Current host: " + client.getCustomHost());
         inputPort.setText("Current port: " + client.getCustomPort());
-
         // Set the expected input type for the text-fields
         inputIP.setInputType(InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_VARIATION_NORMAL);
         inputPort.setInputType(InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_VARIATION_NORMAL);
 
         // Remove text from text-field when text-field is selected
-        // TODO: Remake this. This doesn't work well enough since user has to press twice.
-        inputIP.setOnClickListener(v1 -> {
-            inputIP.setText("");
+        // Only happens once.
+        inputIP.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+            @Override
+            public void onFocusChange(View v, boolean hasFocus) {
+                if (hasFocus) {
+                    inputIP.setText("");
+                    textHostPressed = true;
+                }
+            }
         });
-        inputPort.setOnClickListener(v1 -> {
-            inputPort.setText("");
+        inputPort.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+            @Override
+            public void onFocusChange(View v, boolean hasFocus) {
+                if (hasFocus) {
+                    inputPort.setText("");
+                    textPortPressed = true;
+                }
+            }
         });
+
+        // Add the text fields to the layout
+        layout.addView(inputIP);
+        layout.addView(inputPort);
 
         // Create a new Alert Dialog view and set the font for text
         AlertDialog.Builder dialog = new AlertDialog.Builder(context, R.style.AlertDialog);
@@ -261,6 +287,8 @@ public class MainActivity extends AppCompatActivity {
         final ViewGroup.MarginLayoutParams mlp2 = (ViewGroup.MarginLayoutParams) inputPort.getLayoutParams();
         mlp.setMargins(55, 0, 55, 0);
         mlp2.setMargins(55, 0, 55, 0);
+
+        // set layout to alert dialog
         dialog.setView(layout);
 
         // Setup for the two button choices
@@ -270,6 +298,35 @@ public class MainActivity extends AppCompatActivity {
                 textHost = inputIP.getText().toString();
                 textPort = inputPort.getText().toString();
 
+                if (!textHostPressed || !textPortPressed) {
+                    customToast("Please specify both host and port", Toast.LENGTH_LONG).show();
+                } else {
+                    // Create a new Client if fields have been pressed, and check the connection
+                    Client tempClient = client;
+                    client = new Client(context, textHost, textPort);
+                    checkClientConnection();
+
+                    // if connection is made, publish to Tank and save it to broker.txt
+                    // Wait till Client is ready
+                    if (mqttConnection) {
+                        new CountDownTimer(1000, 1000)
+                        {
+                            public void onTick(long millisUntilFinished) {
+                                // Do nothing
+                            }
+                            public void onFinish() {
+                                customToast("Settings: " + "IP: " + textHost + ", PORT: " + textPort, Toast.LENGTH_LONG).show();
+                                client.host_publish(textHost);
+                                client.port_publish(textPort);
+                                saveBroker(context);
+                            }
+                        }.start();
+                    } else {
+                        customToast("Could not change server. Check your input.", Toast.LENGTH_LONG).show();
+                        client = tempClient;
+                    }
+                }
+
                 // Check if input fields are empty
                 if (textHost.isEmpty()) {
                     customToast("Please enter an Ip/Url", Toast.LENGTH_SHORT).show();
@@ -277,16 +334,9 @@ public class MainActivity extends AppCompatActivity {
                     customToast("Please enter a Port", Toast.LENGTH_SHORT).show();
                 }
 
-                // Create a new Client, check the connection and save it to a file, broker.txt
-                // TODO Change "else if" to not rely on "Current host" and "Current port".
-                if (!textHost.contains("Current host") && !textPort.contains("Current port")){
-                    customToast("Settings: " + "IP: " + textHost + ", PORT: " + textPort, Toast.LENGTH_LONG).show();
-                    client.host_publish(textHost);
-                    client.port_publish(textPort);
-                    client = new Client(context, textHost, textPort);
 
-                    checkClientConnection();
-                    saveBroker(context);
+                if (!textHost.contains("Current host") && !textPort.contains("Current port")){
+
                 } else {
                     customToast("Please specify both host and port", Toast.LENGTH_LONG).show();
                 }

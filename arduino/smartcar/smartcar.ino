@@ -169,6 +169,10 @@ void mqttHandler()
       {
         stopping = true;
       }
+      else if(topic == "/Group10/manual/endTimer")
+      {
+       score = 0;
+      }
     });
   }
 }

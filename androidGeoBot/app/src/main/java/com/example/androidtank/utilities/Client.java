@@ -38,6 +38,7 @@ public class Client extends MqttClient {
     private static final String TURN_RIGHT = "/Group10/manual/turnright";
     private static final String BREAK = "/Group10/manual/break";
     private static final String STOPPING = "/Group10/manual/stopping";
+    private static final String PLAY_AGAIN = "/Group10/manual/endTimer";
     private static final int IMAGE_WIDTH = 320;
     private static final int IMAGE_HEIGHT = 240;
 
@@ -256,17 +257,20 @@ public class Client extends MqttClient {
 
     public void handleScore(int scoreValue){
         ManualActivity manualActivity = (ManualActivity)context;
-         int finalScore = manualActivity.getFinalScore();
+        int finalScore = manualActivity.getFinalScore();
 
-         if(finalScore == scoreValue){
-             TextView scoreDisplay = manualActivity.getScore();
-             String scoreMessage = "Score: " + (scoreValue - finalScore);
-             scoreDisplay.setText(scoreMessage);
-         }
-         else{
-             TextView scoreDisplay = manualActivity.getScore();
-             String scoreMessage = "Score: " + scoreValue;
-             scoreDisplay.setText(scoreMessage);
-         }
+        if(finalScore == scoreValue){
+            TextView scoreDisplay = manualActivity.getScore();
+            String scoreMessage = "Score: " + (scoreValue - finalScore);
+            scoreDisplay.setText(scoreMessage);
+        }
+        else{
+            TextView scoreDisplay = manualActivity.getScore();
+            String scoreMessage = "Score: " + scoreValue;
+            scoreDisplay.setText(scoreMessage);
+        }
+    }
+    public void publishPlayAgain(){
+        publish(PLAY_AGAIN,"Timer ended",QOS,null);
     }
 }

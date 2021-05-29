@@ -42,7 +42,6 @@ public class ManualActivity extends AppCompatActivity {
     Slider slider;
     TextView score;
     private int finalScore = 0;
-    private int points = 3;
     private boolean mqttConnection = false;
 
 
@@ -228,8 +227,9 @@ public class ManualActivity extends AppCompatActivity {
                 }
                 public void onFinish()
                 {
-                    finalScore = client.getScoreValue();
+                    client.publishPlayAgain();
                     effects.stopEffect2();
+                    finalScore = client.getScoreValue();
                     timer.setText(TEM);
                     showDialog();
                 }

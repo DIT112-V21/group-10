@@ -53,6 +53,7 @@ public class Client extends MqttClient {
     private static final String DEFAULT_PORT = "1883";
     private String customHost = "10.0.2.2"; // default is 10.0.2.2
     private String customPort = "1883";
+    private boolean customServer = false;
     private static String mqtt_server = "tcp://" + DEFAULT_HOST + ":" + DEFAULT_PORT;
     private static final int QOS = 1;
     private boolean isConnected = false;
@@ -66,6 +67,7 @@ public class Client extends MqttClient {
         super(context, mqtt_server, TAG);
         Log.i(TAG2, "Instantiated new " + this.getClass());
         Client.context = context;
+        customServer = false;
     }
 
     public Client(Context context, String host, String port) {
@@ -74,6 +76,7 @@ public class Client extends MqttClient {
         customHost = host;
         customPort = port;
         Client.context = context;
+        customServer = true;
     }
 
 
@@ -198,13 +201,9 @@ public class Client extends MqttClient {
                 default:
             }
         } else if ((button == null) && isConnected) {
-
             publish("/Group10/manual/nocontrol", Integer.toString(0), QOS, null);
-
         } else {
-
             Toast.makeText(context, "Connection not established", Toast.LENGTH_SHORT).show();
-
         }
     }
 
@@ -214,7 +213,7 @@ public class Client extends MqttClient {
      * @param y            The joysticks y coordinate. Translated into speed for Tank
      * @param x            The joysticks y coordinate. Translated into angle for Tank
      */
-    public void joystick_publish(Context context, JoystickView joystickView, int angle, int y, int x) {
+    public void joystick_publish(JoystickView joystickView, int angle, int y, int x) {
         Log.i("Stuff", "X:" + x + ", Y:" + y); // for debugging
 
         if (!(joystickView == null) && isConnected) {
@@ -288,5 +287,9 @@ public class Client extends MqttClient {
 
     public String getCustomHost() {
         return customHost;
+    }
+
+    public boolean getCustomServer() {
+        return customServer;
     }
 }

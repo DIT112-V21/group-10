@@ -48,6 +48,7 @@ public class MainActivity extends AppCompatActivity {
 
     MainVideoView mainVideoView;
     private int videoViewId = R.raw.mainscreen_video2;
+    private SoundEffect backMusic;
 
     private String textHost = "";
     private String textPort = "";
@@ -64,6 +65,10 @@ public class MainActivity extends AppCompatActivity {
         Objects.requireNonNull(getSupportActionBar()).hide();
         this.getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,
                 WindowManager.LayoutParams.FLAG_FULLSCREEN);
+
+        //Set background music:
+        MediaPlayer music = MediaPlayer.create(MainActivity.this, R.raw.main_music);
+        backMusic = new SoundEffect(music, music);
 
         // Set view
         setContentView(R.layout.activity_main);
@@ -144,7 +149,7 @@ public class MainActivity extends AppCompatActivity {
         mainVideoView.start();
 
         //The background music: https://www.chosic.com/
-        SoundEffect.startEffect(this, R.raw.main_music, 0.27f, true, 0);
+        backMusic.setEffect1(this, R.raw.main_music, 0.27f, true, 0);
     }
 
     @Override
@@ -152,7 +157,7 @@ public class MainActivity extends AppCompatActivity {
         super.onPause();
         mainVideoView.suspend();
         mainVideoView.stopPlayback();
-        SoundEffect.stopEffect();
+        backMusic.stopEffect1();
     }
 
     private void checkClientConnection() {

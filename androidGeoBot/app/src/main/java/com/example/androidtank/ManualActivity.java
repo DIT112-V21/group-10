@@ -103,7 +103,6 @@ public class ManualActivity extends AppCompatActivity {
             setupBackButton(finish);
             Button reload = (Button) dialog.findViewById(R.id.playAgain);
             setupReloadBtn(reload);
-            dialog.show();
         } else {
             dialog.setContentView(R.layout.dialog_lose);
             Button finish = (Button) dialog.findViewById(R.id.finish);

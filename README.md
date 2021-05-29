@@ -3,13 +3,11 @@
 ## Table of Contents
 1. What did we make?
 2. Why did we make? What problem was solved?
-3. How did we make? What kind of technology we used?
+3. How did we make? What kind of technology and resources we used?
 4. Demo Video
-5. Architecture
-6. Resources Used
-7. Game Tutorial for Users
-8. "Get Started" Guide for Developers
-9. Project Team
+5. Game Tutorial for Users
+6. "Get Started" Guide for Developers
+7. Development Team
 
 ## What did we make?
 - TANK - Total Annihilation Not Komplete
@@ -20,32 +18,42 @@
 ## Why did we make? What problem was solved?
 - Tank will solve the issue of how to detect objects, and will assist App users in hunting down these objects and crash into them (mainly other bots/smartcars)
 - It can be used to cause mayhem and destruction (i.e. the dark side) and learn the findings and experience to avoid the same in real world (i.e. the noble side)
+- It can be used as a tool for anger management and control.
 
-## How did we make? What kind of technology we used?
-We will use OpenCV in combination with an Android app, in order to detect objects in the SMCE world. Technologies we will use:
-- C++
-- Python
-- OpenCV
-- Android/Java
+## How did we make? What kind of technology and resources we used?
 - SMCE
-- GitHub
+- Arduino IDE
+- Android Studio
+- Java
+- OpenCV for object detection
+- XML
+- C++?
+- Python?
+- SmartCar Library
+- Github
+- Eclipse
+- Intellij IDEA
+- Visual Studio Code
+- Google Drive
+- Discord
+- Zoom
 
 ## Demo Video
-
-
-## Architecture
-
-
-## Resources Used
-
 
 ## Game Tutorial for Users
 https://github.com/DIT112-V21/group-10/blob/readme/androidGeoBot/app/src/main/assets/tank_tutorial_white.pdf
 
 ## "Get Started" Guide for Developers
-1. Download and install SMCE, Android Studio, OpenCV
-2. Clone remote repository
-3. Read readme of each folder to know how to setup or use.
+1. Download and install softwares like SMCE, Android Studio, OpenCV, Github
+2. Download/clone remote repository
+3. Read readme.md available in each folder to know how to prepare development environment
+4. Open SmartCar.ino in Arduino IDE and SMCE
+5. Open app in Android Studio
 
-## Project Team
-
+## Development Team
+- Hannah Shiels
+- Himank Meattle
+- Irina Levkovets
+- Lucas Nordgren
+- Maryam Esmaeili Darestani
+- Michael Araya

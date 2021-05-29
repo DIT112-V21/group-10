@@ -34,9 +34,6 @@ int latestAngle = 0;
 int magnitude = 0;
 int score = 0;
 
-char hostname[50];
-char portNumber[50];
-
 boolean stopping = false;
 
 std::vector<char> frameBuffer;
@@ -52,6 +49,7 @@ void setup()
 
   Serial.println("Localhost Initialized"); // Debugging
   mqtt.begin(WiFi);
+  //mqtt.begin("aerostun.dev", 1883, WiFi);
 
 #else
   mqtt.begin(net);

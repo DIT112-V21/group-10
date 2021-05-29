@@ -68,7 +68,13 @@ public class ManualActivity extends AppCompatActivity {
         this.timer = (TextView) findViewById(R.id.textView2);
 
         // Mqtt Client
-        this.client = new Client(this);
+        // TODO Re-think Client and it's relation to context
+        Client mainActivityClient = MainActivity.client;
+        if (mainActivityClient.getCustomServer()) {
+            this.client = new Client(this, mainActivityClient.getCustomHost(), mainActivityClient.getCustomPort());
+        } else {
+            this.client = new Client(this);
+        }
 
         // uncomment to view dialog box
         //showDialog();

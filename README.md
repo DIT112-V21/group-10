@@ -43,7 +43,7 @@ We will use OpenCV in combination with an Android app, in order to detect object
 
 
 ## "Get Started" Guide for Developers
-
+androidGeoBot/app/src/main/assets/tank_tutorial_white.pdf
 
 ## Project Team
 

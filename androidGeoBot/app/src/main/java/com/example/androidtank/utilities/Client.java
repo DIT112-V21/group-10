@@ -124,12 +124,8 @@ public class Client extends MqttClient {
                     manualActivity.setBitmap(bm);
 
                 }else if(topic.equals(UPDATE_SCORE)){
-                    String scoreString = message.toString();
-                    scoreValue = Integer.parseInt(scoreString);
-                    ManualActivity manualActivity = (ManualActivity)context;
-                    TextView scoreDisplay = manualActivity.getScore();
-                    String scoreMessage = "Score: " + message.toString();
-                    scoreDisplay.setText(scoreMessage);
+                    scoreValue = Integer.parseInt(message.toString());
+                    handleScore(scoreValue);
                 }
                 else {
                     Log.i(TAG, "[MQTT] Topic: " + topic + " | Message: " + message.toString());
@@ -256,5 +252,21 @@ public class Client extends MqttClient {
     }
     public int getScoreValue(){
         return this.scoreValue;
+    }
+
+    public void handleScore(int scoreValue){
+        ManualActivity manualActivity = (ManualActivity)context;
+         int finalScore = manualActivity.getFinalScore();
+
+         if(finalScore == scoreValue){
+             TextView scoreDisplay = manualActivity.getScore();
+             String scoreMessage = "Score: " + (scoreValue - finalScore);
+             scoreDisplay.setText(scoreMessage);
+         }
+         else{
+             TextView scoreDisplay = manualActivity.getScore();
+             String scoreMessage = "Score: " + scoreValue;
+             scoreDisplay.setText(scoreMessage);
+         }
     }
 }

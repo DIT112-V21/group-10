@@ -45,7 +45,7 @@ https://github.com/DIT112-V21/group-10/blob/readme/androidGeoBot/app/src/main/as
 ## "Get Started" Guide for Developers
 1. Download and install SMCE, Android Studio, OpenCV
 2. Clone remote repository
-3. Read readme of each folder to know how to setup or use
+3. Read readme of each folder to know how to setup or use.
 
 ## Project Team
 

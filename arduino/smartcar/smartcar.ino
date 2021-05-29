@@ -96,26 +96,11 @@ void loop()
 void handleInput()
 {
   float distance = front.getDistance();
-  // serialMsg(distance);
-  // distanceHandler(0, 200, distance);
+
   if (stopping == true)
   {
     stopTank();
   }
-}
-
-void distanceHandler(float lowerBound, float upperBound, float distance)
-{
-  if (distance > lowerBound && distance < upperBound)
-  {
-    handleObstacle();
-  }
-}
-
-void handleObstacle()
-{
-  magnitude = latestSpeed /* * 0.4*/;
-  car.setSpeed(magnitude);
 }
 
 void stopTank()
@@ -131,113 +116,52 @@ void stopTank()
   car.setAngle(latestAngle);
 }
 
-// Connect to a new broker. Works when switching to a custom broker but not when switching back to localhost
-void connect(char host[], char port[])
-{
-#ifdef __SMCE__
-  Camera.begin(QVGA, RGB888, 15);
-  frameBuffer.resize(Camera.width() * Camera.height() * Camera.bytesPerPixel());
-
-  String hostTemp = String(host);
-  String portTemp = String(port);
-
-  if (host[0] == 0 || port[0] == 0)          // default, connect to localhost
-  {                                          // Todo Make this work when switching back from custom broker
-    Serial.println("Localhost Initialized"); // Debugging
-    mqtt.disconnect();                       // disconnect from previous broker
-    mqtt.begin(WiFi);
-    Serial.print(mqtt.connected()); // Check new connection. returns 1 if true
-  }
-  else if (hostTemp.equals("10.0.2.2"))  // if user input port is "10.0.2.2", connect to localhost
-  {                                      // Todo Make this work when switching back from custom broker
-    Serial.println("Localhost enabled"); // Debugging
-    mqtt.disconnect();                   // disconnect from previous broker
-    mqtt.begin(WiFi);
-    Serial.print(mqtt.connected()); // Check new connection. returns 1 if true
-  }
-  else // else, connect to user input.
-  {
-    //Serial.println(hostTemp);
-    //Serial.println(portTemp);
-    Serial.println("Custom host enabled"); // Debugging
-    String stringTemp = String(portNumber);
-    int intTemp = stringTemp.toInt();
-
-    mqtt.disconnect(); // disconnect from previous broker
-    mqtt.begin(hostname, intTemp, WiFi);
-    Serial.print(mqtt.connected()); // Check new connection. returns 1 if true
-  }
-#else
-  Serial.println("net"); // Debugging
-  mqtt.begin(net);
-#endif
-  Serial.println("mqttHandler"); // Debugging
-  mqttHandler();
-  startMillis = millis();
-}
-
 void mqttHandler()
 {
   if (mqtt.connect("arduino", "public", "public"))
   {
     mqtt.subscribe("/Group10/manual/#", 1);
-    mqtt.onMessage([](String topic, String message) {
-      if (topic == "/Group10/manual/forward")
-      {
-        Serial.println(message);
-        latestSpeed = message.toInt();
-        car.setAngle(latestAngle);
-        car.setSpeed(latestSpeed);
-        stopping = false;
-      }
-      else if (topic == "/Group10/manual/backward")
-      {
-        latestSpeed = (-1) * message.toInt();
-        car.setAngle(latestAngle);
-        car.setSpeed(latestSpeed);
-        stopping = false;
-      }
-      else if (topic == "/Group10/manual/turnleft")
-      {
-        latestAngle = (-1) * message.toInt();
-        car.setAngle(latestAngle);
-        stopping = false;
-      }
-      else if (topic == "/Group10/manual/turnright")
-      {
-        latestAngle = message.toInt();
-        car.setAngle(latestAngle);
-        stopping = false;
-      }
-      else if (topic == "/Group10/manual/break")
-      {
-        latestSpeed = 0;
-        car.setSpeed(latestSpeed);
-        stopping = false;
-      }
-      else if (topic == "/Group10/manual/stopping" || topic == "/Group10/manual/nocontrol")
-      {
-        stopping = true;
-      }
-      else if (topic == "/Group10/manual/server/ip")
-      {
-        memset(hostname, '\0', sizeof(hostname));
-        message.toCharArray(hostname, 50);
-      }
-      else if (topic == "/Group10/manual/server/p")
-      {
-        memset(portNumber, '\0', sizeof(portNumber));
-        message.toCharArray(portNumber, 50);
-
-        connect(hostname, portNumber); // TODO; Make this work 100% of times. It is not at the moment.
-      }
-    });
+    mqtt.onMessage([](String topic, String message)
+                   {
+                     if (topic == "/Group10/manual/forward")
+                     {
+                       Serial.println(message);
+                       latestSpeed = message.toInt();
+                       car.setAngle(latestAngle);
+                       car.setSpeed(latestSpeed);
+                       stopping = false;
+                     }
+                     else if (topic == "/Group10/manual/backward")
+                     {
+                       latestSpeed = (-1) * message.toInt();
+                       car.setAngle(latestAngle);
+                       car.setSpeed(latestSpeed);
+                       stopping = false;
+                     }
+                     else if (topic == "/Group10/manual/turnleft")
+                     {
+                       latestAngle = (-1) * message.toInt();
+                       car.setAngle(latestAngle);
+                       stopping = false;
+                     }
+                     else if (topic == "/Group10/manual/turnright")
+                     {
+                       latestAngle = message.toInt();
+                       car.setAngle(latestAngle);
+                       stopping = false;
+                     }
+                     else if (topic == "/Group10/manual/break")
+                     {
+                       latestSpeed = 0;
+                       car.setSpeed(latestSpeed);
+                       stopping = false;
+                     }
+                     else if (topic == "/Group10/manual/stopping" || topic == "/Group10/manual/nocontrol")
+                     {
+                       stopping = true;
+                     }
+                   });
   }
-}
-
-void testtest()
-{
-  Serial.print("wtf");
 }
 
 void serialMsg(float distance)

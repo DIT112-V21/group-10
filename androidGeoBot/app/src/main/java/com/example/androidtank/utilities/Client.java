@@ -40,8 +40,6 @@ public class Client extends MqttClient {
     private static final String TURN_RIGHT = "/Group10/manual/turnright";
     private static final String BREAK = "/Group10/manual/break";
     private static final String STOPPING = "/Group10/manual/stopping";
-    private static final String MQTT_HOST = "/Group10/manual/server/ip";
-    private static final String MQTT_PORT = "/Group10/manual/server/p";
 
     // Topics to get data from
     private static final String ULTRASOUND_FRONT = "/Group10/sensor/ultrasound/front";
@@ -84,7 +82,7 @@ public class Client extends MqttClient {
         return super.connect(TAG, "", new IMqttActionListener() {
             @Override
             public void onSuccess(IMqttToken asyncActionToken) {
-                final String successfulConnection = "CONNECTION TO TANK ESTABLISHED";
+                final String successfulConnection = "CONNECTION TO SERVER ESTABLISHED";
                 Log.i(TAG, successfulConnection);
                 Toast.makeText(context, successfulConnection, Toast.LENGTH_SHORT).show();
 
@@ -268,17 +266,6 @@ public class Client extends MqttClient {
         lastJoystickX = x;
         lastJoysticky = y;
     }
-
-    public void host_publish(String host) {
-        publish(MQTT_HOST, host, QOS, null);
-        Log.i("Server", host + ", ");
-    }
-
-    public void port_publish(String newPort) {
-        publish(MQTT_PORT, newPort, QOS, null);
-        Log.i("Server", ", " + newPort);
-    }
-
 
     /**
      * Getters and setters

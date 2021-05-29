@@ -72,7 +72,6 @@ public class MainActivity extends AppCompatActivity {
          * Try:
          * 1. loading the file with broker settings
          * 2. Creating a client from those stored settings
-         * 3. publish these settings to Tank
          */
         try {
             HandleFiles handleFiles = new HandleFiles();
@@ -95,6 +94,7 @@ public class MainActivity extends AppCompatActivity {
             customToast("Broker file loading error", Toast.LENGTH_LONG).show();
         }
         checkClientConnection();
+
         // Set video view and load video
         initializeVideoView();
 
@@ -129,8 +129,6 @@ public class MainActivity extends AppCompatActivity {
                 initializeServerView();
             }
         });
-
-        publishCurrentClient(); // Publish the current chosen broker settings to Tank.
     }
 
     // An intent is used to launch an activity. Makes it possible to go from main screen to others.
@@ -145,8 +143,6 @@ public class MainActivity extends AppCompatActivity {
         super.onResume();
         mainVideoView.start();
 
-        publishCurrentClient(); // Publish the current chosen broker settings to Tank.
-
         //The background music: https://www.chosic.com/
         SoundEffect.startEffect(this, R.raw.main_music, 0.27f, true, 0);
     }
@@ -157,31 +153,6 @@ public class MainActivity extends AppCompatActivity {
         mainVideoView.suspend();
         mainVideoView.stopPlayback();
         SoundEffect.stopEffect();
-    }
-
-    // Publish the current chosen broker settings to Tank.
-    private void publishCurrentClient() {
-        // This CountDownTimer is necessary since we need to have a connection with Tank first.
-        // If we publish too soon after connecting we will get NullPointerException
-        new CountDownTimer(1000, 1000)
-        {
-            public void onTick(long millisUntilFinished) {
-                // Do nothing
-            }
-            public void onFinish() {
-                try {
-                    if (loadedFromFile) {
-                        client.host_publish(client.getCustomHost());
-                        client.port_publish(client.getCustomPort());
-                    } else {
-                        client.host_publish(client.getMqtt());
-                        client.port_publish(client.getPort());
-                    }
-                } catch (NullPointerException e) {
-                    Log.i("Publish Broker", "Could not publish broker to Tank");
-                }
-            }
-        }.start();
     }
 
     private void checkClientConnection() {
@@ -298,33 +269,17 @@ public class MainActivity extends AppCompatActivity {
                 textHost = inputIP.getText().toString();
                 textPort = inputPort.getText().toString();
 
+                // Check that both fields have been pressed and that it doesn't contain default text
                 if (!textHostPressed || !textPortPressed) {
                     customToast("Please specify both host and port", Toast.LENGTH_LONG).show();
+                    if (textHost.contains("Current host") || textPort.contains("Current port")){
+                        customToast("Please specify both host and port", Toast.LENGTH_LONG).show();
+                    }
                 } else {
                     // Create a new Client if fields have been pressed, and check the connection
-                    Client tempClient = client;
                     client = new Client(context, textHost, textPort);
                     checkClientConnection();
-
-                    // if connection is made, publish to Tank and save it to broker.txt
-                    // Wait till Client is ready
-                    if (mqttConnection) {
-                        new CountDownTimer(1000, 1000)
-                        {
-                            public void onTick(long millisUntilFinished) {
-                                // Do nothing
-                            }
-                            public void onFinish() {
-                                customToast("Settings: " + "IP: " + textHost + ", PORT: " + textPort, Toast.LENGTH_LONG).show();
-                                client.host_publish(textHost);
-                                client.port_publish(textPort);
-                                saveBroker(context);
-                            }
-                        }.start();
-                    } else {
-                        customToast("Could not change server. Check your input.", Toast.LENGTH_LONG).show();
-                        client = tempClient;
-                    }
+                    saveBroker(context);
                 }
 
                 // Check if input fields are empty
@@ -332,13 +287,6 @@ public class MainActivity extends AppCompatActivity {
                     customToast("Please enter an Ip/Url", Toast.LENGTH_SHORT).show();
                 } else if (textPort.isEmpty()) {
                     customToast("Please enter a Port", Toast.LENGTH_SHORT).show();
-                }
-
-
-                if (!textHost.contains("Current host") && !textPort.contains("Current port")){
-
-                } else {
-                    customToast("Please specify both host and port", Toast.LENGTH_LONG).show();
                 }
             }
         });

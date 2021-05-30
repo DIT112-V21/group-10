@@ -41,7 +41,6 @@ public class ManualActivity extends AppCompatActivity {
     private JoystickView joystick;
     Slider slider;
     TextView score;
-    private int finalScore = 0;
     private boolean mqttConnection = false;
 
 
@@ -235,7 +234,6 @@ public class ManualActivity extends AppCompatActivity {
                 {
                     client.publishPlayAgain();
                     effects.stopEffect2();
-                    finalScore = client.getScoreValue();
                     timer.setText(TEM);
                     showDialog();
                 }
@@ -284,9 +282,6 @@ public class ManualActivity extends AppCompatActivity {
         return this.score;
     }
 
-    public int getFinalScore(){
-        return this.finalScore;
-    }
 }
 
 

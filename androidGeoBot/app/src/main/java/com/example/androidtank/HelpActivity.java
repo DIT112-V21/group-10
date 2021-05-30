@@ -17,6 +17,7 @@ import com.github.barteksc.pdfviewer.util.FitPolicy;
 
 public class HelpActivity extends AppCompatActivity {
 
+    //We used the pdfview from https://github.com/barteksc/AndroidPdfViewer
     PDFView pdfview;
     private Button play;
 

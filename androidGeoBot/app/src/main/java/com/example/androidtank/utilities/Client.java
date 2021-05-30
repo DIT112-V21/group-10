@@ -273,17 +273,9 @@ public class Client extends MqttClient {
 
     public void handleScore(int scoreValue) {
         ManualActivity manualActivity = (ManualActivity) context;
-        int finalScore = manualActivity.getFinalScore();
-
-        if (finalScore == scoreValue) {
-            TextView scoreDisplay = manualActivity.getScore();
-            String scoreMessage = "Score: " + (scoreValue - finalScore);
-            scoreDisplay.setText(scoreMessage);
-        } else {
-            TextView scoreDisplay = manualActivity.getScore();
-            String scoreMessage = "Score: " + scoreValue;
-            scoreDisplay.setText(scoreMessage);
-        }
+        TextView scoreDisplay = manualActivity.getScore();
+        String scoreMessage = "Score: " + scoreValue;
+        scoreDisplay.setText(scoreMessage);
     }
 
     public void publishPlayAgain() {

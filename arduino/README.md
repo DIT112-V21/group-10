@@ -1,6 +1,6 @@
 # Car Manual
 
-To begin controlling the car you should SMCE installed. Open the program, compile the smartcar sketch. Afterwards, compile and start the othercars sketch, running as many cars you would like to be able to crash into. Finally, you should start the smartcar sketch.
+To begin controlling the car you should have SMCE installed. Open the program, compile the smartcar sketch. Afterwards, compile and start the othercars sketch, running as many cars you would like to be able to crash into. Finally, you should start the smartcar sketch.
 
 The smartcar sketch is what is used for allowing the player to control the car. 
 
@@ -10,6 +10,6 @@ How to control the smartcar:
 
 - You must run the android application, and be connected to a broker, follow instructions in the android folder for set up.
 
-- To move the car, you should move the joystick in whichever direction you would like to go.
+- To move the car, you should move the inner circle of the joystick in whichever direction you would like to go.
 - To change the current speed of the car, move the speed bar to your desired speed.
 - To stop the car, simply touch the brake button.

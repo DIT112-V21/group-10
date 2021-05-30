@@ -6,7 +6,7 @@
 
 
 ## Table of Contents
-- [Demo Video](https://github.com/DIT112-V21/group-10#demo-video-must-watch)
+- [Demo Video](https://github.com/DIT112-V21/group-10#demo-video)
 - [What did we make?](https://github.com/DIT112-V21/group-10#what-did-we-make)
 - [Why did we make this? What problem was solved?](https://github.com/DIT112-V21/group-10#why-did-we-make-this-what-problem-was-solved)
 - [How did we make this? What kind of technology and resources have we used?](https://github.com/DIT112-V21/group-10#how-did-we-make-this-what-kind-of-technology-and-resources-have-we-used)

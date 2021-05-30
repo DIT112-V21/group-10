@@ -121,7 +121,7 @@
                 android:gravity="center">
 
                 <TextView
-                    android:id="@+id/editTextTextPersonName2"
+                    android:id="@+id/timer"
                     android:layout_width="120dp"
                     android:layout_height="50dp"
                     android:text="@string/timer"

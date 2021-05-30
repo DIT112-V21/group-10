@@ -21,17 +21,20 @@
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"></com.example.androidtank.MainVideoView>
+            app:layout_constraintTop_toTopOf="parent">
+        </com.example.androidtank.MainVideoView>
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:background="#07FFFFFF"
-            tools:layout_editor_absoluteX="-143dp"
-            tools:layout_editor_absoluteY="-116dp"></LinearLayout>
+            tools:layout_editor_absoluteX="0dp"
+            tools:layout_editor_absoluteY="0dp">
+        </LinearLayout>
     </androidx.constraintlayout.widget.ConstraintLayout>
 
     <LinearLayout
+        android:id="@+id/linearLayout"
         android:layout_width="match_parent"
         android:layout_height="100dp"
         android:gravity="center"
@@ -57,8 +60,8 @@
             android:id="@+id/helpbutton"
             android:layout_width="45dp"
             android:layout_height="45dp"
-            android:layout_marginTop="14dp"
             android:layout_marginStart="5dp"
+            android:layout_marginTop="14dp"
             android:background="@drawable/helpbutton"
             android:gravity="center"
             android:textSize="28sp"
@@ -70,7 +73,7 @@
             app:layout_constraintVertical_bias="0.05" />
     </LinearLayout>
 
-
+    <!-- Displays an image of a mountain. Disabled for now -->
     <ImageView
         android:id="@+id/imageView"
         android:layout_width="253dp"
@@ -83,6 +86,7 @@
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent" />
 
+    <!-- Displays an image of a smartCar. Disabled for now -->
     <ImageView
         android:id="@+id/imageView2"
         android:layout_width="207dp"
@@ -94,20 +98,50 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent" />
 
-    <androidx.appcompat.widget.AppCompatButton
-        android:id="@+id/button_manual"
-        android:layout_width="150dp"
-        android:layout_height="53dp"
-        android:background="@drawable/bg_button_one"
-        android:fontFamily="@font/bree_serif"
-        android:text="@string/manual"
-        android:textColor="@color/white"
-        android:textSize="28sp"
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:orientation="vertical"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.496"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/imageView2"
-        app:layout_constraintVertical_bias="0.925" />
+        app:layout_constraintVertical_bias="0.940"
+        app:layout_constraintTop_toBottomOf="@+id/linearLayout">
+
+        <androidx.appcompat.widget.AppCompatButton
+            android:id="@+id/button_play"
+            android:layout_width="150dp"
+            android:layout_height="53dp"
+            android:background="@drawable/bg_button_one"
+            android:fontFamily="@font/bree_serif"
+            android:text="@string/play"
+            android:textColor="@color/white"
+            android:textSize="27sp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.496"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/imageView2"
+            app:layout_constraintVertical_bias="0.925" />
+
+        <androidx.appcompat.widget.AppCompatButton
+            android:id="@+id/button_broker"
+            android:layout_width="150dp"
+            android:layout_height="53dp"
+            android:layout_marginTop="16dp"
+            android:background="@drawable/bg_top_gradient"
+            android:fontFamily="@font/bree_serif"
+            android:text="@string/broker"
+            android:textColor="@color/white"
+            android:textSize="27sp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.496"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/imageView2"
+            app:layout_constraintVertical_bias="0.925" />
+
+
+    </LinearLayout>
+
 </androidx.constraintlayout.widget.ConstraintLayout>
 

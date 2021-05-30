@@ -66,7 +66,13 @@ public class ManualActivity extends AppCompatActivity {
         this.timer = (TextView) findViewById(R.id.time);
 
         // Mqtt Client
-        this.client = new Client(this);
+        // TODO Re-think Client and it's relation to context
+        Client mainActivityClient = MainActivity.client;
+        if (mainActivityClient.getCustomServer()) {
+            this.client = new Client(this, mainActivityClient.getCustomHost(), mainActivityClient.getCustomPort());
+        } else {
+            this.client = new Client(this);
+        }
 
         if (!client.connect(null, null, null, null)) {
             Toast.makeText(this, FAIL, Toast.LENGTH_SHORT).show();

@@ -2,7 +2,6 @@ package com.example.androidtank.opencv;
 
 import android.content.Context;
 import android.graphics.Bitmap;
-import android.util.Log;
 import android.widget.Toast;
 
 import com.example.androidtank.utilities.HandleFiles;

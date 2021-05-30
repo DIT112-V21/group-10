@@ -11,7 +11,7 @@
 #ifndef __SMCE__
 WiFiClient net;
 #endif
-MQTTClient mqtt;
+MQTTClient mqtt(256);
 
 const int SIDE_FRONT_PIN = 0;
 ArduinoRuntime arduinoRuntime;
@@ -44,10 +44,13 @@ void setup()
   Serial.begin(9600);
   Serial.setTimeout(200);
 #ifdef __SMCE__
-
   Camera.begin(QVGA, RGB888, 15);
   frameBuffer.resize(Camera.width() * Camera.height() * Camera.bytesPerPixel());
+
+  Serial.println("Localhost Initialized"); // Debugging
   mqtt.begin(WiFi);
+  //mqtt.begin("aerostun.dev", 1883, WiFi);
+
 #else
   mqtt.begin(net);
 #endif
@@ -91,26 +94,11 @@ void loop()
 void handleInput()
 {
   float distance = front.getDistance();
-  // serialMsg(distance);
-  // distanceHandler(0, 200, distance);
+
   if (stopping == true)
   {
     stopTank();
   }
-}
-
-void distanceHandler(float lowerBound, float upperBound, float distance)
-{
-  if (distance > lowerBound && distance < upperBound)
-  {
-    handleObstacle();
-  }
-}
-
-void handleObstacle()
-{
-  magnitude = latestSpeed /* * 0.4*/;
-  car.setSpeed(magnitude);
 }
 
 void stopTank()
@@ -131,45 +119,46 @@ void mqttHandler()
   if (mqtt.connect("arduino", "public", "public"))
   {
     mqtt.subscribe("/Group10/manual/#", 1);
-    mqtt.onMessage([](String topic, String message) {
-      if (topic == "/Group10/manual/forward")
-      {
-        Serial.println(message);
-        latestSpeed = message.toInt();
-        car.setAngle(latestAngle);
-        car.setSpeed(latestSpeed);
-        stopping = false;
-      }
-      else if (topic == "/Group10/manual/backward")
-      {
-        latestSpeed = (-1) * message.toInt();
-        car.setAngle(latestAngle);
-        car.setSpeed(latestSpeed);
-        stopping = false;
-      }
-      else if (topic == "/Group10/manual/turnleft")
-      {
-        latestAngle = (-1) * message.toInt();
-        car.setAngle(latestAngle);
-        stopping = false;
-      }
-      else if (topic == "/Group10/manual/turnright")
-      {
-        latestAngle = message.toInt();
-        car.setAngle(latestAngle);
-        stopping = false;
-      }
-      else if (topic == "/Group10/manual/break")
-      {
-        latestSpeed = 0;
-        car.setSpeed(latestSpeed);
-        stopping = false;
-      }
-      else if (topic == "/Group10/manual/stopping" || topic == "/Group10/manual/nocontrol")
-      {
-        stopping = true;
-      }
-    });
+    mqtt.onMessage([](String topic, String message)
+                   {
+                     if (topic == "/Group10/manual/forward")
+                     {
+                       Serial.println(message);
+                       latestSpeed = message.toInt();
+                       car.setAngle(latestAngle);
+                       car.setSpeed(latestSpeed);
+                       stopping = false;
+                     }
+                     else if (topic == "/Group10/manual/backward")
+                     {
+                       latestSpeed = (-1) * message.toInt();
+                       car.setAngle(latestAngle);
+                       car.setSpeed(latestSpeed);
+                       stopping = false;
+                     }
+                     else if (topic == "/Group10/manual/turnleft")
+                     {
+                       latestAngle = (-1) * message.toInt();
+                       car.setAngle(latestAngle);
+                       stopping = false;
+                     }
+                     else if (topic == "/Group10/manual/turnright")
+                     {
+                       latestAngle = message.toInt();
+                       car.setAngle(latestAngle);
+                       stopping = false;
+                     }
+                     else if (topic == "/Group10/manual/break")
+                     {
+                       latestSpeed = 0;
+                       car.setSpeed(latestSpeed);
+                       stopping = false;
+                     }
+                     else if (topic == "/Group10/manual/stopping" || topic == "/Group10/manual/nocontrol")
+                     {
+                       stopping = true;
+                     }
+                   });
   }
 }
 

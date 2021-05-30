@@ -7,7 +7,7 @@
 - [How did we make this? What kind of technology and resources have we used?](https://github.com/DIT112-V21/group-10/tree/readme#how-did-we-make-this-what-kind-of-technology-and-resources-have-we-used)
 - [Game Tutorial for Users](https://github.com/DIT112-V21/group-10/tree/readme#game-tutorial-for-users)
 - ["Get Started" Guide for Developers](https://github.com/DIT112-V21/group-10/tree/readme#get-started-guide-for-developers)
-- [Software Architecture](https://github.com/DIT112-V21/group-10/tree/readme#architecture)
+- [Software Architecture](https://github.com/DIT112-V21/group-10/tree/readme#software-architecture)
 - [Development Team](https://github.com/DIT112-V21/group-10/tree/readme#development-team)
 
 ## Demo Video (must watch)

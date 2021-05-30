@@ -8,7 +8,6 @@
     <string name="broker">BROKER</string>
     <string name="autopilot">Autopilot</string>
     <string name="help">help</string>
-    <string name="break_button">Break!</string>>
     <string name="cameraview">cameraView</string>
     <string name="brake">Brake</string>
     <string name="score">Score: </string>
@@ -22,6 +21,6 @@
 
     <string name="rules"><font fgcolor="white">Rules</font></string>
     <string name="play">Play</string>
-    <string name="timer">TIMER:</string>
+    <string name="timer">Time left:</string>
 
 </resources>

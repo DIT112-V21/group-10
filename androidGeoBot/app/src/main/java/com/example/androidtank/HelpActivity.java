@@ -4,15 +4,12 @@ import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
-import android.view.View;
-import android.view.Window;
 import android.widget.Button;
 
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.github.barteksc.pdfviewer.PDFView;
-import com.github.barteksc.pdfviewer.util.FitPolicy;
 
 
 public class HelpActivity extends AppCompatActivity {
@@ -31,16 +28,12 @@ public class HelpActivity extends AppCompatActivity {
         ActionBar actionBar;
         actionBar = getSupportActionBar();
 
-        ColorDrawable colorDrawable
-                = new ColorDrawable(Color.parseColor("#E0583A"));
+        ColorDrawable colorDrawable = new ColorDrawable(Color.parseColor("#E0583A"));
         actionBar.setBackgroundDrawable(colorDrawable);
-
         actionBar.setDisplayHomeAsUpEnabled(true);
 
         play = findViewById(R.id.play);
-
         play.setOnClickListener(v -> switchActivities(ManualActivity.class));
-
         pdfview = findViewById(R.id.pdfView);
 
         pdfview.fromAsset("tank_tutorial_white.pdf").load();

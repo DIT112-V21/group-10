@@ -27,7 +27,7 @@ public class Client extends MqttClient {
     // Attributes
     private final String TAG2 = this.getClass().getName();
     private int lastJoystickX = 0;
-    private int lastJoysticky = 0;
+    private int lastJoystickY = 0;
     private int scoreValue;
     private static final int IMAGE_WIDTH = 320;
     private static final int IMAGE_HEIGHT = 240;
@@ -117,35 +117,42 @@ public class Client extends MqttClient {
             }
 
             @Override
-            public void messageArrived(String topic, MqttMessage message) throws Exception {
-                if (topic.equals(ULTRASOUND_FRONT)) {
-                    Log.i(TAG, "[MQTT] Topic: " + topic + " | Message: " + message.toString());
-                } else if (topic.equals("/Group10/camera")) {
-                    Bitmap bm = Bitmap.createBitmap(IMAGE_WIDTH, IMAGE_HEIGHT, Bitmap.Config.ARGB_8888);
-                    Log.d(TAG, "Message delivered");
+            public void messageArrived(String topic, MqttMessage message)throws Exception {
+                switch (topic) {
+                    case ULTRASOUND_FRONT:
+                        Log.i(TAG, "[MQTT] Topic: " + topic + " | Message: " + message.toString());
+                        break;
+                    case "/Group10/camera": {
+                        Bitmap bm = Bitmap.createBitmap(IMAGE_WIDTH, IMAGE_HEIGHT, Bitmap.Config.ARGB_8888);
+                        Log.d(TAG, "Message delivered");
 
-                    final byte[] payload = (byte[]) message.getPayload();
-                    final int[] colors = new int[IMAGE_WIDTH * IMAGE_HEIGHT];
-                    for (int ci = 0; ci < colors.length; ++ci) {
-                        final byte r = payload[3 * ci];
-                        final byte g = payload[3 * ci + 1];
-                        final byte b = payload[3 * ci + 2];
-                        colors[ci] = Color.rgb(r, g, b);
+                        final byte[] payload = (byte[]) message.getPayload();
+                        final int[] colors = new int[IMAGE_WIDTH * IMAGE_HEIGHT];
+                        for (int ci = 0; ci < colors.length; ++ci) {
+                            final byte r = payload[3 * ci];
+                            final byte g = payload[3 * ci + 1];
+                            final byte b = payload[3 * ci + 2];
+                            colors[ci] = Color.rgb(r, g, b);
+                        }
+                        bm.setPixels(colors, 0, IMAGE_WIDTH, 0, 0, IMAGE_WIDTH, IMAGE_HEIGHT);
+
+                        // 1. Get the context of ManualActivity so that we can update the image
+                        // 2. detection.processImage does OpenCV magic. Detecting objects and drawing shapes
+                        ManualActivity manualActivity = (ManualActivity) context;
+                        Detection detection = new Detection();
+                        bm = detection.processImage(bm, context);
+                        manualActivity.setBitmap(bm);
+
+                        break;
                     }
-                    bm.setPixels(colors, 0, IMAGE_WIDTH, 0, 0, IMAGE_WIDTH, IMAGE_HEIGHT);
-
-                    // 1. Get the context of ManualActivity so that we can update the image
-                    // 2. detection.processImage does OpenCV magic. Detecting objects and drawing shapes
-                    ManualActivity manualActivity = (ManualActivity) context;
-                    Detection detection = new Detection();
-                    bm = detection.processImage(bm, context);
-                    manualActivity.setBitmap(bm);
-
-                } else if (topic.equals(UPDATE_SCORE)) {
-                    scoreValue = Integer.parseInt(message.toString());
-                    handleScore(scoreValue);
-                } else {
-                    Log.i(TAG, "[MQTT] Topic: " + topic + " | Message: " + message.toString());
+                    case UPDATE_SCORE: {
+                        scoreValue = Integer.parseInt(message.toString());
+                        handleScore(scoreValue);
+                        break;
+                    }
+                    default:
+                        Log.i(TAG, "[MQTT] Topic: " + topic + " | Message: " + message.toString());
+                        break;
                 }
             }
 
@@ -217,7 +224,7 @@ public class Client extends MqttClient {
 
             // Handle Speed Messages
             // This "if" stops mqtt from sending a message with the same "y" value as the previous message
-            if (y != lastJoysticky) {
+            if (y != lastJoystickY) {
                 if (y > 0 && angle >= 180) {
                     ManualActivity manualActivity = (ManualActivity) context;
                     Slider slider = manualActivity.getSlider();
@@ -260,7 +267,7 @@ public class Client extends MqttClient {
         }
 
         lastJoystickX = x;
-        lastJoysticky = y;
+        lastJoystickY = y;
     }
 
     /**

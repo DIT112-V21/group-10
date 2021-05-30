@@ -1,4 +1,6 @@
 # DIT112 - Mini Project - System Development (Group 10)
+![MainScreen](https://user-images.githubusercontent.com/81154352/120114442-81587f00-c17f-11eb-8ed5-2359d99dfa25.png)
+![ManualScreen](https://user-images.githubusercontent.com/81154352/120114413-6b4abe80-c17f-11eb-8f33-344b76843d2d.png)
 
 ## Table of Contents
 - [Demo Video](https://github.com/DIT112-V21/group-10/tree/readme#demo-video-must-watch)
@@ -12,7 +14,7 @@
 
 ## Demo Video (must watch)
 
-[Tank (Total Annihilation Not Komplete)](https://youtu.be/FgqcEbL0WlM)
+TODO: add video link
 
 ## What did we make?
 - TANK - Total Annihilation Not Komplete

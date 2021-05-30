@@ -1,7 +1,7 @@
 # DIT112 - Mini Project - System Development (Group 10)
 
 ## Table of Contents
-1. [What did we make?](what-did-we-make?)
+1. [What did we make?](https://github.com/DIT112-V21/group-10/blob/readme/README.md#what-did-we-make)
 2. [Why did we make? What problem was solved?](why-did-we-make?-what-problem-was-solved?)
 3. [How did we make? What kind of technology and resources we used?](how-did-we-make?-what-kind-of-technology-and-resources-we-used?)
 4. [Demo Video](demo-video-(must-watch))

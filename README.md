@@ -75,14 +75,14 @@ We used the following sensors for this project:
 
 | Sensor               | Usage                                                     | 
 | -------------        |:---------------------------------------------------------:| 
-| Ultrasnic sensor     | Obstacle avoidance in [othercars.ino](https://eu01st1.zoom.us/web_client/f3jfhf/html/externalLinkPage.html?ref=https://github.com/DIT112-V21/group-10/blob/master/arduino/othercars/othercars.ino)                      | 
+| Ultrasonic sensor     | Obstacle avoidance in [othercars.ino](https://eu01st1.zoom.us/web_client/f3jfhf/html/externalLinkPage.html?ref=https://github.com/DIT112-V21/group-10/blob/master/arduino/othercars/othercars.ino)                      | 
 | Infrared sensor      | To give user a score each time they crash into another car| 
-| Camera               | We used the camera feed to train our cascade classifier   |  
+| Camera               | To train our cascade classifier, and to stream from the car   |  
 
 ## Development Team
-- Hannah Shiels
+- [Hannah Shiels](https://github.com/hannahshiels)
 - [Himank Meattle](https://github.com/HIMANKMEATTLE)
-- [Irina Levkovets] 
+- [Irina Levkovets](https://github.com/Irina0904)
 - [Lucas Nordgren](https://github.com/lucasnordic)
-- [Maryam Esmaeili Darestani]
+- [Maryam Esmaeili Darestani](https://github.com/Spidergirl93)
 - [Michael Araya](https://github.com/mandemmike)

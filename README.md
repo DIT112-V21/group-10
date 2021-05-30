@@ -1,6 +1,9 @@
 # DIT112 - Mini Project - System Development (Group 10)
-![MainScreen](https://user-images.githubusercontent.com/81154352/120114442-81587f00-c17f-11eb-8ed5-2359d99dfa25.png)
-![ManualScreen](https://user-images.githubusercontent.com/81154352/120114413-6b4abe80-c17f-11eb-8f33-344b76843d2d.png)
+![MainScreen](https://user-images.githubusercontent.com/81154352/120114853-58d18480-c181-11eb-918d-73f4f2b2df28.png)
+![ManualScreen](https://user-images.githubusercontent.com/81154352/120114854-5b33de80-c181-11eb-94b7-df55b4c9b4ec.png)
+
+
+
 
 ## Table of Contents
 - [Demo Video](https://github.com/DIT112-V21/group-10/tree/readme#demo-video-must-watch)
@@ -13,13 +16,7 @@
 - [Development Team](https://github.com/DIT112-V21/group-10/tree/readme#development-team)
 
 ## Demo Video (must watch)
-<div align="left">
-      <a href="https://www.youtube.com/watch?v=FgqcEbL0WlM">
-         <img src="https://img.youtube.com/vi/FgqcEbL0WlM/0.jpg" style="width:100%;">
-      </a>
-</div>
-
-[Tank (Total Annihilation Not Komplete)](https://www.youtube.com/watch?v=FgqcEbL0WlM)
+[Tank (Total Annihilation Not komplete)](https://www.youtube.com/watch?v=FgqcEbL0WlM)
 
 ## What did we make?
 - TANK - Total Annihilation Not Komplete

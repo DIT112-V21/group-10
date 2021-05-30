@@ -29,6 +29,8 @@ public class Client extends MqttClient {
     private int lastJoystickX = 0;
     private int lastJoysticky = 0;
     private int scoreValue;
+    private static final int IMAGE_WIDTH = 320;
+    private static final int IMAGE_HEIGHT = 240;
 
     // Topics to update to
     private static final String FAIL = "CONNECTION TO TANK COULD NOT BE ESTABLISHED";
@@ -39,8 +41,6 @@ public class Client extends MqttClient {
     private static final String BREAK = "/Group10/manual/break";
     private static final String STOPPING = "/Group10/manual/stopping";
     private static final String PLAY_AGAIN = "/Group10/manual/endTimer";
-    private static final int IMAGE_WIDTH = 320;
-    private static final int IMAGE_HEIGHT = 240;
 
     // Topics to get data from
     private static final String ULTRASOUND_FRONT = "/Group10/sensor/ultrasound/front";
@@ -50,16 +50,34 @@ public class Client extends MqttClient {
     protected MqttClient mqttClient;
     private static final String TAG = "localhost";
     private static final String MQTT_BROKER = "aerostun.dev";
-    private static final String LOCAL_MQTT = "10.0.2.2";
-    private static final String MQTT_SERVER = "tcp://" + LOCAL_MQTT + ":1883";
+    private static final String DEFAULT_HOST = "10.0.2.2"; // default is 10.0.2.2
+    private static final String DEFAULT_PORT = "1883";
+    private String customHost = "10.0.2.2"; // default is 10.0.2.2
+    private String customPort = "1883";
+    private boolean customServer = false;
+    private static String mqtt_server = "tcp://" + DEFAULT_HOST + ":" + DEFAULT_PORT;
     private static final int QOS = 1;
     private boolean isConnected = false;
     private static Context context;
 
-    public Client(Context context){
-        super(context, MQTT_SERVER, TAG);
+
+    /**
+     * Constructors
+     */
+    public Client(Context context) {
+        super(context, mqtt_server, TAG);
         Log.i(TAG2, "Instantiated new " + this.getClass());
-        this.context = context;
+        Client.context = context;
+        customServer = false;
+    }
+
+    public Client(Context context, String host, String port) {
+        super(context, mqtt_server = "tcp://" + host + ":" + port, TAG);
+        Log.i(TAG2, "Instantiated new " + this.getClass());
+        customHost = host;
+        customPort = port;
+        Client.context = context;
+        customServer = true;
     }
 
 
@@ -68,7 +86,7 @@ public class Client extends MqttClient {
         return super.connect(TAG, "", new IMqttActionListener() {
             @Override
             public void onSuccess(IMqttToken asyncActionToken) {
-                final String successfulConnection = "CONNECTION TO TANK ESTABLISHED";
+                final String successfulConnection = "CONNECTION TO SERVER ESTABLISHED";
                 Log.i(TAG, successfulConnection);
                 Toast.makeText(context, successfulConnection, Toast.LENGTH_SHORT).show();
 
@@ -99,11 +117,11 @@ public class Client extends MqttClient {
             }
 
             @Override
-            public void messageArrived(String topic, MqttMessage message)throws Exception {
+            public void messageArrived(String topic, MqttMessage message) throws Exception {
                 if (topic.equals(ULTRASOUND_FRONT)) {
                     Log.i(TAG, "[MQTT] Topic: " + topic + " | Message: " + message.toString());
-                }
-                else if (topic.equals("/Group10/camera")) {
+                  
+                } else if (topic.equals("/Group10/camera")) {
                     Bitmap bm = Bitmap.createBitmap(IMAGE_WIDTH, IMAGE_HEIGHT, Bitmap.Config.ARGB_8888);
                     Log.d(TAG, "Message delivered");
 
@@ -119,16 +137,16 @@ public class Client extends MqttClient {
 
                     // 1. Get the context of ManualActivity so that we can update the image
                     // 2. detection.processImage does OpenCV magic. Detecting objects and drawing shapes
-                    ManualActivity manualActivity = (ManualActivity)context;
+                    ManualActivity manualActivity = (ManualActivity) context;
                     Detection detection = new Detection();
-                    bm = detection.processImage(bm,context);
+                    bm = detection.processImage(bm, context);
                     manualActivity.setBitmap(bm);
-
+                  
                 }else if(topic.equals(UPDATE_SCORE)){
                     scoreValue = Integer.parseInt(message.toString());
                     handleScore(scoreValue);
-                }
-                else {
+                  
+                } else {
                     Log.i(TAG, "[MQTT] Topic: " + topic + " | Message: " + message.toString());
                 }
             }
@@ -160,13 +178,13 @@ public class Client extends MqttClient {
         super.publish(topic, message, qos, publishCallback);
     }
 
-
-
-
+    /**
+     * Methods related to publishing
+     */
     // Depending on ID of button the method sends appropriate messages to relevant topic.
-    public void button_publish(Button button){
-        if(!(button == null) && isConnected){
-            switch (button.getId()){
+    public void button_publish(Button button) {
+        if (!(button == null) && isConnected) {
+            switch (button.getId()) {
 //               case R.id.accelerate_up:
 //                   mqttClient.publish(ACCELERATE, Integer.toString(SPEED),QOS,null);
 //                   break;
@@ -176,33 +194,28 @@ public class Client extends MqttClient {
 //                   break;
 
                 case R.id.break_button:
-                    publish(BREAK, Integer.toString(0),QOS,null);
+                    publish(BREAK, Integer.toString(0), QOS, null);
                     break;
 
                 default:
             }
-        } else if((button == null) && isConnected) {
-
-            publish("/Group10/manual/nocontrol", Integer.toString(0),QOS,null);
-
+        } else if ((button == null) && isConnected) {
+            publish("/Group10/manual/nocontrol", Integer.toString(0), QOS, null);
         } else {
-
             Toast.makeText(context, "Connection not established", Toast.LENGTH_SHORT).show();
-
         }
     }
 
     /**
-     *
      * @param joystickView The view that displays the joystick
-     * @param angle The angle that the joystick uses
-     * @param y The joysticks y coordinate. Translated into speed for Tank
-     * @param x The joysticks y coordinate. Translated into angle for Tank
+     * @param angle        The angle that the joystick uses
+     * @param y            The joysticks y coordinate. Translated into speed for Tank
+     * @param x            The joysticks y coordinate. Translated into angle for Tank
      */
-    public void joystick_publish(JoystickView joystickView, int angle, int y, int x){
+    public void joystick_publish(JoystickView joystickView, int angle, int y, int x) {
         Log.i("Stuff", "X:" + x + ", Y:" + y); // for debugging
 
-        if(!(joystickView == null) && isConnected){
+        if (!(joystickView == null) && isConnected) {
 
             // Handle Speed Messages
             // This "if" stops mqtt from sending a message with the same "y" value as the previous message
@@ -211,14 +224,14 @@ public class Client extends MqttClient {
                     ManualActivity manualActivity = (ManualActivity) context;
                     Slider slider = manualActivity.getSlider();
                     float sliderValue = slider.getValue();
-                    y = Math.round((float)y/100 * sliderValue); // Convert y to slider scale
+                    y = Math.round((float) y / 100 * sliderValue); // Convert y to slider scale
                     publish(BACKWARD_CONTROL, Float.toString(y), QOS, null);
                 }
                 if (y > 0 && angle < 180) {
                     ManualActivity manualActivity = (ManualActivity) context;
                     Slider slider = manualActivity.getSlider();
                     float sliderValue = slider.getValue();
-                    y = Math.round((float)y/100 * sliderValue); // Convert y to slider scale
+                    y = Math.round((float) y / 100 * sliderValue); // Convert y to slider scale
                     publish(FORWARD_CONTROL, Float.toString(y), QOS, null);
                 }
             }
@@ -226,24 +239,24 @@ public class Client extends MqttClient {
             // Handle Angle Messages
             // This "if" stops mqtt from sending a message with the same "y" value as the previous message
             if (x != lastJoystickX) {
-                if(angle <= 90){
-                    publish(TURN_RIGHT, Integer.toString(x),QOS,null);
-                }else if(angle <= 180){
-                    publish(TURN_LEFT, Integer.toString(x),QOS,null);
+                if (angle <= 90) {
+                    publish(TURN_RIGHT, Integer.toString(x), QOS, null);
+                } else if (angle <= 180) {
+                    publish(TURN_LEFT, Integer.toString(x), QOS, null);
                 } else if (angle <= 270) {
-                    publish(TURN_LEFT, Integer.toString(x),QOS,null);
+                    publish(TURN_LEFT, Integer.toString(x), QOS, null);
                 } else {
-                    publish(TURN_RIGHT, Integer.toString(x),QOS,null);
+                    publish(TURN_RIGHT, Integer.toString(x), QOS, null);
                 }
             }
 
             // Handle Joystick Released Message
             if (y == 0 && angle == 0) {
-                publish(STOPPING, Integer.toString(0),QOS,null);
+                publish(STOPPING, Integer.toString(0), QOS, null);
             }
 
-        } else if((joystickView == null) && isConnected) {
-            publish("/Group10/manual/nocontrol", Integer.toString(0),QOS,null);
+        } else if ((joystickView == null) && isConnected) {
+            publish("/Group10/manual/nocontrol", Integer.toString(0), QOS, null);
         } else {
             Toast.makeText(context, "Connection not established", Toast.LENGTH_SHORT).show();
         }
@@ -251,7 +264,11 @@ public class Client extends MqttClient {
         lastJoystickX = x;
         lastJoysticky = y;
     }
-    public int getScoreValue(){
+
+    /**
+     * Getters and setters
+     */
+    public int getScoreValue() {
         return this.scoreValue;
     }
 
@@ -272,5 +289,23 @@ public class Client extends MqttClient {
     }
     public void publishPlayAgain(){
         publish(PLAY_AGAIN,"Timer ended",QOS,null);
+    public String getMqtt() {
+        return DEFAULT_HOST;
+    }
+
+    public String getPort() {
+        return DEFAULT_PORT;
+    }
+
+    public String getCustomPort() {
+        return customPort;
+    }
+
+    public String getCustomHost() {
+        return customHost;
+    }
+
+    public boolean getCustomServer() {
+        return customServer;
     }
 }

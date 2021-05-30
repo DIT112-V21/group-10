@@ -67,7 +67,7 @@ public class MainVideoView extends VideoView {
         videoView.setLayoutParams(layoutParams);
     }
 
-    // Returns a default aspect ratio. Based on 16:9
+    // Returns a default aspect ratio. Approximately 16/8.7 ratio
     private float getVideoAspect(){
         return 0.54f;
     }

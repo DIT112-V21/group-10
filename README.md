@@ -2,12 +2,12 @@
 
 ## Table of Contents
 1. [What did we make?](https://github.com/DIT112-V21/group-10/blob/readme/README.md#what-did-we-make)
-2. [Why did we make? What problem was solved?](why-did-we-make?-what-problem-was-solved?)
-3. [How did we make? What kind of technology and resources we used?](how-did-we-make?-what-kind-of-technology-and-resources-we-used?)
-4. [Demo Video](demo-video-(must-watch))
-5. [Game Tutorial for Users](game-tutorial-for-users)
-6. ["Get Started" Guide for Developers]("get-started"-guide-for-developers)
-7. [Development Team](development-team)
+2. [Why did we make? What problem was solved?](https://github.com/DIT112-V21/group-10/blob/readme/README.mdwhy-did-we-make?-what-problem-was-solved?)
+3. [How did we make? What kind of technology and resources we used?](https://github.com/DIT112-V21/group-10/blob/readme/README.mdhow-did-we-make?-what-kind-of-technology-and-resources-we-used?)
+4. [Demo Video](https://github.com/DIT112-V21/group-10/blob/readme/README.mddemo-video-(must-watch))
+5. [Game Tutorial for Users](https://github.com/DIT112-V21/group-10/blob/readme/README.mdgame-tutorial-for-users)
+6. ["Get Started" Guide for Developers](https://github.com/DIT112-V21/group-10/blob/readme/README.md"get-started"-guide-for-developers)
+7. [Development Team](https://github.com/DIT112-V21/group-10/blob/readme/README.mddevelopment-team)
 
 ## What did we make?
 - TANK - Total Annihilation Not Komplete

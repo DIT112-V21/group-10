@@ -40,7 +40,6 @@ public class ManualActivity extends AppCompatActivity {
     private JoystickView joystick;
     private Slider slider;
     TextView score;
-
     private boolean mqttConnection = false;
 
     private static final String FAIL = "CONNECTION TO TANK COULD NOT BE ESTABLISHED";
@@ -221,8 +220,9 @@ public class ManualActivity extends AppCompatActivity {
                     timer.setText(String.valueOf(millisUntilFinished / 1000) +"s");
                     counter--;
                 }
-
-                public void onFinish() {
+                public void onFinish()
+                {
+                    client.publishPlayAgain();
                     effects.stopEffect2();
                     timer.setText(TEM);
                     showDialog();
@@ -273,6 +273,7 @@ public class ManualActivity extends AppCompatActivity {
     }
 
 }
+
 
 
 

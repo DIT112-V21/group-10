@@ -119,46 +119,49 @@ void mqttHandler()
   if (mqtt.connect("arduino", "public", "public"))
   {
     mqtt.subscribe("/Group10/manual/#", 1);
-    mqtt.onMessage([](String topic, String message)
-                   {
-                     if (topic == "/Group10/manual/forward")
-                     {
-                       Serial.println(message);
-                       latestSpeed = message.toInt();
-                       car.setAngle(latestAngle);
-                       car.setSpeed(latestSpeed);
-                       stopping = false;
-                     }
-                     else if (topic == "/Group10/manual/backward")
-                     {
-                       latestSpeed = (-1) * message.toInt();
-                       car.setAngle(latestAngle);
-                       car.setSpeed(latestSpeed);
-                       stopping = false;
-                     }
-                     else if (topic == "/Group10/manual/turnleft")
-                     {
-                       latestAngle = (-1) * message.toInt();
-                       car.setAngle(latestAngle);
-                       stopping = false;
-                     }
-                     else if (topic == "/Group10/manual/turnright")
-                     {
-                       latestAngle = message.toInt();
-                       car.setAngle(latestAngle);
-                       stopping = false;
-                     }
-                     else if (topic == "/Group10/manual/break")
-                     {
-                       latestSpeed = 0;
-                       car.setSpeed(latestSpeed);
-                       stopping = false;
-                     }
-                     else if (topic == "/Group10/manual/stopping" || topic == "/Group10/manual/nocontrol")
-                     {
-                       stopping = true;
-                     }
-                   });
+    mqtt.onMessage([](String topic, String message) {
+      if (topic == "/Group10/manual/forward")
+      {
+        Serial.println(message);
+        latestSpeed = message.toInt();
+        car.setAngle(latestAngle);
+        car.setSpeed(latestSpeed);
+        stopping = false;
+      }
+      else if (topic == "/Group10/manual/backward")
+      {
+        latestSpeed = (-1) * message.toInt();
+        car.setAngle(latestAngle);
+        car.setSpeed(latestSpeed);
+        stopping = false;
+      }
+      else if (topic == "/Group10/manual/turnleft")
+      {
+        latestAngle = (-1) * message.toInt();
+        car.setAngle(latestAngle);
+        stopping = false;
+      }
+      else if (topic == "/Group10/manual/turnright")
+      {
+        latestAngle = message.toInt();
+        car.setAngle(latestAngle);
+        stopping = false;
+      }
+      else if (topic == "/Group10/manual/break")
+      {
+        latestSpeed = 0;
+        car.setSpeed(latestSpeed);
+        stopping = false;
+      }
+      else if (topic == "/Group10/manual/stopping" || topic == "/Group10/manual/nocontrol")
+      {
+        stopping = true;
+      }
+      else if(topic == "/Group10/manual/endTimer")
+      {
+       score = 0;
+      }
+    });
   }
 }
 

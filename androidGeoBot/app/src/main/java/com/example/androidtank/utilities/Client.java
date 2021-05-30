@@ -40,6 +40,7 @@ public class Client extends MqttClient {
     private static final String TURN_RIGHT = "/Group10/manual/turnright";
     private static final String BREAK = "/Group10/manual/break";
     private static final String STOPPING = "/Group10/manual/stopping";
+    private static final String PLAY_AGAIN = "/Group10/manual/endTimer";
 
     // Topics to get data from
     private static final String ULTRASOUND_FRONT = "/Group10/sensor/ultrasound/front";
@@ -145,12 +146,8 @@ public class Client extends MqttClient {
                         break;
                     }
                     case UPDATE_SCORE: {
-                        String scoreString = message.toString();
-                        scoreValue = Integer.parseInt(scoreString);
-                        ManualActivity manualActivity = (ManualActivity) context;
-                        TextView scoreDisplay = manualActivity.getScore();
-                        String scoreMessage = "Score: " + message.toString();
-                        scoreDisplay.setText(scoreMessage);
+                        scoreValue = Integer.parseInt(message.toString());
+                        handleScore(scoreValue);
                         break;
                     }
                     default:
@@ -280,23 +277,35 @@ public class Client extends MqttClient {
         return this.scoreValue;
     }
 
-    public String getMqtt() {
-        return DEFAULT_HOST;
+
+    public void handleScore(int scoreValue) {
+        ManualActivity manualActivity = (ManualActivity) context;
+        TextView scoreDisplay = manualActivity.getScore();
+        String scoreMessage = "Score: " + scoreValue;
+        scoreDisplay.setText(scoreMessage);
     }
 
-    public String getPort() {
-        return DEFAULT_PORT;
+    public void publishPlayAgain() {
+        publish(PLAY_AGAIN, "Timer ended", QOS, null);
     }
 
-    public String getCustomPort() {
-        return customPort;
-    }
+        public String getMqtt () {
+            return DEFAULT_HOST;
+        }
 
-    public String getCustomHost() {
-        return customHost;
-    }
+        public String getPort () {
+            return DEFAULT_PORT;
+        }
 
-    public boolean getCustomServer() {
-        return customServer;
+        public String getCustomPort () {
+            return customPort;
+        }
+
+        public String getCustomHost () {
+            return customHost;
+        }
+
+        public boolean getCustomServer () {
+            return customServer;
+        }
     }
-}

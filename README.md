@@ -7,7 +7,7 @@
 - [How did we make this? What kind of technology and resources have we used?](https://github.com/DIT112-V21/group-10/tree/readme#how-did-we-make-this-what-kind-of-technology-and-resources-have-we-used)
 - [Game Tutorial for Users](https://github.com/DIT112-V21/group-10/tree/readme#game-tutorial-for-users)
 - ["Get Started" Guide for Developers](https://github.com/DIT112-V21/group-10/tree/readme#get-started-guide-for-developers)
-- [Architecture](https://github.com/DIT112-V21/group-10/tree/readme#architecture)
+- [Software Architecture](https://github.com/DIT112-V21/group-10/tree/readme#architecture)
 - [Development Team](https://github.com/DIT112-V21/group-10/tree/readme#development-team)
 
 ## Demo Video (must watch)
@@ -68,16 +68,16 @@ Tutorial can be found **[here.](https://github.com/DIT112-V21/group-10/blob/read
 5. Open and compile othercars.ino Arduino IDE and SMCE
 6. Open android folder in Android Studio, build and run it
 
-## Software architecture
+## Software Architecture
 To design our software we used the Model View Controller pattern. The Model is the SMCE smartcar that contains all of the business logic. The UI (View) was created in Android studio using XML files. Finally, the Client class acts as a controller and allows to update the the state of the smartcar through the Android app. The commands from the Android app were sent using an MQTT broker. The app connects to localhost by default but it also allows the user to switch to a custom broker instead. 
 
 We used the following sensors for this project:
 
 | Sensor               | Usage                                                     | 
-| -------------        |:---------------------------------------------------------:| 
-| Ultrasonic sensor     | Obstacle avoidance in [othercars.ino](https://github.com/DIT112-V21/group-10/blob/master/arduino/othercars/othercars.ino)                      | 
+| -------------        |-----------------------------------------------------------| 
+| Ultrasonic sensor    | Obstacle avoidance in [othercars.ino](https://github.com/DIT112-V21/group-10/blob/master/arduino/othercars/othercars.ino)| 
 | Infrared sensor      | To give user a score each time they crash into another car| 
-| Camera               | To train our cascade classifier, and to stream from the car   |  
+| Camera               | To train our cascade classifier, and to stream from the car|  
 
 ## Development Team
 - [Hannah Shiels](https://github.com/hannahshiels)

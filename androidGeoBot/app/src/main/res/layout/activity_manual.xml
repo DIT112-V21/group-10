@@ -6,7 +6,8 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="#0E1428"
-    tools:context=".ManualActivity">
+    tools:context=".ManualActivity"
+    android:id="@+id/ManualActivity">
 
     <androidx.appcompat.widget.AppCompatButton
         android:id="@+id/button_back"

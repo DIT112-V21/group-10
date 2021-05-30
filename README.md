@@ -12,7 +12,7 @@
 
 ## Demo Video (must watch)
 
-TODO: add video link
+[Tank (Total Annihilation Not Komplete)](https://youtu.be/FgqcEbL0WlM)
 
 ## What did we make?
 - TANK - Total Annihilation Not Komplete

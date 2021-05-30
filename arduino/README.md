@@ -1,15 +1,15 @@
 # Car Manual
 
-This car is able to do basic tasks such as moving forward and backward and turning.
-It avoids different obstacles standing in the distance of 200cm of its front side by
-moving backward for a short while with the same speed it had while going forward as
-soon as the obstacle is detected and turning 50 degrees to the left and again going forward.
+To begin controlling the car you should SMCE installed. Open the program, compile the smartcar sketch. Afterwards, compile and start the othercars sketch, running as many cars you would like to be able to crash into. Finally, you should start the smartcar sketch.
 
-How to control the car:
+The smartcar sketch is what is used for allowing the player to control the car. 
 
-- To go forward or backward with a desired speed, you should insert "m" and then your desired speed
-  into the serial and then press Enter. If the speed input is negative the car will go backward,
-  otherwise it moves forward.
-- To change the direction of the car to a desired angle you should insert "t" and then your desired angle
-  into the serial and then press Enter. If the degree input is negative the car will turn clockwise,
-  otherwise it turns counter clockwise.
+The othercars sketch is used for automatic driving. The car will avoid obstacles to make it challenging for the player to crash into.
+
+How to control the smartcar:
+
+- You must run the android application, and be connected to a broker, follow instructions in the android folder for set up.
+
+- To move the car, you should move the joystick in whichever direction you would like to go.
+- To change the current speed of the car, move the speed bar to your desired speed.
+- To stop the car, simply touch the brake button.

@@ -6,16 +6,16 @@
 
 
 ## Table of Contents
-- [Demo Video](https://github.com/DIT112-V21/group-10/tree/readme#demo-video-must-watch)
-- [What did we make?](https://github.com/DIT112-V21/group-10/tree/readme#what-did-we-make)
-- [Why did we make this? What problem was solved?](https://github.com/DIT112-V21/group-10/tree/readme#why-did-we-make-this-what-problem-was-solved)
-- [How did we make this? What kind of technology and resources have we used?](https://github.com/DIT112-V21/group-10/tree/readme#how-did-we-make-this-what-kind-of-technology-and-resources-have-we-used)
-- [Game Tutorial for Users](https://github.com/DIT112-V21/group-10/tree/readme#game-tutorial-for-users)
-- ["Get Started" Guide for Developers](https://github.com/DIT112-V21/group-10/tree/readme#get-started-guide-for-developers)
-- [Software Architecture](https://github.com/DIT112-V21/group-10/tree/readme#software-architecture)
-- [Development Team](https://github.com/DIT112-V21/group-10/tree/readme#development-team)
+- [Demo Video](https://github.com/DIT112-V21/group-10#demo-video)
+- [What did we make?](https://github.com/DIT112-V21/group-10#what-did-we-make)
+- [Why did we make this? What problem was solved?](https://github.com/DIT112-V21/group-10#why-did-we-make-this-what-problem-was-solved)
+- [How did we make this? What kind of technology and resources have we used?](https://github.com/DIT112-V21/group-10#how-did-we-make-this-what-kind-of-technology-and-resources-have-we-used)
+- [Game Tutorial for Users](https://github.com/DIT112-V21/group-10#game-tutorial-for-users)
+- ["Get Started" Guide for Developers](https://github.com/DIT112-V21/group-10#get-started-guide-for-developers)
+- [Software Architecture](https://github.com/DIT112-V21/group-10#software-architecture)
+- [Development Team](https://github.com/DIT112-V21/group-10#development-team)
 
-## Demo Video (must watch)
+## Demo Video
 <div align="left">
       <a href="https://www.youtube.com/watch?v=FgqcEbL0WlM">
          <img src="https://img.youtube.com/vi/FgqcEbL0WlM/0.jpg" style="width:100%;">
@@ -66,7 +66,7 @@ We used OpenCV to process a dataset (positive and negative images of the car) an
 - Zoom
 
 ## Game Tutorial for Users
-Tutorial can be found **[here.](https://github.com/DIT112-V21/group-10/blob/readme/androidGeoBot/app/src/main/assets/tank_tutorial_white.pdf)**
+Tutorial can be found **[here.](https://github.com/DIT112-V21/group-10/blob/master/androidGeoBot/app/src/main/assets/tank_tutorial_white.pdf)**
 
 ## "Get Started" Guide for Developers
 1. Download and install [SMCE](https://github.com/ItJustWorksTM/smce-gd/releases), and  [Android Studio](https://developer.android.com/studio/), using the following [setup instructions](https://github.com/ItJustWorksTM/smce-gd/wiki) for SMCE

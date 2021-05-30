@@ -221,7 +221,6 @@ public class MainActivity extends AppCompatActivity {
         // set text and show current host and port
         inputIP.setText("Current host: " + client.getCustomHost());
         inputPort.setText("Current port: " + client.getCustomPort());
-        helpText.setText("Default host, port: 10.0.2.2, 1883");
         // Set the expected input type for the text-fields
         inputIP.setInputType(InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_VARIATION_NORMAL);
         inputPort.setInputType(InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_VARIATION_NORMAL);

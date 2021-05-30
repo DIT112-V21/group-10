@@ -21,14 +21,16 @@
 - It can be used as a tool for anger management and control.
 
 ## How did we make? What kind of technology and resources we used?
+### Technologies:
 - SMCE
 - Arduino IDE
 - Android Studio
 - Java
-- OpenCV for object detection
+- OpenCV
 - XML
 - C++?
 - Python?
+### Resources:
 - SmartCar Library
 - Github
 - Eclipse
@@ -38,17 +40,19 @@
 - Discord
 - Zoom
 
-## Demo Video
+## Demo Video (must watch)
 
 ## Game Tutorial for Users
 https://github.com/DIT112-V21/group-10/blob/readme/androidGeoBot/app/src/main/assets/tank_tutorial_white.pdf
 
 ## "Get Started" Guide for Developers
 1. Download and install softwares like SMCE, Android Studio, OpenCV, Github
-2. Download/clone remote repository
-3. Read readme.md available in each folder to know how to prepare development environment
+2. Download/clone remote repository from Github
+3. Go through following readme.md to know how to prepare development environment for respective part
+- https://github.com/DIT112-V21/group-10/blob/master/androidGeoBot/README.md
+- https://github.com/DIT112-V21/group-10/blob/master/arduino/README.md
 4. Open SmartCar.ino in Arduino IDE and SMCE
-5. Open app in Android Studio
+5. Open app in Android Studio and build and run it
 
 ## Development Team
 - Hannah Shiels

@@ -4,6 +4,10 @@ android {
     compileSdkVersion 30
     buildToolsVersion "30.0.3"
 
+    testOptions {
+        unitTests.includeAndroidResources = true
+    }
+
     // This is only here to disable the Camera permission errors we get during github workflow checks.
     // TODO: Fix Camera Permissions and remove this code:
     //  This is not a good way to ignore the errors

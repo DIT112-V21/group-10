@@ -41,6 +41,7 @@ public class ManualActivity extends AppCompatActivity {
     private Slider slider;
     TextView score;
     private boolean mqttConnection = false;
+    private boolean vehicle_braked;
 
     private static final String FAIL = "CONNECTION TO TANK COULD NOT BE ESTABLISHED";
     private static final String SUCCESS = "CONNECTION TO TANK ESTABLISHED";
@@ -66,13 +67,13 @@ public class ManualActivity extends AppCompatActivity {
 
         // Mqtt Client
         // TODO Re-think Client and it's relation to context
+
         Client mainActivityClient = MainActivity.client;
-        if (mainActivityClient.getCustomServer()) {
+        if(mainActivityClient!= null && mainActivityClient.getCustomServer()) {
             this.client = new Client(this, mainActivityClient.getCustomHost(), mainActivityClient.getCustomPort());
-        } else {
+        }else {
             this.client = new Client(this);
         }
-
         if (!client.connect(null, null, null, null)) {
             Toast.makeText(this, FAIL, Toast.LENGTH_SHORT).show();
             mqttConnection = false;
@@ -149,6 +150,8 @@ public class ManualActivity extends AppCompatActivity {
                         mHandler.postDelayed(mAction, 100);
                         effects.setEffect1(ManualActivity.this, R.raw.brake,
                                 0.5f, false, 0);
+                        vehicle_braked = false;
+
                         break;
                     case MotionEvent.ACTION_UP:
                         if (mHandler == null) return true;
@@ -156,6 +159,8 @@ public class ManualActivity extends AppCompatActivity {
                         mHandler.removeCallbacksAndMessages(null);
                         mHandler = null;
                         effects.stopEffect1();
+                        vehicle_braked = true;
+
                         break;
                 }
                 return true;
@@ -271,6 +276,11 @@ public class ManualActivity extends AppCompatActivity {
     public TextView getScore() {
         return this.score;
     }
+
+    public boolean getVehicleBrake(){
+        return this.vehicle_braked;
+    }
+
 
 }
 

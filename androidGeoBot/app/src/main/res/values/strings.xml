@@ -22,5 +22,6 @@
     <string name="rules"><font fgcolor="white">Rules</font></string>
     <string name="play">Play</string>
     <string name="timer">Time left:</string>
+    <string name="toast_text">CONNECTION TO TANK ESTABLISHED</string>
 
 </resources>

@@ -221,6 +221,7 @@ public class MainActivity extends AppCompatActivity {
         // set text and show current host and port
         inputIP.setText("Current host: " + client.getCustomHost());
         inputPort.setText("Current port: " + client.getCustomPort());
+        helpText.setText("Default host, port: 10.0.2.2, 1883");
         // Set the expected input type for the text-fields
         inputIP.setInputType(InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_VARIATION_NORMAL);
         inputPort.setInputType(InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_VARIATION_NORMAL);
@@ -252,10 +253,8 @@ public class MainActivity extends AppCompatActivity {
 
         // Create a new Alert Dialog view and set the font for text
         AlertDialog.Builder dialog = new AlertDialog.Builder(context, R.style.AlertDialog);
-        dialog.setTitle("Server ( Default: 10.0.2.2, 1883)"); // Title
-        TextView textView = (TextView) new TextView(context);
+        dialog.setTitle("Broker ( Default: 10.0.2.2, 1883)"); // Title
         Typeface face = ResourcesCompat.getFont(context, R.font.bree_serif);
-        textView.setTypeface(face);
         inputIP.setTypeface(face);
         inputPort.setTypeface(face);
 

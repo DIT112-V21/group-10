@@ -13,8 +13,7 @@
 - [Development Team](https://github.com/DIT112-V21/group-10/tree/readme#development-team)
 
 ## Demo Video (must watch)
-
-TODO: add video link
+[Tank (Total Annihilation Not komplete)](https://www.youtube.com/watch?v=FgqcEbL0WlM)
 
 ## What did we make?
 - TANK - Total Annihilation Not Komplete

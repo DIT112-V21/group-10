@@ -1,13 +1,13 @@
 # DIT112 - Mini Project - System Development (Group 10)
 
 ## Table of Contents
-1. What did we make?
-2. Why did we make? What problem was solved?
-3. How did we make? What kind of technology and resources we used?
-4. Demo Video
-5. Game Tutorial for Users
-6. "Get Started" Guide for Developers
-7. Development Team
+1. [What did we make?](what-did-we-make?)
+2. [Why did we make? What problem was solved?](why-did-we-make?-what-problem-was-solved?)
+3. [How did we make? What kind of technology and resources we used?](how-did-we-make?-what-kind-of-technology-and-resources-we-used?)
+4. [Demo Video](demo-video-(must-watch))
+5. [Game Tutorial for Users](game-tutorial-for-users)
+6. ["Get Started" Guide for Developers]("get-started"-guide-for-developers)
+7. [Development Team](development-team)
 
 ## What did we make?
 - TANK - Total Annihilation Not Komplete
